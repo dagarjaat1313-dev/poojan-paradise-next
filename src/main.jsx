@@ -133,3 +133,5 @@ function App(){
     </aside></div>}
   </div>
 }
+
+createRoot(document.getElementById('root')).render(<App />)

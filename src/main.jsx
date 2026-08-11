@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   ShoppingBag,
@@ -15,10 +15,13 @@ import {
   Heart,
   Instagram,
   Facebook,
-  Youtube
+  Youtube,
+  User,
+  LogOut
 } from 'lucide-react'
 
 import { products } from './products'
+import { supabase } from './lib/supabase'
 import './styles.css'
 
 const kitItems = [
@@ -33,8 +36,146 @@ const kitItems = [
   'Cotton Batti — 1 packet'
 ]
 
-// Apna WhatsApp number country code ke saath yahan daalna
 const waNumber = '919999999999'
+
+function AuthModal({ onClose }) {
+  const [mode, setMode] = useState('login')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+
+  const submit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setMessage('')
+
+    try {
+      if (mode === 'register') {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: name
+            }
+          }
+        })
+
+        if (error) {
+          setMessage(error.message)
+        } else if (data.session) {
+          setMessage('Account created successfully.')
+          setTimeout(onClose, 700)
+        } else {
+          setMessage(
+            'Account created. Please check your email to verify your account.'
+          )
+        }
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        })
+
+        if (error) {
+          setMessage(error.message)
+        } else {
+          setMessage('Login successful.')
+          setTimeout(onClose, 700)
+        }
+      }
+    } catch (error) {
+      setMessage(error.message || 'Something went wrong.')
+    }
+
+    setLoading(false)
+  }
+
+  return (
+    <div className="overlay auth-overlay" onClick={onClose}>
+      <div className="auth-card" onClick={(e) => e.stopPropagation()}>
+        <button className="auth-close" onClick={onClose}>
+          <X size={22} />
+        </button>
+
+        <div className="auth-logo">
+          <img src="/logo.png" alt="Poojan Paradise" />
+        </div>
+
+        <h2>
+          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
+        </h2>
+
+        <p className="auth-subtitle">
+          {mode === 'login'
+            ? 'Login to your Poojan Paradise account'
+            : 'Join Poojan Paradise today'}
+        </p>
+
+        <form onSubmit={submit}>
+          {mode === 'register' && (
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          )}
+
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Password (minimum 6 characters)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={6}
+            required
+          />
+
+          <button
+            type="submit"
+            className="btn primary auth-submit"
+            disabled={loading}
+          >
+            {loading
+              ? 'Please wait...'
+              : mode === 'login'
+                ? 'Login'
+                : 'Create Account'}
+          </button>
+        </form>
+
+        {message && (
+          <div className="auth-message">
+            {message}
+          </div>
+        )}
+
+        <button
+          className="auth-switch"
+          onClick={() => {
+            setMode(mode === 'login' ? 'register' : 'login')
+            setMessage('')
+          }}
+        >
+          {mode === 'login'
+            ? "Don't have an account? Register"
+            : 'Already have an account? Login'}
+        </button>
+      </div>
+    </div>
+  )
+}
 
 function App() {
   const [query, setQuery] = useState('')
@@ -42,6 +183,30 @@ function App() {
   const [cart, setCart] = useState([])
   const [cartOpen, setCartOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const [authOpen, setAuthOpen] = useState(false)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    let mounted = true
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (mounted) {
+        setUser(data.session?.user || null)
+      }
+    })
+
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null)
+    })
+
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
+  }, [])
 
   const categories = [
     'All',
@@ -64,7 +229,9 @@ function App() {
 
       return found
         ? c.map((x) =>
-            x.id === p.id ? { ...x, qty: x.qty + 1 } : x
+            x.id === p.id
+              ? { ...x, qty: x.qty + 1 }
+              : x
           )
         : [...c, { ...p, qty: 1 }]
     })
@@ -73,7 +240,9 @@ function App() {
     setCart((c) =>
       c
         .map((x) =>
-          x.id === id ? { ...x, qty: x.qty + delta } : x
+          x.id === id
+            ? { ...x, qty: x.qty + delta }
+            : x
         )
         .filter((x) => x.qty > 0)
     )
@@ -81,7 +250,14 @@ function App() {
   const remove = (id) =>
     setCart((c) => c.filter((x) => x.id !== id))
 
-  const cartCount = cart.reduce((a, x) => a + x.qty, 0)
+  const cartCount = cart.reduce(
+    (a, x) => a + x.qty,
+    0
+  )
+
+  const logout = async () => {
+    await supabase.auth.signOut()
+  }
 
   const orderWhatsApp = (
     items = cart,
@@ -170,18 +346,45 @@ Please share total price and delivery details.`
             </a>
           </nav>
 
-          <button
-            className="cart-btn"
-            onClick={() => setCartOpen(true)}
-          >
-            <ShoppingBag size={20} />
+          <div className="header-actions">
 
-            <span>Cart</span>
-
-            {cartCount > 0 && (
-              <b>{cartCount}</b>
+            {user ? (
+              <button
+                className="account-btn"
+                onClick={logout}
+                title="Logout"
+              >
+                <User size={18} />
+                <span>
+                  {user.user_metadata?.full_name ||
+                    user.email?.split('@')[0] ||
+                    'Account'}
+                </span>
+                <LogOut size={16} />
+              </button>
+            ) : (
+              <button
+                className="account-btn"
+                onClick={() => setAuthOpen(true)}
+              >
+                <User size={18} />
+                <span>Login</span>
+              </button>
             )}
-          </button>
+
+            <button
+              className="cart-btn"
+              onClick={() => setCartOpen(true)}
+            >
+              <ShoppingBag size={20} />
+              <span>Cart</span>
+
+              {cartCount > 0 && (
+                <b>{cartCount}</b>
+              )}
+            </button>
+
+          </div>
 
         </div>
       </header>
@@ -543,7 +746,6 @@ Please share total price and delivery details.`
 
         <div className="container footer-grid">
 
-          {/* BRAND + SOCIAL */}
           <div>
 
             <img
@@ -556,8 +758,6 @@ Please share total price and delivery details.`
               Pure samagri. Premium seva.
             </p>
 
-
-            {/* SOCIAL ICONS */}
             <div className="social-links">
 
               <a
@@ -589,13 +789,11 @@ Please share total price and delivery details.`
                 target="_blank"
                 rel="noreferrer"
                 aria-label="WhatsApp"
-                title="WhatsApp"
               >
                 <MessageCircle size={20} />
               </a>
 
             </div>
-
 
             <small className="social-coming">
               Instagram • Facebook • YouTube —
@@ -605,7 +803,6 @@ Please share total price and delivery details.`
           </div>
 
 
-          {/* QUICK LINKS */}
           <div>
 
             <h4>
@@ -627,7 +824,6 @@ Please share total price and delivery details.`
           </div>
 
 
-          {/* ORDER */}
           <div>
 
             <h4>
@@ -817,10 +1013,17 @@ Please share total price and delivery details.`
 
       )}
 
+
+      {/* LOGIN / REGISTER */}
+      {authOpen && (
+        <AuthModal
+          onClose={() => setAuthOpen(false)}
+        />
+      )}
+
     </div>
   )
 }
-
 
 createRoot(
   document.getElementById('root')

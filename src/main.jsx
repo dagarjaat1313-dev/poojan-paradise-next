@@ -38,6 +38,49 @@ const kitItems = [
 
 const waNumber = '919999999999'
 
+/* ================================
+   PRODUCT IMAGES
+================================ */
+
+const productImages = {
+  1: '/products/01-peela-kapda.jpg',
+  2: '/products/02-lal-kapda.jpg',
+  3: '/products/03-pooja-ghee.jpg',
+  4: '/products/04-gobar-cups-diya.jpg',
+  5: '/products/05-kapoor-bheem-seni.jpg',
+  6: '/products/06-honey.jpg',
+  7: '/products/07-dhoop.jpg',
+  8: '/products/08-perfumes-itra.jpg',
+  9: '/products/09-kalava.jpg',
+  10: '/products/11-cotton-batti.jpg',
+  11: '/products/12-cow-ghee-batti.jpg',
+  12: '/products/13-chameli-pooja-oil.jpg',
+  13: '/products/14-lal-chunri.jpg',
+  14: '/products/15-peeli-chunri.jpg',
+  15: '/products/16-tika-chandan.jpg',
+  16: '/products/17-hawan-samagri.jpg',
+  17: '/products/18-orange-sindoor.jpg',
+  18: '/products/19-lal-sindoor.jpg',
+  19: '/products/20-nav-grah-poojan.jpg',
+  20: '/products/21-haldi-sabut.jpg',
+  21: '/products/22-peeli-kaudi.jpg',
+  22: '/products/23-gomti-chakra.jpg',
+  23: '/products/24-janaeu.jpg',
+  24: '/products/25-cow-dung-cake.jpg',
+  25: '/products/26-guggal.jpg',
+  26: '/products/27-loban.jpg',
+  27: '/products/27-pooja-diya.jpg',
+  28: '/products/28-rudraksh-mala.jpg',
+  29: '/products/29-kamal-gatta-mala-loose.jpg',
+  30: '/products/30-chandan-sticks-rubbing-stone.jpg',
+  31: '/products/31-red-ooni-asan.jpg',
+  32: '/products/32-yellow-ooni-asan.jpg'
+}
+
+/* ================================
+   AUTH MODAL
+================================ */
+
 function AuthModal({ onClose }) {
   const [mode, setMode] = useState('login')
   const [name, setName] = useState('')
@@ -74,10 +117,11 @@ function AuthModal({ onClose }) {
           )
         }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password
-        })
+        const { error } =
+          await supabase.auth.signInWithPassword({
+            email,
+            password
+          })
 
         if (error) {
           setMessage(error.message)
@@ -95,17 +139,28 @@ function AuthModal({ onClose }) {
 
   return (
     <div className="overlay auth-overlay" onClick={onClose}>
-      <div className="auth-card" onClick={(e) => e.stopPropagation()}>
-        <button className="auth-close" onClick={onClose}>
+      <div
+        className="auth-card"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="auth-close"
+          onClick={onClose}
+        >
           <X size={22} />
         </button>
 
         <div className="auth-logo">
-          <img src="/logo.png" alt="Poojan Paradise" />
+          <img
+            src="/logo.png"
+            alt="Poojan Paradise"
+          />
         </div>
 
         <h2>
-          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
+          {mode === 'login'
+            ? 'Welcome Back'
+            : 'Create Account'}
         </h2>
 
         <p className="auth-subtitle">
@@ -120,7 +175,9 @@ function AuthModal({ onClose }) {
               type="text"
               placeholder="Full Name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) =>
+                setName(e.target.value)
+              }
               required
             />
           )}
@@ -129,7 +186,9 @@ function AuthModal({ onClose }) {
             type="email"
             placeholder="Email Address"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
             required
           />
 
@@ -137,7 +196,9 @@ function AuthModal({ onClose }) {
             type="password"
             placeholder="Password (minimum 6 characters)"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
             minLength={6}
             required
           />
@@ -164,7 +225,11 @@ function AuthModal({ onClose }) {
         <button
           className="auth-switch"
           onClick={() => {
-            setMode(mode === 'login' ? 'register' : 'login')
+            setMode(
+              mode === 'login'
+                ? 'register'
+                : 'login'
+            )
             setMessage('')
           }}
         >
@@ -176,6 +241,10 @@ function AuthModal({ onClose }) {
     </div>
   )
 }
+
+/* ================================
+   OFFER DETAILS
+================================ */
 
 function OfferDetails({ onClose }) {
   return (
@@ -195,7 +264,7 @@ function OfferDetails({ onClose }) {
         </button>
 
         <div className="offer-details-top">
-          ✨ PO0JAN PARADISE REWARDS ✨
+          ✨ POOJAN PARADISE REWARDS ✨
         </div>
 
         <div className="offer-details-content">
@@ -229,7 +298,9 @@ function OfferDetails({ onClose }) {
               alt="Shagun Coin"
             />
 
-            <div className="details-plus">+</div>
+            <div className="details-plus">
+              +
+            </div>
 
             <img
               src="/para coin.png"
@@ -245,7 +316,7 @@ function OfferDetails({ onClose }) {
               <strong>₹11,000</strong>
             </div>
 
-            <div className="reward-divider"></div>
+            <div className="reward-divider" />
 
             <div>
               <small>PARA COIN</small>
@@ -298,11 +369,18 @@ function OfferDetails({ onClose }) {
   )
 }
 
+/* ================================
+   MAIN APP
+================================ */
+
 function App() {
+
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('All')
+
   const [cart, setCart] = useState([])
   const [cartOpen, setCartOpen] = useState(false)
+
   const [menuOpen, setMenuOpen] = useState(false)
 
   const [authOpen, setAuthOpen] = useState(false)
@@ -311,20 +389,31 @@ function App() {
   const [offerOpen, setOfferOpen] = useState(true)
   const [detailsOpen, setDetailsOpen] = useState(false)
 
+  /* ================================
+     SUPABASE SESSION
+  ================================= */
+
   useEffect(() => {
     let mounted = true
 
     supabase.auth.getSession().then(({ data }) => {
       if (mounted) {
-        setUser(data.session?.user || null)
+        setUser(
+          data.session?.user || null
+        )
       }
     })
 
     const {
       data: { subscription }
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null)
-    })
+    } =
+      supabase.auth.onAuthStateChange(
+        (_event, session) => {
+          setUser(
+            session?.user || null
+          )
+        }
+      )
 
     return () => {
       mounted = false
@@ -332,32 +421,67 @@ function App() {
     }
   }, [])
 
+  /* ================================
+     CATEGORIES
+  ================================= */
+
   const categories = [
     'All',
-    ...new Set(products.map((p) => p.category))
+    ...new Set(
+      products.map(
+        (p) => p.category
+      )
+    )
   ]
+
+  /* ================================
+     FILTER PRODUCTS
+  ================================= */
 
   const filtered = useMemo(
     () =>
       products.filter(
         (p) =>
-          (category === 'All' || p.category === category) &&
-          p.name.toLowerCase().includes(query.toLowerCase())
+          (
+            category === 'All' ||
+            p.category === category
+          ) &&
+          p.name
+            .toLowerCase()
+            .includes(
+              query.toLowerCase()
+            )
       ),
     [category, query]
   )
 
+  /* ================================
+     CART
+  ================================= */
+
   const add = (p) =>
     setCart((c) => {
-      const found = c.find((x) => x.id === p.id)
+
+      const found = c.find(
+        (x) => x.id === p.id
+      )
 
       return found
         ? c.map((x) =>
             x.id === p.id
-              ? { ...x, qty: x.qty + 1 }
+              ? {
+                  ...x,
+                  qty: x.qty + 1
+                }
               : x
           )
-        : [...c, { ...p, qty: 1 }]
+        : [
+            ...c,
+            {
+              ...p,
+              qty: 1
+            }
+          ]
     })
 
   const change = (id, delta) =>
@@ -365,32 +489,53 @@ function App() {
       c
         .map((x) =>
           x.id === id
-            ? { ...x, qty: x.qty + delta }
+            ? {
+                ...x,
+                qty: x.qty + delta
+              }
             : x
         )
-        .filter((x) => x.qty > 0)
+        .filter(
+          (x) => x.qty > 0
+        )
     )
 
   const remove = (id) =>
-    setCart((c) => c.filter((x) => x.id !== id))
+    setCart((c) =>
+      c.filter(
+        (x) => x.id !== id
+      )
+    )
 
   const cartCount = cart.reduce(
     (a, x) => a + x.qty,
     0
   )
 
+  /* ================================
+     LOGOUT
+  ================================= */
+
   const logout = async () => {
     await supabase.auth.signOut()
   }
+
+  /* ================================
+     WHATSAPP
+  ================================= */
 
   const orderWhatsApp = (
     items = cart,
     title = 'Poojan Paradise Order'
   ) => {
+
     if (!items.length) return
 
     const lines = items
-      .map((x) => `• ${x.name} × ${x.qty}`)
+      .map(
+        (x) =>
+          `• ${x.name} × ${x.qty}`
+      )
       .join('\n')
 
     const msg = `Namaste Poojan Paradise!
@@ -419,7 +564,7 @@ Please share total price and delivery details.`
     <div>
 
       {/* ================================
-          FIRST LOYALTY POPUP
+          LOYALTY POPUP
       ================================= */}
 
       {offerOpen && (
@@ -429,7 +574,9 @@ Please share total price and delivery details.`
         >
           <div
             className="offer-popup"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) =>
+              e.stopPropagation()
+            }
           >
 
             <button
@@ -524,7 +671,9 @@ Please share total price and delivery details.`
 
       {detailsOpen && (
         <OfferDetails
-          onClose={() => setDetailsOpen(false)}
+          onClose={() =>
+            setDetailsOpen(false)
+          }
         />
       )}
 
@@ -538,9 +687,13 @@ Please share total price and delivery details.`
 
           <button
             className="icon-btn mobile-menu"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() =>
+              setMenuOpen(!menuOpen)
+            }
           >
-            {menuOpen ? <X /> : <Menu />}
+            {menuOpen
+              ? <X />
+              : <Menu />}
           </button>
 
           <a
@@ -563,35 +716,45 @@ Please share total price and delivery details.`
 
             <a
               href="#home"
-              onClick={() => setMenuOpen(false)}
+              onClick={() =>
+                setMenuOpen(false)
+              }
             >
               Home
             </a>
 
             <a
               href="#shop"
-              onClick={() => setMenuOpen(false)}
+              onClick={() =>
+                setMenuOpen(false)
+              }
             >
               Shop
             </a>
 
             <a
               href="#kit"
-              onClick={() => setMenuOpen(false)}
+              onClick={() =>
+                setMenuOpen(false)
+              }
             >
               Poojan Kit
             </a>
 
             <a
               href="#about"
-              onClick={() => setMenuOpen(false)}
+              onClick={() =>
+                setMenuOpen(false)
+              }
             >
               About
             </a>
 
             <a
               href="#contact"
-              onClick={() => setMenuOpen(false)}
+              onClick={() =>
+                setMenuOpen(false)
+              }
             >
               Contact
             </a>
@@ -601,6 +764,7 @@ Please share total price and delivery details.`
           <div className="header-actions">
 
             {user ? (
+
               <button
                 className="account-btn"
                 onClick={logout}
@@ -608,26 +772,37 @@ Please share total price and delivery details.`
                 <User size={18} />
 
                 <span>
-                  {user.user_metadata?.full_name ||
-                    user.email?.split('@')[0] ||
-                    'Account'}
+                  {
+                    user.user_metadata
+                      ?.full_name ||
+                    user.email
+                      ?.split('@')[0] ||
+                    'Account'
+                  }
                 </span>
 
                 <LogOut size={16} />
               </button>
+
             ) : (
+
               <button
                 className="account-btn"
-                onClick={() => setAuthOpen(true)}
+                onClick={() =>
+                  setAuthOpen(true)
+                }
               >
                 <User size={18} />
                 <span>Login</span>
               </button>
+
             )}
 
             <button
               className="cart-btn"
-              onClick={() => setCartOpen(true)}
+              onClick={() =>
+                setCartOpen(true)
+              }
             >
               <ShoppingBag size={20} />
 
@@ -655,6 +830,8 @@ Please share total price and delivery details.`
 
       <main>
 
+        {/* HERO */}
+
         <section
           id="home"
           className="hero"
@@ -676,9 +853,9 @@ Please share total price and delivery details.`
               </h1>
 
               <p>
-                Premium pooja samagri, spiritual essentials
-                and thoughtfully curated pooja kits —
-                all in one place.
+                Premium pooja samagri, spiritual
+                essentials and thoughtfully curated
+                pooja kits — all in one place.
               </p>
 
               <div className="hero-actions">
@@ -713,6 +890,8 @@ Please share total price and delivery details.`
           </div>
 
         </section>
+
+        {/* TRUST */}
 
         <section className="trust">
 
@@ -763,6 +942,8 @@ Please share total price and delivery details.`
           </div>
 
         </section>
+
+        {/* KIT */}
 
         <section
           id="kit"
@@ -820,14 +1001,14 @@ Please share total price and delivery details.`
               </h3>
 
               <ul>
-
-                {kitItems.map((x, i) => (
-                  <li key={i}>
-                    <span>✦</span>
-                    {x}
-                  </li>
-                ))}
-
+                {kitItems.map(
+                  (x, i) => (
+                    <li key={i}>
+                      <span>✦</span>
+                      {x}
+                    </li>
+                  )
+                )}
               </ul>
 
             </div>
@@ -835,6 +1016,10 @@ Please share total price and delivery details.`
           </div>
 
         </section>
+
+        {/* ================================
+            SHOP
+        ================================= */}
 
         <section
           id="shop"
@@ -875,78 +1060,98 @@ Please share total price and delivery details.`
 
             <div className="chips">
 
-              {categories.map((c) => (
+              {categories.map(
+                (c) => (
 
-                <button
-                  className={
-                    category === c
-                      ? 'active'
-                      : ''
-                  }
-                  key={c}
-                  onClick={() =>
-                    setCategory(c)
-                  }
-                >
-                  {c}
-                </button>
+                  <button
+                    className={
+                      category === c
+                        ? 'active'
+                        : ''
+                    }
+                    key={c}
+                    onClick={() =>
+                      setCategory(c)
+                    }
+                  >
+                    {c}
+                  </button>
 
-              ))}
+                )
+              )}
 
             </div>
 
+            {/* ================================
+                PRODUCT GRID
+            ================================= */}
+
             <div className="products">
 
-              {filtered.map((p) => (
+              {filtered.map(
+                (p) => (
 
-                <article
-                  className="product"
-                  key={p.id}
-                >
+                  <article
+                    className="product"
+                    key={p.id}
+                  >
 
-                  <div className="product-img">
+                    {/* ACTUAL PRODUCT IMAGE */}
 
-                    <div className="mini-diya">
-                      🪔
-                    </div>
+                    <div className="product-img">
 
-                  </div>
-
-                  <div className="product-body">
-
-                    <small>
-                      {p.category}
-                    </small>
-
-                    <h3>
-                      {p.name}
-                    </h3>
-
-                    <p>
-                      Premium quality •
-                      Poojan Paradise
-                    </p>
-
-                    <div className="product-bottom">
-
-                      <span className="price">
-                        ₹ Add price
-                      </span>
-
-                      <button
-                        onClick={() => add(p)}
-                      >
-                        <Plus size={17} />
-                        Add
-                      </button>
+                      <img
+                        src={
+                          productImages[p.id]
+                        }
+                        alt={p.name}
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.display =
+                            'none'
+                        }}
+                      />
 
                     </div>
 
-                  </div>
+                    <div className="product-body">
 
-                </article>
+                      <small>
+                        {p.category}
+                      </small>
 
-              ))}
+                      <h3>
+                        {p.name}
+                      </h3>
+
+                      <p>
+                        Premium quality •
+                        Poojan Paradise
+                      </p>
+
+                      <div className="product-bottom">
+
+                        <span className="price">
+                          ₹ Add price
+                        </span>
+
+                        <button
+                          onClick={() =>
+                            add(p)
+                          }
+                        >
+                          <Plus size={17} />
+                          Add
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                  </article>
+
+                )
+              )}
 
             </div>
 
@@ -960,6 +1165,8 @@ Please share total price and delivery details.`
           </div>
 
         </section>
+
+        {/* ABOUT */}
 
         <section
           id="about"
@@ -1105,19 +1312,23 @@ Please share total price and delivery details.`
       </footer>
 
       {/* ================================
-          CART
+          CART DRAWER
       ================================= */}
 
       {cartOpen && (
 
         <div
           className="overlay"
-          onClick={() => setCartOpen(false)}
+          onClick={() =>
+            setCartOpen(false)
+          }
         >
 
           <aside
             className="drawer"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) =>
+              e.stopPropagation()
+            }
           >
 
             <div className="drawer-head">
@@ -1127,7 +1338,9 @@ Please share total price and delivery details.`
               </h2>
 
               <button
-                onClick={() => setCartOpen(false)}
+                onClick={() =>
+                  setCartOpen(false)
+                }
               >
                 <X />
               </button>
@@ -1146,7 +1359,9 @@ Please share total price and delivery details.`
 
                 <a
                   href="#shop"
-                  onClick={() => setCartOpen(false)}
+                  onClick={() =>
+                    setCartOpen(false)
+                  }
                 >
                   Browse products
                 </a>
@@ -1156,69 +1371,80 @@ Please share total price and delivery details.`
             ) : (
 
               <>
+
                 <div className="cart-list">
 
-                  {cart.map((x) => (
+                  {cart.map(
+                    (x) => (
 
-                    <div
-                      className="cart-item"
-                      key={x.id}
-                    >
+                      <div
+                        className="cart-item"
+                        key={x.id}
+                      >
 
-                      <div>
+                        <div>
 
-                        <strong>
-                          {x.name}
-                        </strong>
+                          <strong>
+                            {x.name}
+                          </strong>
 
-                        <small>
-                          {x.category}
-                        </small>
+                          <small>
+                            {x.category}
+                          </small>
+
+                        </div>
+
+                        <div className="qty">
+
+                          <button
+                            onClick={() =>
+                              change(
+                                x.id,
+                                -1
+                              )
+                            }
+                          >
+                            <Minus />
+                          </button>
+
+                          <b>
+                            {x.qty}
+                          </b>
+
+                          <button
+                            onClick={() =>
+                              change(
+                                x.id,
+                                1
+                              )
+                            }
+                          >
+                            <Plus />
+                          </button>
+
+                          <button
+                            className="trash"
+                            onClick={() =>
+                              remove(x.id)
+                            }
+                          >
+                            <Trash2 />
+                          </button>
+
+                        </div>
 
                       </div>
 
-                      <div className="qty">
-
-                        <button
-                          onClick={() =>
-                            change(x.id, -1)
-                          }
-                        >
-                          <Minus />
-                        </button>
-
-                        <b>
-                          {x.qty}
-                        </b>
-
-                        <button
-                          onClick={() =>
-                            change(x.id, 1)
-                          }
-                        >
-                          <Plus />
-                        </button>
-
-                        <button
-                          className="trash"
-                          onClick={() =>
-                            remove(x.id)
-                          }
-                        >
-                          <Trash2 />
-                        </button>
-
-                      </div>
-
-                    </div>
-
-                  ))}
+                    )
+                  )}
 
                 </div>
 
                 <button
                   className="btn primary full"
-                  onClick={() => orderWhatsApp()}
+                  onClick={() =>
+                    orderWhatsApp()
+                  }
                 >
                   Order Cart on WhatsApp
                   <MessageCircle size={18} />
@@ -1240,7 +1466,9 @@ Please share total price and delivery details.`
 
       {authOpen && (
         <AuthModal
-          onClose={() => setAuthOpen(false)}
+          onClose={() =>
+            setAuthOpen(false)
+          }
         />
       )}
 

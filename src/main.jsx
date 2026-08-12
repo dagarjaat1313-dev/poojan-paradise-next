@@ -17,10 +17,7 @@ import {
   Facebook,
   Youtube,
   User,
-  LogOut,
-  ChevronRight,
-  Gift,
-  Coins
+  LogOut
 } from 'lucide-react'
 
 import { products } from './products'
@@ -77,11 +74,10 @@ function AuthModal({ onClose }) {
           )
         }
       } else {
-        const { error } =
-          await supabase.auth.signInWithPassword({
-            email,
-            password
-          })
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        })
 
         if (error) {
           setMessage(error.message)
@@ -103,12 +99,18 @@ function AuthModal({ onClose }) {
         className="auth-card"
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="auth-close" onClick={onClose}>
+        <button
+          className="auth-close"
+          onClick={onClose}
+        >
           <X size={22} />
         </button>
 
         <div className="auth-logo">
-          <img src="/logo.png" alt="Poojan Paradise" />
+          <img
+            src="/logo.png"
+            alt="Poojan Paradise"
+          />
         </div>
 
         <h2>
@@ -129,7 +131,9 @@ function AuthModal({ onClose }) {
               type="text"
               placeholder="Full Name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) =>
+                setName(e.target.value)
+              }
               required
             />
           )}
@@ -138,7 +142,9 @@ function AuthModal({ onClose }) {
             type="email"
             placeholder="Email Address"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
             required
           />
 
@@ -146,7 +152,9 @@ function AuthModal({ onClose }) {
             type="password"
             placeholder="Password (minimum 6 characters)"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
             minLength={6}
             required
           />
@@ -190,366 +198,6 @@ function AuthModal({ onClose }) {
   )
 }
 
-/* =====================================================
-   LOYALTY PROGRAM POPUP
-===================================================== */
-
-function LoyaltyPopup({ onClose }) {
-  const [detailsOpen, setDetailsOpen] = useState(false)
-
-  return (
-    <div
-      className="offer-overlay"
-      onClick={onClose}
-    >
-      <div
-        className={
-          detailsOpen
-            ? 'offer-popup offer-popup-details'
-            : 'offer-popup'
-        }
-        onClick={(e) => e.stopPropagation()}
-      >
-
-        <button
-          className="offer-close"
-          onClick={onClose}
-          aria-label="Close offer"
-        >
-          <X size={22} />
-        </button>
-
-        {!detailsOpen ? (
-          <>
-            <div className="offer-top">
-              ✨ SPECIAL LOYALTY PROGRAM ✨
-            </div>
-
-            <div className="offer-content">
-
-              <img
-                src="/logo.png"
-                alt="Poojan Paradise"
-                className="offer-logo"
-              />
-
-              <h2>
-                Poojan Paradise
-                <br />
-                <span>Loyalty Program</span>
-              </h2>
-
-              <p className="offer-intro">
-                Shop with Poojan Paradise and unlock
-                exclusive
-                <strong>
-                  {' '}Shagun Coin + Para Coin
-                </strong>
-                {' '}benefits.
-              </p>
-
-              <div className="coin-preview">
-
-                <div className="coin-box">
-                  <img
-                    src="/shagun-coin.png"
-                    alt="Shagun Coin"
-                    className="real-coin"
-                  />
-                  <strong>Shagun Coin</strong>
-                  <small>Value ₹11,000</small>
-                </div>
-
-                <div className="coin-plus">
-                  +
-                </div>
-
-                <div className="coin-box">
-                  <img
-                    src="/para-coin.png"
-                    alt="Para Coin"
-                    className="real-coin"
-                  />
-                  <strong>Para Coin</strong>
-                  <small>Value ₹10,000</small>
-                </div>
-
-              </div>
-
-              <div className="offer-value">
-                <small>
-                  TOTAL COIN VALUE
-                </small>
-
-                <strong>
-                  ₹21,000
-                </strong>
-              </div>
-
-              <button
-                className="offer-explore"
-                onClick={() =>
-                  setDetailsOpen(true)
-                }
-              >
-                Explore Offer
-                <ChevronRight size={19} />
-              </button>
-
-              <button
-                className="offer-later"
-                onClick={onClose}
-              >
-                Maybe later
-              </button>
-
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="offer-details-header">
-
-              <button
-                className="offer-back"
-                onClick={() =>
-                  setDetailsOpen(false)
-                }
-              >
-                ← Back
-              </button>
-
-              <span>
-                LOYALTY PROGRAM
-              </span>
-
-            </div>
-
-            <div className="offer-details">
-
-              <img
-                src="/logo.png"
-                alt="Poojan Paradise"
-                className="offer-details-logo"
-              />
-
-              <h2>
-                Unlock Your
-                <br />
-                <span>Shagun + Para Coins</span>
-              </h2>
-
-              <p className="details-intro">
-                Purchase our ₹1,299 Poojan Kit and
-                participate in the Poojan Paradise
-                Loyalty Program.
-              </p>
-
-              <div className="coin-detail-card">
-
-                <img
-                  src="/shagun-coin.png"
-                  alt="Shagun Coin"
-                />
-
-                <div>
-                  <small>SHAGUN COIN</small>
-                  <h3>₹11,000</h3>
-                  <p>
-                    Shagun Coin is issued on
-                    purchase of the eligible
-                    ₹1,299 kit.
-                  </p>
-                </div>
-
-              </div>
-
-              <div className="coin-detail-card">
-
-                <img
-                  src="/para-coin.png"
-                  alt="Para Coin"
-                />
-
-                <div>
-                  <small>PARA COIN</small>
-                  <h3>₹10,000</h3>
-                  <p>
-                    Para Coin becomes available
-                    after completing the applicable
-                    Loyalty Program requirements.
-                  </p>
-                </div>
-
-              </div>
-
-              <div className="requirements-card">
-
-                <div className="requirements-title">
-                  <Coins size={19} />
-                  How to become eligible
-                </div>
-
-                <div className="requirement">
-
-                  <span className="requirement-number">
-                    1
-                  </span>
-
-                  <p>
-                    Purchase
-                    <strong> 10 kits</strong>
-                    {' '}of ₹1,299 each from
-                    Poojan Paradise within
-                    <strong> 1 year</strong>.
-                  </p>
-
-                </div>
-
-                <div className="requirement">
-
-                  <span className="requirement-number">
-                    2
-                  </span>
-
-                  <p>
-                    Generate
-                    <strong> 100 kit sales</strong>
-                    {' '}of ₹1,299 each through
-                    your referrals within
-                    <strong> 1 year</strong>.
-                  </p>
-
-                </div>
-
-                <div className="requirement">
-
-                  <span className="requirement-number">
-                    3
-                  </span>
-
-                  <p>
-                    The combined requirement is
-                    <strong> 110 kits</strong>
-                    {' '}within the applicable
-                    one-year period.
-                  </p>
-
-                </div>
-
-                <div className="requirement">
-
-                  <span className="requirement-number">
-                    4
-                  </span>
-
-                  <p>
-                    The 100 referral sales may
-                    also be completed through
-                    your own purchases, subject
-                    to the program rules.
-                  </p>
-
-                </div>
-
-              </div>
-
-              <div className="value-breakdown">
-
-                <h3>
-                  ₹21,000 Total Value
-                </h3>
-
-                <div className="value-row">
-                  <span>
-                    Shagun Coin
-                  </span>
-                  <strong>
-                    ₹11,000
-                  </strong>
-                </div>
-
-                <div className="value-row">
-                  <span>
-                    Para Coin
-                  </span>
-                  <strong>
-                    ₹10,000
-                  </strong>
-                </div>
-
-                <div className="value-row">
-                  <span>
-                    Para Coin Cashback
-                  </span>
-                  <strong>
-                    ₹7,500
-                  </strong>
-                </div>
-
-                <div className="value-row">
-                  <span>
-                    Website Voucher
-                  </span>
-                  <strong>
-                    ₹2,500
-                  </strong>
-                </div>
-
-                <div className="value-total">
-                  <span>
-                    Total
-                  </span>
-                  <strong>
-                    ₹21,000
-                  </strong>
-                </div>
-
-              </div>
-
-              <div className="important-note">
-
-                <Gift size={20} />
-
-                <div>
-                  <strong>
-                    Important
-                  </strong>
-
-                  <p>
-                    Shagun Coin and Para Coin
-                    redemption is subject to
-                    the applicable Loyalty Program
-                    eligibility, redemption rules
-                    and terms & conditions.
-                  </p>
-                </div>
-
-              </div>
-
-              <button
-                className="offer-explore details-close"
-                onClick={onClose}
-              >
-                Continue Shopping
-                <ChevronRight size={19} />
-              </button>
-
-              <button
-                className="offer-later"
-                onClick={onClose}
-              >
-                Close
-              </button>
-
-            </div>
-          </>
-        )}
-
-      </div>
-    </div>
-  )
-}
-
 function App() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('All')
@@ -560,6 +208,7 @@ function App() {
   const [authOpen, setAuthOpen] = useState(false)
   const [user, setUser] = useState(null)
 
+  // Loyalty Program Popup
   const [offerOpen, setOfferOpen] = useState(true)
 
   useEffect(() => {
@@ -688,20 +337,145 @@ Please share total price and delivery details.`
   return (
     <div>
 
-      {/* LOYALTY POPUP */}
+      {/* =========================================
+          LOYALTY PROGRAM POPUP
+      ========================================= */}
 
       {offerOpen && (
-        <LoyaltyPopup
-          onClose={() =>
+        <div
+          className="offer-overlay"
+          onClick={() =>
             setOfferOpen(false)
           }
-        />
+        >
+          <div
+            className="offer-popup"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+
+            <button
+              className="offer-close"
+              onClick={() =>
+                setOfferOpen(false)
+              }
+              aria-label="Close offer"
+            >
+              <X size={22} />
+            </button>
+
+            <div className="offer-top">
+              ✨ SPECIAL LOYALTY PROGRAM ✨
+            </div>
+
+            <div className="offer-content">
+
+              <img
+                src="/logo.png"
+                alt="Poojan Paradise"
+                className="offer-logo"
+              />
+
+              <h2>
+                Poojan Paradise
+                <br />
+                <span>
+                  Loyalty Program
+                </span>
+              </h2>
+
+              <p className="offer-intro">
+                Shop with Poojan Paradise and
+                unlock exclusive
+                <strong>
+                  {' '}Shagun Coin + Para Coin
+                </strong>{' '}
+                rewards.
+              </p>
+
+              {/* REAL COINS FROM PUBLIC FOLDER */}
+              <div className="coin-preview">
+
+                <img
+                  src="/shagun%20coin.png"
+                  alt="Shagun Coin"
+                  className="real-coin shagun-coin"
+                />
+
+                <div className="coin-plus">
+                  +
+                </div>
+
+                <img
+                  src="/para%20coin.png"
+                  alt="Para Coin"
+                  className="real-coin para-coin"
+                />
+
+              </div>
+
+              <div className="offer-value">
+                <small>
+                  Total Coin Value
+                </small>
+
+                <strong>
+                  ₹21,000
+                </strong>
+              </div>
+
+              <div className="offer-highlights">
+
+                <div>
+                  <strong>
+                    ₹11,000
+                  </strong>
+                  <span>
+                    Shagun Coin
+                  </span>
+                </div>
+
+                <div>
+                  <strong>
+                    ₹10,000
+                  </strong>
+                  <span>
+                    Para Coin
+                  </span>
+                </div>
+
+              </div>
+
+              <button
+                className="offer-explore"
+                onClick={() =>
+                  setOfferOpen(false)
+                }
+              >
+                Explore Offer
+                <span>→</span>
+              </button>
+
+              <button
+                className="offer-later"
+                onClick={() =>
+                  setOfferOpen(false)
+                }
+              >
+                Maybe later
+              </button>
+
+            </div>
+          </div>
+        </div>
       )}
 
-      {/* HEADER */}
+      {/* =========================================
+          HEADER
+      ========================================= */}
 
       <header className="header">
-
         <div className="nav container">
 
           <button
@@ -734,7 +508,6 @@ Please share total price and delivery details.`
                 : 'navlinks'
             }
           >
-
             <a
               href="#home"
               onClick={() =>
@@ -779,7 +552,6 @@ Please share total price and delivery details.`
             >
               Contact
             </a>
-
           </nav>
 
           <div className="header-actions">
@@ -795,8 +567,9 @@ Please share total price and delivery details.`
                 <span>
                   {user.user_metadata
                     ?.full_name ||
-                    user.email
-                      ?.split('@')[0] ||
+                    user.email?.split(
+                      '@'
+                    )[0] ||
                     'Account'}
                 </span>
 
@@ -810,7 +583,9 @@ Please share total price and delivery details.`
                 }
               >
                 <User size={18} />
-                <span>Login</span>
+                <span>
+                  Login
+                </span>
               </button>
             )}
 
@@ -836,10 +611,11 @@ Please share total price and delivery details.`
           </div>
 
         </div>
-
       </header>
 
-      {/* MAIN */}
+      {/* =========================================
+          MAIN
+      ========================================= */}
 
       <main>
 
@@ -862,14 +638,16 @@ Please share total price and delivery details.`
               <h1>
                 Bring the divine
                 <br />
-                <em>home.</em>
+                <em>
+                  home.
+                </em>
               </h1>
 
               <p>
                 Premium pooja samagri,
                 spiritual essentials and
-                thoughtfully curated pooja kits —
-                all in one place.
+                thoughtfully curated pooja
+                kits — all in one place.
               </p>
 
               <div className="hero-actions">
@@ -975,7 +753,9 @@ Please share total price and delivery details.`
               <h2>
                 Premium Poojan Kit
                 <br />
-                <span>₹1,299</span>
+                <span>
+                  ₹1,299
+                </span>
               </h2>
 
               <p className="kit-sub">
@@ -1020,7 +800,9 @@ Please share total price and delivery details.`
                 {kitItems.map(
                   (x, i) => (
                     <li key={i}>
-                      <span>✦</span>
+                      <span>
+                        ✦
+                      </span>
                       {x}
                     </li>
                   )
@@ -1187,9 +969,10 @@ Please share total price and delivery details.`
             </h2>
 
             <p>
-              From everyday pooja essentials
-              to spiritual malas, hawan samagri,
-              diyas and curated kits, Poojan
+              From everyday pooja
+              essentials to spiritual
+              malas, hawan samagri, diyas
+              and curated kits, Poojan
               Paradise is designed to make
               devotional shopping simple,
               beautiful and trustworthy.
@@ -1201,7 +984,9 @@ Please share total price and delivery details.`
 
       </main>
 
-      {/* FOOTER */}
+      {/* =========================================
+          FOOTER
+      ========================================= */}
 
       <footer id="contact">
 
@@ -1324,10 +1109,11 @@ Please share total price and delivery details.`
 
       </footer>
 
-      {/* CART DRAWER */}
+      {/* =========================================
+          CART DRAWER
+      ========================================= */}
 
       {cartOpen && (
-
         <div
           className="overlay"
           onClick={() =>
@@ -1434,9 +1220,7 @@ Please share total price and delivery details.`
                           <button
                             className="trash"
                             onClick={() =>
-                              remove(
-                                x.id
-                              )
+                              remove(x.id)
                             }
                           >
                             <Trash2 />
@@ -1467,7 +1251,9 @@ Please share total price and delivery details.`
         </div>
       )}
 
-      {/* LOGIN / REGISTER */}
+      {/* =========================================
+          LOGIN / REGISTER
+      ========================================= */}
 
       {authOpen && (
         <AuthModal

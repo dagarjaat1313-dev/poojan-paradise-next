@@ -24,6 +24,65 @@ import { products } from './products'
 import { supabase } from './lib/supabase'
 import './styles.css'
 
+
+// =====================================================
+// PRODUCT IMAGES
+// =====================================================
+
+const productImages = {
+  'Peela Kapda': '/products/01-peela-kapda.jpg',
+  'Lal Kapda': '/products/02-lal-kapda.jpg',
+  'Pooja Ghee': '/products/03-pooja-ghee.jpg',
+  'Gobar Cups & Diya': '/products/04-gobar-cups-diya.jpg',
+  'Kapoor (Bheem Seni)': '/products/05-kapoor-bheem-seni.jpg',
+  'Honey': '/products/06-honey.jpg',
+  'Dhoop': '/products/07-dhoop.jpg',
+  'Perfumes (Itra)': '/products/08-perfumes-itra.jpg',
+  'Kalava': '/products/09-kalava.jpg',
+
+  // Roli = image 10
+  'Roli': '/products/10-roli.jpg',
+
+  'Cotton Batti': '/products/11-cotton-batti.jpg',
+  'Cow Ghee Batti': '/products/12-cow-ghee-batti.jpg',
+  'Chameli Pooja Oil': '/products/13-chameli-pooja-oil.jpg',
+  'Lal Chunri': '/products/14-lal-chunri.jpg',
+  'Peeli Chunri': '/products/15-peeli-chunri.jpg',
+  'Tika Chandan': '/products/16-tika-chandan.jpg',
+  'Hawan Samagri': '/products/17-hawan-samagri.jpg',
+  'Orange Sindoor': '/products/18-orange-sindoor.jpg',
+  'Lal Sindoor': '/products/19-lal-sindoor.jpg',
+  'Nav Grah Poojan': '/products/20-nav-grah-poojan.jpg',
+  'Haldi Sabut': '/products/21-haldi-sabut.jpg',
+  'Peeli Kaudi': '/products/22-peeli-kaudi.jpg',
+  'Gomti Chakra': '/products/23-gomti-chakra.jpg',
+  'Janaeu': '/products/24-janaeu.jpg',
+  'Cow Dung Cake': '/products/25-cow-dung-cake.jpg',
+  'Guggal': '/products/26-guggal.jpg',
+  'Loban': '/products/27-loban.jpg',
+  'Rudraksh Mala': '/products/28-rudraksh-mala.jpg',
+  'Kamal Gatta Mala / Loose': '/products/29-kamal-gatta-mala-loose.jpg',
+  'Chandan Sticks / Rubbing Stone':
+    '/products/30-chandan-sticks-rubbing-stone.jpg',
+  'Red Ooni Asan': '/products/31-red-ooni-asan.jpg',
+  'Yellow Ooni Asan': '/products/32-yellow-ooni-asan.jpg'
+}
+
+
+// =====================================================
+// ADD IMAGE TO EVERY PRODUCT
+// =====================================================
+
+const productsWithImages = products.map((product) => ({
+  ...product,
+  image: productImages[product.name] || '/logo.png'
+}))
+
+
+// =====================================================
+// POOJAN KIT
+// =====================================================
+
 const kitItems = [
   'Camphor — 250gm',
   'Laal & Peela Kapda',
@@ -36,50 +95,17 @@ const kitItems = [
   'Cotton Batti — 1 packet'
 ]
 
+
+// =====================================================
+// WHATSAPP NUMBER
+// =====================================================
+
 const waNumber = '919999999999'
 
-/* ================================
-   PRODUCT IMAGES
-================================ */
 
-const productImages = {
-  1: '/products/01-peela-kapda.jpg',
-  2: '/products/02-lal-kapda.jpg',
-  3: '/products/03-pooja-ghee.jpg',
-  4: '/products/04-gobar-cups-diya.jpg',
-  5: '/products/05-kapoor-bheem-seni.jpg',
-  6: '/products/06-honey.jpg',
-  7: '/products/07-dhoop.jpg',
-  8: '/products/08-perfumes-itra.jpg',
-  9: '/products/09-kalava.jpg',
-  10: '/products/11-cotton-batti.jpg',
-  11: '/products/12-cow-ghee-batti.jpg',
-  12: '/products/13-chameli-pooja-oil.jpg',
-  13: '/products/14-lal-chunri.jpg',
-  14: '/products/15-peeli-chunri.jpg',
-  15: '/products/16-tika-chandan.jpg',
-  16: '/products/17-hawan-samagri.jpg',
-  17: '/products/18-orange-sindoor.jpg',
-  18: '/products/19-lal-sindoor.jpg',
-  19: '/products/20-nav-grah-poojan.jpg',
-  20: '/products/21-haldi-sabut.jpg',
-  21: '/products/22-peeli-kaudi.jpg',
-  22: '/products/23-gomti-chakra.jpg',
-  23: '/products/24-janaeu.jpg',
-  24: '/products/25-cow-dung-cake.jpg',
-  25: '/products/26-guggal.jpg',
-  26: '/products/27-loban.jpg',
-  27: '/products/27-pooja-diya.jpg',
-  28: '/products/28-rudraksh-mala.jpg',
-  29: '/products/29-kamal-gatta-mala-loose.jpg',
-  30: '/products/30-chandan-sticks-rubbing-stone.jpg',
-  31: '/products/31-red-ooni-asan.jpg',
-  32: '/products/32-yellow-ooni-asan.jpg'
-}
-
-/* ================================
-   AUTH MODAL
-================================ */
+// =====================================================
+// AUTH MODAL
+// =====================================================
 
 function AuthModal({ onClose }) {
   const [mode, setMode] = useState('login')
@@ -131,14 +157,19 @@ function AuthModal({ onClose }) {
         }
       }
     } catch (error) {
-      setMessage(error.message || 'Something went wrong.')
+      setMessage(
+        error.message || 'Something went wrong.'
+      )
     }
 
     setLoading(false)
   }
 
   return (
-    <div className="overlay auth-overlay" onClick={onClose}>
+    <div
+      className="overlay auth-overlay"
+      onClick={onClose}
+    >
       <div
         className="auth-card"
         onClick={(e) => e.stopPropagation()}
@@ -242,9 +273,10 @@ function AuthModal({ onClose }) {
   )
 }
 
-/* ================================
-   OFFER DETAILS
-================================ */
+
+// =====================================================
+// OFFER DETAILS
+// =====================================================
 
 function OfferDetails({ onClose }) {
   return (
@@ -254,7 +286,9 @@ function OfferDetails({ onClose }) {
     >
       <div
         className="offer-details-popup"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) =>
+          e.stopPropagation()
+        }
       >
         <button
           className="offer-close"
@@ -316,7 +350,7 @@ function OfferDetails({ onClose }) {
               <strong>₹11,000</strong>
             </div>
 
-            <div className="reward-divider" />
+            <div className="reward-divider"></div>
 
             <div>
               <small>PARA COIN</small>
@@ -332,7 +366,10 @@ function OfferDetails({ onClose }) {
             <div className="rule">
               <span>01</span>
               <p>
-                Purchase <strong>10 Poojan Paradise Kits</strong>
+                Purchase{' '}
+                <strong>
+                  10 Poojan Paradise Kits
+                </strong>{' '}
                 within 1 year.
               </p>
             </div>
@@ -340,7 +377,8 @@ function OfferDetails({ onClose }) {
             <div className="rule">
               <span>02</span>
               <p>
-                Refer / sell <strong>100 Kits</strong>
+                Refer / sell{' '}
+                <strong>100 Kits</strong>{' '}
                 to unlock the next reward.
               </p>
             </div>
@@ -348,8 +386,9 @@ function OfferDetails({ onClose }) {
             <div className="rule">
               <span>03</span>
               <p>
-                Complete the required target and
-                become eligible for your reward coin.
+                Complete the required target
+                and become eligible for your
+                reward coin.
               </p>
             </div>
 
@@ -369,9 +408,10 @@ function OfferDetails({ onClose }) {
   )
 }
 
-/* ================================
-   MAIN APP
-================================ */
+
+// =====================================================
+// MAIN APP
+// =====================================================
 
 function App() {
 
@@ -387,21 +427,26 @@ function App() {
   const [user, setUser] = useState(null)
 
   const [offerOpen, setOfferOpen] = useState(true)
-  const [detailsOpen, setDetailsOpen] = useState(false)
+  const [detailsOpen, setDetailsOpen] =
+    useState(false)
 
-  /* ================================
-     SUPABASE SESSION
-  ================================= */
+
+  // ===================================================
+  // AUTH SESSION
+  // ===================================================
 
   useEffect(() => {
+
     let mounted = true
 
     supabase.auth.getSession().then(({ data }) => {
+
       if (mounted) {
         setUser(
           data.session?.user || null
         )
       }
+
     })
 
     const {
@@ -409,38 +454,46 @@ function App() {
     } =
       supabase.auth.onAuthStateChange(
         (_event, session) => {
+
           setUser(
             session?.user || null
           )
+
         }
       )
 
     return () => {
+
       mounted = false
+
       subscription.unsubscribe()
+
     }
+
   }, [])
 
-  /* ================================
-     CATEGORIES
-  ================================= */
+
+  // ===================================================
+  // CATEGORIES
+  // ===================================================
 
   const categories = [
     'All',
     ...new Set(
-      products.map(
+      productsWithImages.map(
         (p) => p.category
       )
     )
   ]
 
-  /* ================================
-     FILTER PRODUCTS
-  ================================= */
+
+  // ===================================================
+  // SEARCH + FILTER
+  // ===================================================
 
   const filtered = useMemo(
     () =>
-      products.filter(
+      productsWithImages.filter(
         (p) =>
           (
             category === 'All' ||
@@ -455,9 +508,10 @@ function App() {
     [category, query]
   )
 
-  /* ================================
-     CART
-  ================================= */
+
+  // ===================================================
+  // CART
+  // ===================================================
 
   const add = (p) =>
     setCart((c) => {
@@ -482,7 +536,9 @@ function App() {
               qty: 1
             }
           ]
+
     })
+
 
   const change = (id, delta) =>
     setCart((c) =>
@@ -500,6 +556,7 @@ function App() {
         )
     )
 
+
   const remove = (id) =>
     setCart((c) =>
       c.filter(
@@ -507,22 +564,25 @@ function App() {
       )
     )
 
+
   const cartCount = cart.reduce(
     (a, x) => a + x.qty,
     0
   )
 
-  /* ================================
-     LOGOUT
-  ================================= */
+
+  // ===================================================
+  // LOGOUT
+  // ===================================================
 
   const logout = async () => {
     await supabase.auth.signOut()
   }
 
-  /* ================================
-     WHATSAPP
-  ================================= */
+
+  // ===================================================
+  // WHATSAPP ORDER
+  // ===================================================
 
   const orderWhatsApp = (
     items = cart,
@@ -546,32 +606,46 @@ ${lines}
 Please share total price and delivery details.`
 
     window.open(
-      `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`,
+      `https://wa.me/${waNumber}?text=${encodeURIComponent(
+        msg
+      )}`,
       '_blank'
     )
   }
 
+
+  // ===================================================
+  // OFFER
+  // ===================================================
+
   const closeOffer = () => {
     setOfferOpen(false)
   }
+
 
   const openDetails = () => {
     setOfferOpen(false)
     setDetailsOpen(true)
   }
 
+
+  // ===================================================
+  // UI
+  // ===================================================
+
   return (
     <div>
 
-      {/* ================================
-          LOYALTY POPUP
-      ================================= */}
+      {/* =============================================
+          FIRST LOYALTY POPUP
+      ============================================== */}
 
       {offerOpen && (
         <div
           className="offer-overlay"
           onClick={closeOffer}
         >
+
           <div
             className="offer-popup"
             onClick={(e) =>
@@ -601,16 +675,18 @@ Please share total price and delivery details.`
               <h2>
                 Poojan Paradise
                 <br />
-                <span>Loyalty Program</span>
+                <span>
+                  Loyalty Program
+                </span>
               </h2>
 
               <p className="offer-intro">
-                Shop with Poojan Paradise and unlock
-                exclusive
+                Shop with Poojan Paradise
+                and unlock exclusive
                 <strong>
                   {' '}Shagun Coin + Para Coin
-                </strong>
-                {' '}rewards.
+                </strong>{' '}
+                rewards.
               </p>
 
               <div className="coin-preview">
@@ -661,13 +737,16 @@ Please share total price and delivery details.`
               </button>
 
             </div>
+
           </div>
+
         </div>
       )}
 
-      {/* ================================
+
+      {/* =============================================
           OFFER DETAILS
-      ================================= */}
+      ============================================== */}
 
       {detailsOpen && (
         <OfferDetails
@@ -677,9 +756,10 @@ Please share total price and delivery details.`
         />
       )}
 
-      {/* ================================
+
+      {/* =============================================
           HEADER
-      ================================= */}
+      ============================================== */}
 
       <header className="header">
 
@@ -691,10 +771,13 @@ Please share total price and delivery details.`
               setMenuOpen(!menuOpen)
             }
           >
-            {menuOpen
-              ? <X />
-              : <Menu />}
+            {menuOpen ? (
+              <X />
+            ) : (
+              <Menu />
+            )}
           </button>
+
 
           <a
             className="brand"
@@ -705,6 +788,7 @@ Please share total price and delivery details.`
               alt="Poojan Paradise logo"
             />
           </a>
+
 
           <nav
             className={
@@ -761,6 +845,7 @@ Please share total price and delivery details.`
 
           </nav>
 
+
           <div className="header-actions">
 
             {user ? (
@@ -769,19 +854,19 @@ Please share total price and delivery details.`
                 className="account-btn"
                 onClick={logout}
               >
+
                 <User size={18} />
 
                 <span>
-                  {
-                    user.user_metadata
-                      ?.full_name ||
+                  {user.user_metadata
+                    ?.full_name ||
                     user.email
                       ?.split('@')[0] ||
-                    'Account'
-                  }
+                    'Account'}
                 </span>
 
                 <LogOut size={16} />
+
               </button>
 
             ) : (
@@ -792,11 +877,17 @@ Please share total price and delivery details.`
                   setAuthOpen(true)
                 }
               >
+
                 <User size={18} />
-                <span>Login</span>
+
+                <span>
+                  Login
+                </span>
+
               </button>
 
             )}
+
 
             <button
               className="cart-btn"
@@ -804,6 +895,7 @@ Please share total price and delivery details.`
                 setCartOpen(true)
               }
             >
+
               <ShoppingBag size={20} />
 
               <span>
@@ -824,13 +916,16 @@ Please share total price and delivery details.`
 
       </header>
 
-      {/* ================================
+
+      {/* =============================================
           MAIN
-      ================================= */}
+      ============================================== */}
 
       <main>
 
-        {/* HERO */}
+        {/* ===========================================
+            HERO
+        ============================================ */}
 
         <section
           id="home"
@@ -853,9 +948,10 @@ Please share total price and delivery details.`
               </h1>
 
               <p>
-                Premium pooja samagri, spiritual
-                essentials and thoughtfully curated
-                pooja kits — all in one place.
+                Premium pooja samagri,
+                spiritual essentials and
+                thoughtfully curated pooja
+                kits — all in one place.
               </p>
 
               <div className="hero-actions">
@@ -878,6 +974,7 @@ Please share total price and delivery details.`
 
             </div>
 
+
             <div className="hero-logo-card">
 
               <img
@@ -891,16 +988,21 @@ Please share total price and delivery details.`
 
         </section>
 
-        {/* TRUST */}
+
+        {/* ===========================================
+            TRUST
+        ============================================ */}
 
         <section className="trust">
 
           <div className="container trust-grid">
 
             <div>
+
               <ShieldCheck />
 
               <span>
+
                 <strong>
                   Pure & Authentic
                 </strong>
@@ -908,13 +1010,18 @@ Please share total price and delivery details.`
                 <small>
                   Carefully selected samagri
                 </small>
+
               </span>
+
             </div>
 
+
             <div>
+
               <Truck />
 
               <span>
+
                 <strong>
                   Pan India Delivery
                 </strong>
@@ -922,13 +1029,18 @@ Please share total price and delivery details.`
                 <small>
                   Safe & secure packing
                 </small>
+
               </span>
+
             </div>
 
+
             <div>
+
               <Heart />
 
               <span>
+
                 <strong>
                   Made for Devotion
                 </strong>
@@ -936,14 +1048,19 @@ Please share total price and delivery details.`
                 <small>
                   Premium presentation
                 </small>
+
               </span>
+
             </div>
 
           </div>
 
         </section>
 
-        {/* KIT */}
+
+        {/* ===========================================
+            KIT
+        ============================================ */}
 
         <section
           id="kit"
@@ -961,12 +1078,15 @@ Please share total price and delivery details.`
               <h2>
                 Premium Poojan Kit
                 <br />
-                <span>₹1,299</span>
+                <span>
+                  ₹1,299
+                </span>
               </h2>
 
               <p className="kit-sub">
-                A ready-to-use essentials kit for
-                your daily pooja and auspicious occasions.
+                A ready-to-use essentials
+                kit for your daily pooja
+                and auspicious occasions.
               </p>
 
               <button
@@ -990,6 +1110,7 @@ Please share total price and delivery details.`
 
             </div>
 
+
             <div className="kit-card">
 
               <div className="kit-badge">
@@ -1001,6 +1122,7 @@ Please share total price and delivery details.`
               </h3>
 
               <ul>
+
                 {kitItems.map(
                   (x, i) => (
                     <li key={i}>
@@ -1009,6 +1131,7 @@ Please share total price and delivery details.`
                     </li>
                   )
                 )}
+
               </ul>
 
             </div>
@@ -1017,9 +1140,10 @@ Please share total price and delivery details.`
 
         </section>
 
-        {/* ================================
+
+        {/* ===========================================
             SHOP
-        ================================= */}
+        ============================================ */}
 
         <section
           id="shop"
@@ -1042,6 +1166,7 @@ Please share total price and delivery details.`
 
               </div>
 
+
               <div className="search">
 
                 <Search size={18} />
@@ -1057,6 +1182,9 @@ Please share total price and delivery details.`
               </div>
 
             </div>
+
+
+            {/* CATEGORIES */}
 
             <div className="chips">
 
@@ -1082,9 +1210,10 @@ Please share total price and delivery details.`
 
             </div>
 
-            {/* ================================
-                PRODUCT GRID
-            ================================= */}
+
+            {/* =======================================
+                PRODUCTS
+            ======================================== */}
 
             <div className="products">
 
@@ -1096,23 +1225,24 @@ Please share total price and delivery details.`
                     key={p.id}
                   >
 
-                    {/* ACTUAL PRODUCT IMAGE */}
+                    {/* PRODUCT IMAGE */}
 
                     <div className="product-img">
 
                       <img
-                        src={
-                          productImages[p.id]
-                        }
+                        src={p.image}
                         alt={p.name}
                         loading="lazy"
                         onError={(e) => {
-                          e.currentTarget.style.display =
-                            'none'
+                          e.currentTarget.src =
+                            '/logo.png'
                         }}
                       />
 
                     </div>
+
+
+                    {/* PRODUCT INFO */}
 
                     <div className="product-body">
 
@@ -1155,6 +1285,7 @@ Please share total price and delivery details.`
 
             </div>
 
+
             {!filtered.length && (
               <div className="empty">
                 No products found.
@@ -1166,7 +1297,10 @@ Please share total price and delivery details.`
 
         </section>
 
-        {/* ABOUT */}
+
+        {/* ===========================================
+            ABOUT
+        ============================================ */}
 
         <section
           id="about"
@@ -1182,15 +1316,20 @@ Please share total price and delivery details.`
             <h2>
               Your one stop shop for
               <br />
-              <span>all pooja needs.</span>
+              <span>
+                all pooja needs.
+              </span>
             </h2>
 
             <p>
-              From everyday pooja essentials to
-              spiritual malas, hawan samagri, diyas
-              and curated kits, Poojan Paradise is
-              designed to make devotional shopping
-              simple, beautiful and trustworthy.
+              From everyday pooja
+              essentials to spiritual
+              malas, hawan samagri,
+              diyas and curated kits,
+              Poojan Paradise is designed
+              to make devotional shopping
+              simple, beautiful and
+              trustworthy.
             </p>
 
           </div>
@@ -1199,9 +1338,10 @@ Please share total price and delivery details.`
 
       </main>
 
-      {/* ================================
+
+      {/* =============================================
           FOOTER
-      ================================= */}
+      ============================================== */}
 
       <footer id="contact">
 
@@ -1250,6 +1390,7 @@ Please share total price and delivery details.`
 
           </div>
 
+
           <div>
 
             <h4>
@@ -1269,6 +1410,7 @@ Please share total price and delivery details.`
             </a>
 
           </div>
+
 
           <div>
 
@@ -1291,8 +1433,11 @@ Please share total price and delivery details.`
                 )
               }
             >
+
               <MessageCircle size={18} />
+
               WhatsApp Us
+
             </button>
 
             <p>
@@ -1304,6 +1449,7 @@ Please share total price and delivery details.`
 
         </div>
 
+
         <div className="copyright">
           © 2026 Poojan Paradise.
           All rights reserved.
@@ -1311,9 +1457,10 @@ Please share total price and delivery details.`
 
       </footer>
 
-      {/* ================================
-          CART DRAWER
-      ================================= */}
+
+      {/* =============================================
+          CART
+      ============================================== */}
 
       {cartOpen && (
 
@@ -1346,6 +1493,7 @@ Please share total price and delivery details.`
               </button>
 
             </div>
+
 
             {!cart.length ? (
 
@@ -1394,6 +1542,7 @@ Please share total price and delivery details.`
 
                         </div>
 
+
                         <div className="qty">
 
                           <button
@@ -1440,6 +1589,7 @@ Please share total price and delivery details.`
 
                 </div>
 
+
                 <button
                   className="btn primary full"
                   onClick={() =>
@@ -1460,9 +1610,10 @@ Please share total price and delivery details.`
 
       )}
 
-      {/* ================================
+
+      {/* =============================================
           LOGIN
-      ================================= */}
+      ============================================== */}
 
       {authOpen && (
         <AuthModal
@@ -1476,6 +1627,13 @@ Please share total price and delivery details.`
   )
 }
 
+
+// =====================================================
+// START REACT
+// =====================================================
+
 createRoot(
   document.getElementById('root')
-).render(<App />)
+).render(
+  <App />
+)

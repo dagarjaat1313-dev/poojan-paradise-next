@@ -1,35 +1,194 @@
 export const products = [
-  { id: 1, category: "Cloth", name: "Peela Kapda", image: "/products/01-peela-kapda.jpg" },
-  { id: 2, category: "Cloth", name: "Lal Kapda", image: "/products/02-lal-kapda.jpg" },
-  { id: 3, category: "Pooja Essentials", name: "Pooja Ghee", image: "/products/03-pooja-ghee.jpg" },
-  { id: 4, category: "Eco-Friendly", name: "Gobar Cups & Diya", image: "/products/04-gobar-cups-diya.jpg" },
-  { id: 5, category: "Pooja Essentials", name: "Kapoor (Bheem Seni)", image: "/products/05-kapoor-bhe​​em-seni.jpg" },
-  { id: 6, category: "Pooja Essentials", name: "Honey", image: "/products/06-honey.jpg" },
-  { id: 7, category: "Incense", name: "Dhoop", image: "/products/07-dhoop.jpg" },
-  { id: 8, category: "Fragrance", name: "Perfumes (Itra)", image: "/products/08-perfumes-itra.jpg" },
-  { id: 9, category: "Pooja Essentials", name: "Kalava", image: "/products/09-kalava.jpg" },
-  { id: 10, category: "Wicks", name: "Roli", image: "/products/10-roli.jpg" },
-  { id: 11, category: "Wicks", name: "Cotton Batti", image: "/products/11-cotton-batti.jpg" },
-  { id: 12, category: "Wicks", name: "Cow Ghee Batti", image: "/products/12-cow-ghee-batti.jpg" },
-  { id: 13, category: "Oil", name: "Chameli Pooja Oil", image: "/products/13-chameli-pooja-oil.jpg" },
-  { id: 14, category: "Cloth", name: "Lal Chunri", image: "/products/14-lal-chunri.jpg" },
-  { id: 15, category: "Cloth", name: "Peeli Chunri", image: "/products/15-peeli-chunri.jpg" },
-  { id: 16, category: "Pooja Essentials", name: "Tika Chandan", image: "/products/16-tika-chandan.jpg" },
-  { id: 17, category: "Hawan", name: "Hawan Samagri", image: "/products/17-hawan-samagri.jpg" },
-  { id: 18, category: "Sindoor", name: "Orange Sindoor", image: "/products/18-orange-sindoor.jpg" },
-  { id: 19, category: "Sindoor", name: "Lal Sindoor", image: "/products/19-lal-sindoor.jpg" },
-  { id: 20, category: "Pooja Kits", name: "Nav Grah Poojan", image: "/products/20-nav-grah-poojan.jpg" },
-  { id: 21, category: "Pooja Essentials", name: "Haldi Sabut", image: "/products/21-haldi-sabut.jpg" },
-  { id: 22, category: "Spiritual", name: "Peeli Kaudi", image: "/products/22-peeli-kaudi.jpg" },
-  { id: 23, category: "Spiritual", name: "Gomti Chakra", image: "/products/23-gomti-chakra.jpg" },
-  { id: 24, category: "Pooja Essentials", name: "Janaeu", image: "/products/24-janaeu.jpg" },
-  { id: 25, category: "Eco-Friendly", name: "Cow Dung Cake", image: "/products/25-cow-dung-cake.jpg" },
-  { id: 26, category: "Hawan", name: "Guggal", image: "/products/26-guggal.jpg" },
-  { id: 27, category: "Hawan", name: "Loban", image: "/products/27-loban.jpg" },
-  { id: 28, category: "Diyas", name: "Pooja Diya", image: "/products/28-pooja-diya.jpg" },
-  { id: 29, category: "Spiritual", name: "Rudraksh Mala", image: "/products/29-rudraksh-mala.jpg" },
-  { id: 30, category: "Spiritual", name: "Kamal Gatta Mala / Loose", image: "/products/30-kamal-gatta-mala-loose.jpg" },
-  { id: 31, category: "Pooja Essentials", name: "Chandan Sticks / Rubbing Stone", image: "/products/31-chandan-sticks-rubbing-stone.jpg" },
-  { id: 32, category: "Asan", name: "Red Ooni Asan", image: "/products/32-red-ooni-asan.jpg" },
-  { id: 33, category: "Asan", name: "Yellow Ooni Asan", image: "/products/33-yellow-ooni-asan.jpg" }
+  {
+    id: 1,
+    category: "Cloth",
+    name: "Peela Kapda",
+    image: "/products/01-peela-kapda.jpg"
+  },
+  {
+    id: 2,
+    category: "Cloth",
+    name: "Lal Kapda",
+    image: "/products/02-lal-kapda.jpg"
+  },
+  {
+    id: 3,
+    category: "Pooja Essentials",
+    name: "Pooja Ghee",
+    image: "/products/03-pooja-ghee.jpg"
+  },
+  {
+    id: 4,
+    category: "Eco-Friendly",
+    name: "Gobar Cups & Diya",
+    image: "/products/04-gobar-cups-diya.jpg"
+  },
+  {
+    id: 5,
+    category: "Pooja Essentials",
+    name: "Kapoor (Bheem Seni)",
+    image: "/products/05-kapoor-bheem-seni.jpg"
+  },
+  {
+    id: 6,
+    category: "Pooja Essentials",
+    name: "Honey",
+    image: "/products/06-honey.jpg"
+  },
+  {
+    id: 7,
+    category: "Incense",
+    name: "Dhoop",
+    image: "/products/07-dhoop.jpg"
+  },
+  {
+    id: 8,
+    category: "Fragrance",
+    name: "Perfumes (Itra)",
+    image: "/products/08-perfumes-itra.jpg"
+  },
+  {
+    id: 9,
+    category: "Pooja Essentials",
+    name: "Kalava",
+    image: "/products/09-kalava.jpg"
+  },
+  {
+    id: 10,
+    category: "Wicks",
+    name: "Roli",
+    image: "/products/10-roli.jpg"
+  },
+  {
+    id: 11,
+    category: "Wicks",
+    name: "Cotton Batti",
+    image: "/products/11-cotton-batti.jpg"
+  },
+  {
+    id: 12,
+    category: "Wicks",
+    name: "Cow Ghee Batti",
+    image: "/products/12-cow-ghee-batti.jpg"
+  },
+  {
+    id: 13,
+    category: "Oil",
+    name: "Chameli Pooja Oil",
+    image: "/products/13-chameli-pooja-oil.jpg"
+  },
+  {
+    id: 14,
+    category: "Cloth",
+    name: "Lal Chunri",
+    image: "/products/14-lal-chunri.jpg"
+  },
+  {
+    id: 15,
+    category: "Cloth",
+    name: "Peeli Chunri",
+    image: "/products/15-peeli-chunri.jpg"
+  },
+  {
+    id: 16,
+    category: "Pooja Essentials",
+    name: "Tika Chandan",
+    image: "/products/16-tika-chandan.jpg"
+  },
+  {
+    id: 17,
+    category: "Hawan",
+    name: "Hawan Samagri",
+    image: "/products/17-hawan-samagri.jpg"
+  },
+  {
+    id: 18,
+    category: "Sindoor",
+    name: "Orange Sindoor",
+    image: "/products/18-orange-sindoor.jpg"
+  },
+  {
+    id: 19,
+    category: "Sindoor",
+    name: "Lal Sindoor",
+    image: "/products/19-lal-sindoor.jpg"
+  },
+  {
+    id: 20,
+    category: "Pooja Kits",
+    name: "Nav Grah Poojan",
+    image: "/products/20-nav-grah-poojan.jpg"
+  },
+  {
+    id: 21,
+    category: "Pooja Essentials",
+    name: "Haldi Sabut",
+    image: "/products/21-haldi-sabut.jpg"
+  },
+  {
+    id: 22,
+    category: "Spiritual",
+    name: "Peeli Kaudi",
+    image: "/products/22-peeli-kaudi.jpg"
+  },
+  {
+    id: 23,
+    category: "Spiritual",
+    name: "Gomti Chakra",
+    image: "/products/23-gomti-chakra.jpg"
+  },
+  {
+    id: 24,
+    category: "Pooja Essentials",
+    name: "Janaeu",
+    image: "/products/24-janaeu.jpg"
+  },
+  {
+    id: 25,
+    category: "Eco-Friendly",
+    name: "Cow Dung Cake",
+    image: "/products/25-cow-dung-cake.jpg"
+  },
+  {
+    id: 26,
+    category: "Hawan",
+    name: "Guggal",
+    image: "/products/26-guggal.jpg"
+  },
+  {
+    id: 27,
+    category: "Hawan",
+    name: "Loban",
+    image: "/products/27-loban.jpg"
+  },
+  {
+    id: 28,
+    category: "Spiritual",
+    name: "Rudraksh Mala",
+    image: "/products/28-rudraksh-mala.jpg"
+  },
+  {
+    id: 29,
+    category: "Spiritual",
+    name: "Kamal Gatta Mala / Loose",
+    image: "/products/29-kamal-gatta-mala-loose.jpg"
+  },
+  {
+    id: 30,
+    category: "Pooja Essentials",
+    name: "Chandan Sticks / Rubbing Stone",
+    image: "/products/30-chandan-sticks-rubbing-stone.jpg"
+  },
+  {
+    id: 31,
+    category: "Asan",
+    name: "Red Ooni Asan",
+    image: "/products/31-red-ooni-asan.jpg"
+  },
+  {
+    id: 32,
+    category: "Asan",
+    name: "Yellow Ooni Asan",
+    image: "/products/32-yellow-ooni-asan.jpg"
+  }
 ];

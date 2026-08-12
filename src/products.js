@@ -3,192 +3,252 @@ export const products = [
     id: 1,
     category: "Cloth",
     name: "Peela Kapda",
-    image: "/products/01-peela-kapda.jpg"
+    price: 49,
+    unit: "1.25m"
   },
   {
     id: 2,
     category: "Cloth",
     name: "Lal Kapda",
-    image: "/products/02-lal-kapda.jpg"
+    price: 49,
+    unit: "1.25m"
   },
   {
     id: 3,
     category: "Pooja Essentials",
     name: "Pooja Ghee",
-    image: "/products/03-pooja-ghee.jpg"
+    price: 180,
+    unit: "200ml"
   },
   {
     id: 4,
     category: "Eco-Friendly",
-    name: "Gobar Cups & Diya",
-    image: "/products/04-gobar-cups-diya.jpg"
+    name: "Gobar Cups",
+    price: 299,
+    unit: "40 pcs"
   },
   {
     id: 5,
-    category: "Pooja Essentials",
-    name: "Kapoor (Bheem Seni)",
-    image: "/products/05-kapoor-bheem-seni.jpg"
+    category: "Eco-Friendly",
+    name: "Gobar Diya",
+    price: 99,
+    unit: "Pack"
   },
   {
     id: 6,
     category: "Pooja Essentials",
-    name: "Honey",
-    image: "/products/06-honey.jpg"
+    name: "Kapoor (Bheem Seni)",
+    price: 225,
+    unit: "100g"
   },
   {
     id: 7,
-    category: "Incense",
-    name: "Dhoop",
-    image: "/products/07-dhoop.jpg"
+    category: "Pooja Essentials",
+    name: "Honey",
+    price: 159,
+    unit: "150g"
   },
   {
     id: 8,
-    category: "Fragrance",
-    name: "Perfumes (Itra)",
-    image: "/products/08-perfumes-itra.jpg"
+    category: "Incense",
+    name: "Dhoop Batti",
+    price: 69,
+    unit: "30 pcs"
   },
   {
     id: 9,
-    category: "Pooja Essentials",
-    name: "Kalava",
-    image: "/products/09-kalava.jpg"
+    category: "Incense",
+    name: "Dhoop Batti",
+    price: 115,
+    unit: "50 pcs"
   },
   {
     id: 10,
-    category: "Wicks",
-    name: "Roli",
-    image: "/products/10-roli.jpg"
+    category: "Incense",
+    name: "Dhoop Batti Small",
+    price: 63,
+    unit: "30 pcs"
   },
   {
     id: 11,
-    category: "Wicks",
-    name: "Cotton Batti",
-    image: "/products/11-cotton-batti.jpg"
+    category: "Fragrance",
+    name: "Perfumes / Itra",
+    price: 99,
+    unit: "100ml"
   },
   {
     id: 12,
-    category: "Wicks",
-    name: "Cow Ghee Batti",
-    image: "/products/12-cow-ghee-batti.jpg"
+    category: "Pooja Essentials",
+    name: "Kalava",
+    price: 39,
+    unit: "Pack"
   },
   {
     id: 13,
-    category: "Oil",
-    name: "Chameli Pooja Oil",
-    image: "/products/13-chameli-pooja-oil.jpg"
+    category: "Pooja Essentials",
+    name: "Roli",
+    price: 39,
+    unit: "Pack"
   },
   {
     id: 14,
-    category: "Cloth",
-    name: "Lal Chunri",
-    image: "/products/14-lal-chunri.jpg"
+    category: "Wicks",
+    name: "Cotton Batti",
+    price: 49,
+    unit: "Pack"
   },
   {
     id: 15,
-    category: "Cloth",
-    name: "Peeli Chunri",
-    image: "/products/15-peeli-chunri.jpg"
+    category: "Wicks",
+    name: "Cow Ghee Batti",
+    price: 149,
+    unit: "Pack"
   },
   {
     id: 16,
-    category: "Pooja Essentials",
-    name: "Tika Chandan",
-    image: "/products/16-tika-chandan.jpg"
+    category: "Oil",
+    name: "Chameli Pooja Oil",
+    price: 99,
+    unit: "100ml"
   },
   {
     id: 17,
-    category: "Hawan",
-    name: "Hawan Samagri",
-    image: "/products/17-hawan-samagri.jpg"
+    category: "Cloth",
+    name: "Lal Chunri",
+    price: 49,
+    unit: "1 pc"
   },
   {
     id: 18,
-    category: "Sindoor",
-    name: "Orange Sindoor",
-    image: "/products/18-orange-sindoor.jpg"
+    category: "Cloth",
+    name: "Peeli Chunri",
+    price: 49,
+    unit: "1 pc"
   },
   {
     id: 19,
-    category: "Sindoor",
-    name: "Lal Sindoor",
-    image: "/products/19-lal-sindoor.jpg"
+    category: "Pooja Essentials",
+    name: "Tika Chandan",
+    price: 59,
+    unit: "Pack"
   },
   {
     id: 20,
-    category: "Pooja Kits",
-    name: "Nav Grah Poojan",
-    image: "/products/20-nav-grah-poojan.jpg"
+    category: "Hawan",
+    name: "Hawan Samagri",
+    price: 149,
+    unit: "250g"
   },
   {
     id: 21,
-    category: "Pooja Essentials",
-    name: "Haldi Sabut",
-    image: "/products/21-haldi-sabut.jpg"
+    category: "Sindoor",
+    name: "Orange Sindoor",
+    price: 49,
+    unit: "Pack"
   },
   {
     id: 22,
-    category: "Spiritual",
-    name: "Peeli Kaudi",
-    image: "/products/22-peeli-kaudi.jpg"
+    category: "Sindoor",
+    name: "Lal Sindoor",
+    price: 49,
+    unit: "Pack"
   },
   {
     id: 23,
-    category: "Spiritual",
-    name: "Gomti Chakra",
-    image: "/products/23-gomti-chakra.jpg"
+    category: "Pooja Kits",
+    name: "Nav Grah Poojan",
+    price: 199,
+    unit: "Kit"
   },
   {
     id: 24,
     category: "Pooja Essentials",
-    name: "Janaeu",
-    image: "/products/24-janaeu.jpg"
+    name: "Haldi Sabut",
+    price: 59,
+    unit: "100g"
   },
   {
     id: 25,
-    category: "Eco-Friendly",
-    name: "Cow Dung Cake",
-    image: "/products/25-cow-dung-cake.jpg"
+    category: "Spiritual",
+    name: "Peeli Kaudi",
+    price: 99,
+    unit: "Pack"
   },
   {
     id: 26,
-    category: "Hawan",
-    name: "Guggal",
-    image: "/products/26-guggal.jpg"
+    category: "Spiritual",
+    name: "Gomti Chakra",
+    price: 99,
+    unit: "Pack"
   },
   {
     id: 27,
-    category: "Hawan",
-    name: "Loban",
-    image: "/products/27-loban.jpg"
+    category: "Pooja Essentials",
+    name: "Janaeu",
+    price: 39,
+    unit: "Pack"
   },
   {
     id: 28,
-    category: "Spiritual",
-    name: "Rudraksh Mala",
-    image: "/products/28-rudraksh-mala.jpg"
+    category: "Eco-Friendly",
+    name: "Cow Dung Cake",
+    price: 99,
+    unit: "Pack"
   },
   {
     id: 29,
-    category: "Spiritual",
-    name: "Kamal Gatta Mala / Loose",
-    image: "/products/29-kamal-gatta-mala-loose.jpg"
+    category: "Hawan",
+    name: "Guggal",
+    price: 129,
+    unit: "100g"
   },
   {
     id: 30,
-    category: "Pooja Essentials",
-    name: "Chandan Sticks / Rubbing Stone",
-    image: "/products/30-chandan-sticks-rubbing-stone.jpg"
+    category: "Hawan",
+    name: "Loban",
+    price: 99,
+    unit: "100g"
   },
   {
     id: 31,
-    category: "Asan",
-    name: "Red Ooni Asan",
-    image: "/products/31-red-ooni-asan.jpg"
+    category: "Diyas",
+    name: "Pooja Diya",
+    price: 79,
+    unit: "Pack"
   },
   {
     id: 32,
+    category: "Spiritual",
+    name: "Rudraksh Mala",
+    price: 499,
+    unit: "1 Mala"
+  },
+  {
+    id: 33,
+    category: "Spiritual",
+    name: "Kamal Gatta Mala / Loose",
+    price: 149,
+    unit: "Pack"
+  },
+  {
+    id: 34,
+    category: "Pooja Essentials",
+    name: "Chandan Sticks / Rubbing Stone",
+    price: 149,
+    unit: "Pack"
+  },
+  {
+    id: 35,
+    category: "Asan",
+    name: "Red Ooni Asan",
+    price: 299,
+    unit: "1 pc"
+  },
+  {
+    id: 36,
     category: "Asan",
     name: "Yellow Ooni Asan",
-    image: "/products/32-yellow-ooni-asan.jpg"
+    price: 299,
+    unit: "1 pc"
   }
 ];

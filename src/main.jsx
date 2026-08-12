@@ -17,7 +17,9 @@ import {
   Facebook,
   Youtube,
   User,
-  LogOut
+  LogOut,
+  ArrowLeft,
+  CheckCircle2
 } from 'lucide-react'
 
 import { products } from './products'
@@ -95,28 +97,17 @@ function AuthModal({ onClose }) {
 
   return (
     <div className="overlay auth-overlay" onClick={onClose}>
-      <div
-        className="auth-card"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="auth-close"
-          onClick={onClose}
-        >
+      <div className="auth-card" onClick={(e) => e.stopPropagation()}>
+        <button className="auth-close" onClick={onClose}>
           <X size={22} />
         </button>
 
         <div className="auth-logo">
-          <img
-            src="/logo.png"
-            alt="Poojan Paradise"
-          />
+          <img src="/logo.png" alt="Poojan Paradise" />
         </div>
 
         <h2>
-          {mode === 'login'
-            ? 'Welcome Back'
-            : 'Create Account'}
+          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
         </h2>
 
         <p className="auth-subtitle">
@@ -131,9 +122,7 @@ function AuthModal({ onClose }) {
               type="text"
               placeholder="Full Name"
               value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
+              onChange={(e) => setName(e.target.value)}
               required
             />
           )}
@@ -142,9 +131,7 @@ function AuthModal({ onClose }) {
             type="email"
             placeholder="Email Address"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
 
@@ -152,9 +139,7 @@ function AuthModal({ onClose }) {
             type="password"
             placeholder="Password (minimum 6 characters)"
             value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setPassword(e.target.value)}
             minLength={6}
             required
           />
@@ -181,11 +166,7 @@ function AuthModal({ onClose }) {
         <button
           className="auth-switch"
           onClick={() => {
-            setMode(
-              mode === 'login'
-                ? 'register'
-                : 'login'
-            )
+            setMode(mode === 'login' ? 'register' : 'login')
             setMessage('')
           }}
         >
@@ -208,8 +189,8 @@ function App() {
   const [authOpen, setAuthOpen] = useState(false)
   const [user, setUser] = useState(null)
 
-  // Loyalty Program Popup
   const [offerOpen, setOfferOpen] = useState(true)
+  const [offerDetailsOpen, setOfferDetailsOpen] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -222,11 +203,9 @@ function App() {
 
     const {
       data: { subscription }
-    } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user || null)
-      }
-    )
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null)
+    })
 
     return () => {
       mounted = false
@@ -236,46 +215,30 @@ function App() {
 
   const categories = [
     'All',
-    ...new Set(
-      products.map((p) => p.category)
-    )
+    ...new Set(products.map((p) => p.category))
   ]
 
   const filtered = useMemo(
     () =>
       products.filter(
         (p) =>
-          (category === 'All' ||
-            p.category === category) &&
-          p.name
-            .toLowerCase()
-            .includes(query.toLowerCase())
+          (category === 'All' || p.category === category) &&
+          p.name.toLowerCase().includes(query.toLowerCase())
       ),
     [category, query]
   )
 
   const add = (p) =>
     setCart((c) => {
-      const found = c.find(
-        (x) => x.id === p.id
-      )
+      const found = c.find((x) => x.id === p.id)
 
       return found
         ? c.map((x) =>
             x.id === p.id
-              ? {
-                  ...x,
-                  qty: x.qty + 1
-                }
+              ? { ...x, qty: x.qty + 1 }
               : x
           )
-        : [
-            ...c,
-            {
-              ...p,
-              qty: 1
-            }
-          ]
+        : [...c, { ...p, qty: 1 }]
     })
 
   const change = (id, delta) =>
@@ -283,19 +246,14 @@ function App() {
       c
         .map((x) =>
           x.id === id
-            ? {
-                ...x,
-                qty: x.qty + delta
-              }
+            ? { ...x, qty: x.qty + delta }
             : x
         )
         .filter((x) => x.qty > 0)
     )
 
   const remove = (id) =>
-    setCart((c) =>
-      c.filter((x) => x.id !== id)
-    )
+    setCart((c) => c.filter((x) => x.id !== id))
 
   const cartCount = cart.reduce(
     (a, x) => a + x.qty,
@@ -313,10 +271,7 @@ function App() {
     if (!items.length) return
 
     const lines = items
-      .map(
-        (x) =>
-          `• ${x.name} × ${x.qty}`
-      )
+      .map((x) => `• ${x.name} × ${x.qty}`)
       .join('\n')
 
     const msg = `Namaste Poojan Paradise!
@@ -327,9 +282,7 @@ ${lines}
 Please share total price and delivery details.`
 
     window.open(
-      `https://wa.me/${waNumber}?text=${encodeURIComponent(
-        msg
-      )}`,
+      `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`,
       '_blank'
     )
   }
@@ -338,135 +291,305 @@ Please share total price and delivery details.`
     <div>
 
       {/* =========================================
-          LOYALTY PROGRAM POPUP
+          LOYALTY POPUP
       ========================================= */}
 
       {offerOpen && (
         <div
           className="offer-overlay"
-          onClick={() =>
+          onClick={() => {
             setOfferOpen(false)
-          }
+            setOfferDetailsOpen(false)
+          }}
         >
           <div
             className="offer-popup"
-            onClick={(e) =>
-              e.stopPropagation()
-            }
+            onClick={(e) => e.stopPropagation()}
           >
 
-            <button
-              className="offer-close"
-              onClick={() =>
-                setOfferOpen(false)
-              }
-              aria-label="Close offer"
-            >
-              <X size={22} />
-            </button>
+            {!offerDetailsOpen ? (
+              <>
+                <button
+                  className="offer-close"
+                  onClick={() => setOfferOpen(false)}
+                  aria-label="Close offer"
+                >
+                  <X size={22} />
+                </button>
 
-            <div className="offer-top">
-              ✨ SPECIAL LOYALTY PROGRAM ✨
-            </div>
-
-            <div className="offer-content">
-
-              <img
-                src="/logo.png"
-                alt="Poojan Paradise"
-                className="offer-logo"
-              />
-
-              <h2>
-                Poojan Paradise
-                <br />
-                <span>
-                  Loyalty Program
-                </span>
-              </h2>
-
-              <p className="offer-intro">
-                Shop with Poojan Paradise and
-                unlock exclusive
-                <strong>
-                  {' '}Shagun Coin + Para Coin
-                </strong>{' '}
-                rewards.
-              </p>
-
-              {/* REAL COINS FROM PUBLIC FOLDER */}
-              <div className="coin-preview">
-
-                <img
-                  src="/shagun%20coin.png"
-                  alt="Shagun Coin"
-                  className="real-coin shagun-coin"
-                />
-
-                <div className="coin-plus">
-                  +
+                <div className="offer-top">
+                  ✨ SPECIAL LOYALTY PROGRAM ✨
                 </div>
 
-                <img
-                  src="/para%20coin.png"
-                  alt="Para Coin"
-                  className="real-coin para-coin"
-                />
+                <div className="offer-content">
 
-              </div>
+                  <img
+                    src="/logo.png"
+                    alt="Poojan Paradise"
+                    className="offer-logo"
+                  />
 
-              <div className="offer-value">
-                <small>
-                  Total Coin Value
-                </small>
+                  <h2>
+                    Poojan Paradise
+                    <br />
+                    <span>Loyalty Program</span>
+                  </h2>
 
-                <strong>
-                  ₹21,000
-                </strong>
-              </div>
+                  <p className="offer-intro">
+                    Shop with Poojan Paradise and unlock
+                    exclusive <strong>Shagun Coin + Para Coin</strong>{' '}
+                    rewards.
+                  </p>
 
-              <div className="offer-highlights">
+                  <div className="coin-preview">
 
-                <div>
-                  <strong>
-                    ₹11,000
-                  </strong>
+                    <img
+                      src="/shagun-coin.png"
+                      alt="Shagun Coin"
+                      className="real-coin shagun-coin"
+                    />
+
+                    <div className="coin-plus">
+                      +
+                    </div>
+
+                    <img
+                      src="/para-coin.png"
+                      alt="Para Coin"
+                      className="real-coin para-coin"
+                    />
+
+                  </div>
+
+                  <div className="offer-value">
+                    <small>
+                      Total Coin Value
+                    </small>
+
+                    <strong>
+                      ₹21,000
+                    </strong>
+                  </div>
+
+                  <button
+                    className="offer-explore"
+                    onClick={() =>
+                      setOfferDetailsOpen(true)
+                    }
+                  >
+                    Explore Offer
+                    <span>→</span>
+                  </button>
+
+                  <button
+                    className="offer-later"
+                    onClick={() =>
+                      setOfferOpen(false)
+                    }
+                  >
+                    Maybe later
+                  </button>
+
+                </div>
+              </>
+            ) : (
+              /* =========================================
+                 OFFER DETAILS
+              ========================================= */
+
+              <div className="offer-details">
+
+                <button
+                  className="details-back"
+                  onClick={() =>
+                    setOfferDetailsOpen(false)
+                  }
+                >
+                  <ArrowLeft size={18} />
+                  Back
+                </button>
+
+                <button
+                  className="offer-close details-close"
+                  onClick={() => {
+                    setOfferDetailsOpen(false)
+                    setOfferOpen(false)
+                  }}
+                >
+                  <X size={22} />
+                </button>
+
+                <div className="details-header">
+
+                  <div className="details-sparkle">
+                    ✨
+                  </div>
+
                   <span>
-                    Shagun Coin
+                    POOJAN PARADISE
+                  </span>
+
+                  <h2>
+                    Special Loyalty
+                    <br />
+                    <em>Reward Program</em>
+                  </h2>
+
+                  <p>
+                    Shop. Earn. Celebrate.
+                  </p>
+
+                </div>
+
+                <div className="details-coins">
+
+                  <div className="details-coin-card">
+                    <img
+                      src="/shagun-coin.png"
+                      alt="Shagun Coin"
+                    />
+
+                    <h3>
+                      Shagun Coin
+                    </h3>
+
+                    <strong>
+                      ₹11,000
+                    </strong>
+
+                    <small>
+                      Reward Value
+                    </small>
+                  </div>
+
+                  <div className="details-plus">
+                    +
+                  </div>
+
+                  <div className="details-coin-card">
+                    <img
+                      src="/para-coin.png"
+                      alt="Para Coin"
+                    />
+
+                    <h3>
+                      Para Coin
+                    </h3>
+
+                    <strong>
+                      ₹10,000
+                    </strong>
+
+                    <small>
+                      Reward Value
+                    </small>
+                  </div>
+
+                </div>
+
+                <div className="details-total">
+                  <span>
+                    TOTAL REWARD VALUE
+                  </span>
+
+                  <strong>
+                    ₹21,000
+                  </strong>
+                </div>
+
+                <div className="details-rules">
+
+                  <h3>
+                    How to unlock your rewards
+                  </h3>
+
+                  <div className="rule">
+
+                    <CheckCircle2 />
+
+                    <div>
+                      <strong>
+                        Step 1 — Purchase
+                      </strong>
+
+                      <p>
+                        Purchase <b>10 Poojan Paradise
+                        Kits</b> within 1 year.
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <div className="rule">
+
+                    <CheckCircle2 />
+
+                    <div>
+                      <strong>
+                        Step 2 — Earn Shagun Coin
+                      </strong>
+
+                      <p>
+                        Complete the qualifying
+                        purchase requirement to unlock
+                        the <b>Shagun Coin</b>.
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <div className="rule">
+
+                    <CheckCircle2 />
+
+                    <div>
+                      <strong>
+                        Step 3 — Sell 100 Kits
+                      </strong>
+
+                      <p>
+                        Sell <b>100 Poojan Paradise
+                        Kits</b> to qualify for the
+                        Para Coin reward.
+                      </p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div className="details-note">
+                  <Sparkles size={16} />
+
+                  <span>
+                    Terms and eligibility apply.
+                    Rewards are subject to verification
+                    by Poojan Paradise.
                   </span>
                 </div>
 
-                <div>
-                  <strong>
-                    ₹10,000
-                  </strong>
-                  <span>
-                    Para Coin
-                  </span>
-                </div>
+                <button
+                  className="details-whatsapp"
+                  onClick={() =>
+                    orderWhatsApp(
+                      [
+                        {
+                          name:
+                            'Poojan Paradise Loyalty Program',
+                          qty: 1
+                        }
+                      ],
+                      'Loyalty Program Enquiry'
+                    )
+                  }
+                >
+                  <MessageCircle size={19} />
+                  Enquire on WhatsApp
+                </button>
 
               </div>
+            )}
 
-              <button
-                className="offer-explore"
-                onClick={() =>
-                  setOfferOpen(false)
-                }
-              >
-                Explore Offer
-                <span>→</span>
-              </button>
-
-              <button
-                className="offer-later"
-                onClick={() =>
-                  setOfferOpen(false)
-                }
-              >
-                Maybe later
-              </button>
-
-            </div>
           </div>
         </div>
       )}
@@ -476,6 +599,7 @@ Please share total price and delivery details.`
       ========================================= */}
 
       <header className="header">
+
         <div className="nav container">
 
           <button
@@ -484,11 +608,7 @@ Please share total price and delivery details.`
               setMenuOpen(!menuOpen)
             }
           >
-            {menuOpen ? (
-              <X />
-            ) : (
-              <Menu />
-            )}
+            {menuOpen ? <X /> : <Menu />}
           </button>
 
           <a
@@ -508,6 +628,7 @@ Please share total price and delivery details.`
                 : 'navlinks'
             }
           >
+
             <a
               href="#home"
               onClick={() =>
@@ -552,6 +673,7 @@ Please share total price and delivery details.`
             >
               Contact
             </a>
+
           </nav>
 
           <div className="header-actions">
@@ -565,11 +687,8 @@ Please share total price and delivery details.`
                 <User size={18} />
 
                 <span>
-                  {user.user_metadata
-                    ?.full_name ||
-                    user.email?.split(
-                      '@'
-                    )[0] ||
+                  {user.user_metadata?.full_name ||
+                    user.email?.split('@')[0] ||
                     'Account'}
                 </span>
 
@@ -583,9 +702,7 @@ Please share total price and delivery details.`
                 }
               >
                 <User size={18} />
-                <span>
-                  Login
-                </span>
+                <span>Login</span>
               </button>
             )}
 
@@ -611,6 +728,7 @@ Please share total price and delivery details.`
           </div>
 
         </div>
+
       </header>
 
       {/* =========================================
@@ -618,8 +736,6 @@ Please share total price and delivery details.`
       ========================================= */}
 
       <main>
-
-        {/* HERO */}
 
         <section
           id="home"
@@ -638,16 +754,13 @@ Please share total price and delivery details.`
               <h1>
                 Bring the divine
                 <br />
-                <em>
-                  home.
-                </em>
+                <em>home.</em>
               </h1>
 
               <p>
-                Premium pooja samagri,
-                spiritual essentials and
-                thoughtfully curated pooja
-                kits — all in one place.
+                Premium pooja samagri, spiritual
+                essentials and thoughtfully curated
+                pooja kits — all in one place.
               </p>
 
               <div className="hero-actions">
@@ -682,8 +795,6 @@ Please share total price and delivery details.`
           </div>
 
         </section>
-
-        {/* TRUST */}
 
         <section className="trust">
 
@@ -735,8 +846,6 @@ Please share total price and delivery details.`
 
         </section>
 
-        {/* POOJAN KIT */}
-
         <section
           id="kit"
           className="kit-section"
@@ -753,15 +862,13 @@ Please share total price and delivery details.`
               <h2>
                 Premium Poojan Kit
                 <br />
-                <span>
-                  ₹1,299
-                </span>
+                <span>₹1,299</span>
               </h2>
 
               <p className="kit-sub">
-                A ready-to-use essentials
-                kit for your daily pooja
-                and auspicious occasions.
+                A ready-to-use essentials kit for
+                your daily pooja and auspicious
+                occasions.
               </p>
 
               <button
@@ -797,16 +904,12 @@ Please share total price and delivery details.`
 
               <ul>
 
-                {kitItems.map(
-                  (x, i) => (
-                    <li key={i}>
-                      <span>
-                        ✦
-                      </span>
-                      {x}
-                    </li>
-                  )
-                )}
+                {kitItems.map((x, i) => (
+                  <li key={i}>
+                    <span>✦</span>
+                    {x}
+                  </li>
+                ))}
 
               </ul>
 
@@ -815,8 +918,6 @@ Please share total price and delivery details.`
           </div>
 
         </section>
-
-        {/* SHOP */}
 
         <section
           id="shop"
@@ -846,9 +947,7 @@ Please share total price and delivery details.`
                 <input
                   value={query}
                   onChange={(e) =>
-                    setQuery(
-                      e.target.value
-                    )
+                    setQuery(e.target.value)
                   }
                   placeholder="Search products..."
                 />
@@ -859,80 +958,78 @@ Please share total price and delivery details.`
 
             <div className="chips">
 
-              {categories.map(
-                (c) => (
-                  <button
-                    className={
-                      category === c
-                        ? 'active'
-                        : ''
-                    }
-                    key={c}
-                    onClick={() =>
-                      setCategory(c)
-                    }
-                  >
-                    {c}
-                  </button>
-                )
-              )}
+              {categories.map((c) => (
+                <button
+                  className={
+                    category === c
+                      ? 'active'
+                      : ''
+                  }
+                  key={c}
+                  onClick={() =>
+                    setCategory(c)
+                  }
+                >
+                  {c}
+                </button>
+              ))}
 
             </div>
 
             <div className="products">
 
-              {filtered.map(
-                (p) => (
-                  <article
-                    className="product"
-                    key={p.id}
-                  >
+              {filtered.map((p) => (
 
-                    <div className="product-img">
+                <article
+                  className="product"
+                  key={p.id}
+                >
 
-                      <div className="mini-diya">
-                        🪔
-                      </div>
+                  <div className="product-img">
+
+                    <div className="mini-diya">
+                      🪔
+                    </div>
+
+                  </div>
+
+                  <div className="product-body">
+
+                    <small>
+                      {p.category}
+                    </small>
+
+                    <h3>
+                      {p.name}
+                    </h3>
+
+                    <p>
+                      Premium quality •
+                      Poojan Paradise
+                    </p>
+
+                    <div className="product-bottom">
+
+                      <span className="price">
+                        ₹ Add price
+                      </span>
+
+                      <button
+                        onClick={() =>
+                          add(p)
+                        }
+                      >
+                        <Plus size={17} />
+                        Add
+                      </button>
 
                     </div>
 
-                    <div className="product-body">
+                  </div>
 
-                      <small>
-                        {p.category}
-                      </small>
+                </article>
 
-                      <h3>
-                        {p.name}
-                      </h3>
-
-                      <p>
-                        Premium quality •
-                        Poojan Paradise
-                      </p>
-
-                      <div className="product-bottom">
-
-                        <span className="price">
-                          ₹ Add price
-                        </span>
-
-                        <button
-                          onClick={() =>
-                            add(p)
-                          }
-                        >
-                          <Plus size={17} />
-                          Add
-                        </button>
-
-                      </div>
-
-                    </div>
-
-                  </article>
-                )
-              )}
+              ))}
 
             </div>
 
@@ -946,8 +1043,6 @@ Please share total price and delivery details.`
           </div>
 
         </section>
-
-        {/* ABOUT */}
 
         <section
           id="about"
@@ -963,19 +1058,15 @@ Please share total price and delivery details.`
             <h2>
               Your one stop shop for
               <br />
-              <span>
-                all pooja needs.
-              </span>
+              <span>all pooja needs.</span>
             </h2>
 
             <p>
-              From everyday pooja
-              essentials to spiritual
-              malas, hawan samagri, diyas
-              and curated kits, Poojan
-              Paradise is designed to make
-              devotional shopping simple,
-              beautiful and trustworthy.
+              From everyday pooja essentials to
+              spiritual malas, hawan samagri, diyas
+              and curated kits, Poojan Paradise is
+              designed to make devotional shopping
+              simple, beautiful and trustworthy.
             </p>
 
           </div>
@@ -1110,10 +1201,11 @@ Please share total price and delivery details.`
       </footer>
 
       {/* =========================================
-          CART DRAWER
+          CART
       ========================================= */}
 
       {cartOpen && (
+
         <div
           className="overlay"
           onClick={() =>
@@ -1170,67 +1262,67 @@ Please share total price and delivery details.`
               <>
                 <div className="cart-list">
 
-                  {cart.map(
-                    (x) => (
-                      <div
-                        className="cart-item"
-                        key={x.id}
-                      >
+                  {cart.map((x) => (
 
-                        <div>
+                    <div
+                      className="cart-item"
+                      key={x.id}
+                    >
 
-                          <strong>
-                            {x.name}
-                          </strong>
+                      <div>
 
-                          <small>
-                            {x.category}
-                          </small>
+                        <strong>
+                          {x.name}
+                        </strong>
 
-                        </div>
-
-                        <div className="qty">
-
-                          <button
-                            onClick={() =>
-                              change(
-                                x.id,
-                                -1
-                              )
-                            }
-                          >
-                            <Minus />
-                          </button>
-
-                          <b>
-                            {x.qty}
-                          </b>
-
-                          <button
-                            onClick={() =>
-                              change(
-                                x.id,
-                                1
-                              )
-                            }
-                          >
-                            <Plus />
-                          </button>
-
-                          <button
-                            className="trash"
-                            onClick={() =>
-                              remove(x.id)
-                            }
-                          >
-                            <Trash2 />
-                          </button>
-
-                        </div>
+                        <small>
+                          {x.category}
+                        </small>
 
                       </div>
-                    )
-                  )}
+
+                      <div className="qty">
+
+                        <button
+                          onClick={() =>
+                            change(
+                              x.id,
+                              -1
+                            )
+                          }
+                        >
+                          <Minus />
+                        </button>
+
+                        <b>
+                          {x.qty}
+                        </b>
+
+                        <button
+                          onClick={() =>
+                            change(
+                              x.id,
+                              1
+                            )
+                          }
+                        >
+                          <Plus />
+                        </button>
+
+                        <button
+                          className="trash"
+                          onClick={() =>
+                            remove(x.id)
+                          }
+                        >
+                          <Trash2 />
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                  ))}
 
                 </div>
 
@@ -1243,16 +1335,19 @@ Please share total price and delivery details.`
                   Order Cart on WhatsApp
                   <MessageCircle size={18} />
                 </button>
+
               </>
+
             )}
 
           </aside>
 
         </div>
+
       )}
 
       {/* =========================================
-          LOGIN / REGISTER
+          LOGIN
       ========================================= */}
 
       {authOpen && (

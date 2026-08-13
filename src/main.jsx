@@ -72,23 +72,15 @@ const categoryImageFallbacks = {
   Asan: '/products/31-red-ooni-asan.jpg'
 }
 
-const kitProductImages = [
-  '/products/03-pooja-ghee.jpg',
-  '/products/05-kapoor-bheem-seni.jpg',
-  '/products/07-dhoop.jpg',
-  '/products/08-perfumes-itra.jpg',
-  '/products/10-roli.jpg',
-  '/products/14-lal-chunri.jpg',
-  '/products/16-tika-chandan.jpg',
-  '/products/11-cotton-batti.jpg'
-]
-
 const heroProductImages = [
   '/products/03-pooja-ghee.jpg',
   '/products/07-dhoop.jpg',
   '/products/14-lal-chunri.jpg',
   '/products/05-kapoor-bheem-seni.jpg'
 ]
+
+// NEW: Premium Poojan Kit image
+const poojanKitImage = '/poojan-kit.png'
 
 function getCategoryImage(category) {
   return (
@@ -385,9 +377,7 @@ function App() {
 
     supabase.auth.getSession().then(({ data }) => {
       if (mounted) {
-        setUser(
-          data.session?.user || null
-        )
+        setUser(data.session?.user || null)
       }
     })
 
@@ -395,9 +385,7 @@ function App() {
       data: { subscription }
     } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setUser(
-          session?.user || null
-        )
+        setUser(session?.user || null)
       }
     )
 
@@ -411,9 +399,7 @@ function App() {
     () => [
       'All',
       ...new Set(
-        products.map(
-          (p) => p.category
-        )
+        products.map((p) => p.category)
       )
     ],
     []
@@ -428,14 +414,9 @@ function App() {
       const searchMatch =
         p.name
           .toLowerCase()
-          .includes(
-            query.toLowerCase()
-          )
+          .includes(query.toLowerCase())
 
-      return (
-        categoryMatch &&
-        searchMatch
-      )
+      return categoryMatch && searchMatch
     })
   }, [category, query])
 
@@ -475,14 +456,11 @@ function App() {
           item.id === id
             ? {
                 ...item,
-                qty:
-                  item.qty + delta
+                qty: item.qty + delta
               }
             : item
         )
-        .filter(
-          (item) => item.qty > 0
-        )
+        .filter((item) => item.qty > 0)
     )
   }
 
@@ -519,8 +497,7 @@ function App() {
 
     const total = items.reduce(
       (sum, item) =>
-        sum +
-        item.price * item.qty,
+        sum + item.price * item.qty,
       0
     )
 
@@ -578,11 +555,7 @@ Please share delivery details.`
               setMenuOpen(!menuOpen)
             }
           >
-            {menuOpen ? (
-              <X />
-            ) : (
-              <Menu />
-            )}
+            {menuOpen ? <X /> : <Menu />}
           </button>
 
           <a
@@ -791,8 +764,6 @@ Please share delivery details.`
 
           </div>
 
-          {/* HERO VISUAL */}
-
           <div className="hero-visual">
 
             <div className="hero-circle">
@@ -862,9 +833,7 @@ Please share delivery details.`
         <div className="category-grid">
 
           {categories
-            .filter(
-              (x) => x !== 'All'
-            )
+            .filter((x) => x !== 'All')
             .slice(0, 9)
             .map((cat) => (
               <button
@@ -878,20 +847,14 @@ Please share delivery details.`
 
                 <div className="category-circle">
 
-                  {getCategoryImage(
-                    cat
-                  ) ? (
+                  {getCategoryImage(cat) ? (
                     <img
-                      src={getCategoryImage(
-                        cat
-                      )}
+                      src={getCategoryImage(cat)}
                       alt={cat}
                     />
                   ) : (
                     <span>
-                      {categoryIcons[
-                        cat
-                      ] || '🪔'}
+                      {categoryIcons[cat] || '🪔'}
                     </span>
                   )}
 
@@ -1001,37 +964,17 @@ Please share delivery details.`
         className="kit-banner"
       >
 
+        {/* NEW SINGLE KIT IMAGE */}
+
         <div className="kit-image">
 
           <div className="kit-photo">
 
-            <div className="kit-collage">
-
-              {kitProductImages.map(
-                (src, index) => (
-                  <div
-                    className="kit-collage-item"
-                    key={src}
-                  >
-                    <img
-                      src={src}
-                      alt={`Poojan Kit item ${index + 1}`}
-                    />
-                  </div>
-                )
-              )}
-
-            </div>
-
-            <div className="kit-photo-overlay">
-              <span>
-                POOJAN
-              </span>
-
-              <b>
-                PREMIUM KIT
-              </b>
-            </div>
+            <img
+              src={poojanKitImage}
+              alt="Poojan Paradise Premium Poojan Kit"
+              className="poojan-kit-main-image"
+            />
 
           </div>
 
@@ -1095,14 +1038,12 @@ Please share delivery details.`
 
           <div className="kit-list">
 
-            {kitItems.map(
-              (item) => (
-                <div key={item}>
-                  <span>✓</span>
-                  {item}
-                </div>
-              )
-            )}
+            {kitItems.map((item) => (
+              <div key={item}>
+                <span>✓</span>
+                {item}
+              </div>
+            ))}
 
           </div>
 
@@ -1112,12 +1053,9 @@ Please share delivery details.`
               className="outline-btn"
               onClick={() =>
                 document
-                  .getElementById(
-                    'shop'
-                  )
+                  .getElementById('shop')
                   ?.scrollIntoView({
-                    behavior:
-                      'smooth'
+                    behavior: 'smooth'
                   })
               }
             >
@@ -1131,12 +1069,11 @@ Please share delivery details.`
                   [
                     {
                       id: 'kit-1299',
-                      name:
-                        'Premium Poojan Kit',
+                      name: 'Premium Poojan Kit',
                       price: 1299,
-                      unit:
-                        '1 kit',
-                      qty: 1
+                      unit: '1 kit',
+                      qty: 1,
+                      image: poojanKitImage
                     }
                   ],
                   'Premium Poojan Kit'
@@ -1208,9 +1145,7 @@ Please share delivery details.`
             <div className="offer-steps">
 
               <div>
-                <strong>
-                  01
-                </strong>
+                <strong>01</strong>
 
                 <span>
                   Purchase eligible
@@ -1219,9 +1154,7 @@ Please share delivery details.`
               </div>
 
               <div>
-                <strong>
-                  02
-                </strong>
+                <strong>02</strong>
 
                 <span>
                   Complete the required
@@ -1231,9 +1164,7 @@ Please share delivery details.`
               </div>
 
               <div>
-                <strong>
-                  03
-                </strong>
+                <strong>03</strong>
 
                 <span>
                   Become eligible for
@@ -1460,9 +1391,7 @@ Please share delivery details.`
             <input
               value={query}
               onChange={(e) =>
-                setQuery(
-                  e.target.value
-                )
+                setQuery(e.target.value)
               }
               placeholder="Search products..."
             />
@@ -1473,23 +1402,21 @@ Please share delivery details.`
 
         <div className="shop-chips">
 
-          {categories.map(
-            (cat) => (
-              <button
-                key={cat}
-                className={
-                  category === cat
-                    ? 'active'
-                    : ''
-                }
-                onClick={() =>
-                  setCategory(cat)
-                }
-              >
-                {cat}
-              </button>
-            )
-          )}
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={
+                category === cat
+                  ? 'active'
+                  : ''
+              }
+              onClick={() =>
+                setCategory(cat)
+              }
+            >
+              {cat}
+            </button>
+          ))}
 
         </div>
 
@@ -1549,8 +1476,7 @@ Please share delivery details.`
                     </small>
 
                     <strong>
-                      {p.unit ||
-                        '1 pc'}
+                      {p.unit || '1 pc'}
                     </strong>
                   </div>
 
@@ -1746,9 +1672,7 @@ Please share delivery details.`
         }
         change={change}
         remove={remove}
-        orderWhatsApp={
-          orderWhatsApp
-        }
+        orderWhatsApp={orderWhatsApp}
       />
 
       {/* LOGIN */}

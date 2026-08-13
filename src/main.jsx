@@ -9,7 +9,6 @@ import {
   Minus,
   Trash2,
   MessageCircle,
-  Sparkles,
   ShieldCheck,
   Truck,
   Heart,
@@ -17,12 +16,23 @@ import {
   Facebook,
   Youtube,
   User,
-  LogOut
+  LogOut,
+  Star,
+  ArrowRight,
+  ChevronRight,
+  Leaf,
+  Package,
+  Lock,
+  Headphones,
+  Flame,
+  Sparkles
 } from 'lucide-react'
 
 import { products } from './products'
 import { supabase } from './lib/supabase'
 import './styles.css'
+
+const waNumber = '919999999999'
 
 const kitItems = [
   'Camphor — 250gm',
@@ -36,12 +46,20 @@ const kitItems = [
   'Cotton Batti — 1 packet'
 ]
 
-const waNumber = '919999999999'
-
-
-/* =========================================================
-   AUTH MODAL
-========================================================= */
+const categoryIcons = {
+  Cloth: '🧣',
+  'Pooja Essentials': '🪔',
+  'Eco-Friendly': '🌿',
+  Incense: '🕯️',
+  Fragrance: '🌸',
+  Wicks: '🔥',
+  Oil: '🪔',
+  Hawan: '🔥',
+  Sindoor: '🔴',
+  'Pooja Kits': '🎁',
+  Mala: '📿',
+  Asan: '🧘'
+}
 
 function AuthModal({ onClose }) {
   const [mode, setMode] = useState('login')
@@ -53,7 +71,6 @@ function AuthModal({ onClose }) {
 
   const submit = async (e) => {
     e.preventDefault()
-
     setLoading(true)
     setMessage('')
 
@@ -73,87 +90,57 @@ function AuthModal({ onClose }) {
           setMessage(error.message)
         } else if (data.session) {
           setMessage('Account created successfully.')
-
-          setTimeout(() => {
-            onClose()
-          }, 700)
+          setTimeout(onClose, 700)
         } else {
           setMessage(
             'Account created. Please check your email to verify your account.'
           )
         }
       } else {
-        const { error } =
-          await supabase.auth.signInWithPassword({
-            email,
-            password
-          })
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        })
 
         if (error) {
           setMessage(error.message)
         } else {
           setMessage('Login successful.')
-
-          setTimeout(() => {
-            onClose()
-          }, 700)
+          setTimeout(onClose, 700)
         }
       }
     } catch (error) {
-      setMessage(
-        error.message || 'Something went wrong.'
-      )
+      setMessage(error.message || 'Something went wrong.')
     }
 
     setLoading(false)
   }
 
   return (
-    <div
-      className="overlay auth-overlay"
-      onClick={onClose}
-    >
-      <div
-        className="auth-card"
-        onClick={(e) => e.stopPropagation()}
-      >
-
-        <button
-          className="auth-close"
-          onClick={onClose}
-        >
-          <X size={22} />
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="auth-card" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>
+          <X />
         </button>
 
-        <div className="auth-logo">
-          <img
-            src="/logo.png"
-            alt="Poojan Paradise"
-          />
-        </div>
+        <img src="/logo.png" className="auth-logo" alt="Poojan Paradise" />
 
         <h2>
-          {mode === 'login'
-            ? 'Welcome Back'
-            : 'Create Account'}
+          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
         </h2>
 
-        <p className="auth-subtitle">
+        <p>
           {mode === 'login'
             ? 'Login to your Poojan Paradise account'
             : 'Join Poojan Paradise today'}
         </p>
 
         <form onSubmit={submit}>
-
           {mode === 'register' && (
             <input
-              type="text"
               placeholder="Full Name"
               value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
+              onChange={(e) => setName(e.target.value)}
               required
             />
           )}
@@ -162,52 +149,34 @@ function AuthModal({ onClose }) {
             type="email"
             placeholder="Email Address"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
 
           <input
             type="password"
-            placeholder="Password (minimum 6 characters)"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
+            placeholder="Password"
             minLength={6}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
 
-          <button
-            type="submit"
-            className="btn primary auth-submit"
-            disabled={loading}
-          >
+          <button className="gold-btn auth-submit" disabled={loading}>
             {loading
               ? 'Please wait...'
               : mode === 'login'
                 ? 'Login'
                 : 'Create Account'}
           </button>
-
         </form>
 
-        {message && (
-          <div className="auth-message">
-            {message}
-          </div>
-        )}
+        {message && <div className="auth-message">{message}</div>}
 
         <button
-          className="auth-switch"
+          className="switch-auth"
           onClick={() => {
-            setMode(
-              mode === 'login'
-                ? 'register'
-                : 'login'
-            )
-
+            setMode(mode === 'login' ? 'register' : 'login')
             setMessage('')
           }}
         >
@@ -215,400 +184,214 @@ function AuthModal({ onClose }) {
             ? "Don't have an account? Register"
             : 'Already have an account? Login'}
         </button>
-
       </div>
     </div>
   )
 }
 
+function CartDrawer({
+  cart,
+  open,
+  onClose,
+  change,
+  remove,
+  orderWhatsApp
+}) {
+  if (!open) return null
 
-/* =========================================================
-   OFFER DETAILS
-========================================================= */
-
-function OfferDetails({ onClose }) {
   return (
-    <div
-      className="offer-overlay"
-      onClick={onClose}
-    >
-
-      <div
-        className="offer-details-popup"
-        onClick={(e) =>
-          e.stopPropagation()
-        }
-      >
-
-        <button
-          className="offer-close"
-          onClick={onClose}
-        >
-          <X size={22} />
-        </button>
-
-        <div className="offer-details-top">
-          ✨ POOJAN PARADISE REWARDS ✨
-        </div>
-
-        <div className="offer-details-content">
-
-          <img
-            src="/logo.png"
-            alt="Poojan Paradise"
-            className="details-logo"
-          />
-
-          <span className="details-eyebrow">
-            SPECIAL LAUNCH OFFER
-          </span>
-
-          <h2>
-            Shagun Coin
-            <br />
-            <span>+ Para Coin</span>
-          </h2>
-
-          <p className="details-text">
-            Shop with Poojan Paradise and become
-            a part of our exclusive loyalty rewards
-            program.
-          </p>
-
-          <div className="details-coins">
-
-            <img
-              src="/shagun coin.png"
-              alt="Shagun Coin"
-            />
-
-            <div className="details-plus">
-              +
-            </div>
-
-            <img
-              src="/para coin.png"
-              alt="Para Coin"
-            />
-
+    <div className="modal-overlay" onClick={onClose}>
+      <aside className="cart-drawer" onClick={(e) => e.stopPropagation()}>
+        <div className="cart-header">
+          <div>
+            <span className="mini-label">POOJAN PARADISE</span>
+            <h2>Your Cart</h2>
           </div>
 
-          <div className="reward-box">
-
-            <div>
-              <small>
-                SHAGUN COIN
-              </small>
-
-              <strong>
-                ₹11,000
-              </strong>
-            </div>
-
-            <div className="reward-divider"></div>
-
-            <div>
-              <small>
-                PARA COIN
-              </small>
-
-              <strong>
-                ₹10,000
-              </strong>
-            </div>
-
-          </div>
-
-          <div className="rules-box">
-
-            <h3>
-              How to Unlock Rewards?
-            </h3>
-
-            <div className="rule">
-              <span>01</span>
-
-              <p>
-                Purchase
-                <strong>
-                  {' '}10 Poojan Paradise Kits
-                </strong>
-                {' '}within 1 year.
-              </p>
-            </div>
-
-            <div className="rule">
-              <span>02</span>
-
-              <p>
-                Refer / sell
-                <strong>
-                  {' '}100 Kits
-                </strong>
-                {' '}to unlock the next reward.
-              </p>
-            </div>
-
-            <div className="rule">
-              <span>03</span>
-
-              <p>
-                Complete the required target and
-                become eligible for your reward coin.
-              </p>
-            </div>
-
-          </div>
-
-          <button
-            className="offer-explore"
-            onClick={onClose}
-          >
-            Start Shopping
-            <span>→</span>
+          <button onClick={onClose}>
+            <X />
           </button>
-
         </div>
 
-      </div>
+        {!cart.length ? (
+          <div className="empty-cart">
+            <ShoppingBag size={52} />
+            <h3>Your cart is empty</h3>
+            <p>Add some divine essentials to continue.</p>
+          </div>
+        ) : (
+          <>
+            <div className="cart-items">
+              {cart.map((item) => (
+                <div className="cart-item" key={item.id}>
+                  <div className="cart-item-image">
+                    {item.image ? (
+                      <img src={item.image} alt={item.name} />
+                    ) : (
+                      <span>🪔</span>
+                    )}
+                  </div>
 
+                  <div className="cart-item-info">
+                    <strong>{item.name}</strong>
+
+                    <small>
+                      ₹{item.price} • {item.unit}
+                    </small>
+
+                    <div className="cart-qty">
+                      <button onClick={() => change(item.id, -1)}>
+                        <Minus size={14} />
+                      </button>
+
+                      <b>{item.qty}</b>
+
+                      <button onClick={() => change(item.id, 1)}>
+                        <Plus size={14} />
+                      </button>
+
+                      <button
+                        className="delete-btn"
+                        onClick={() => remove(item.id)}
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              className="whatsapp-btn cart-whatsapp"
+              onClick={orderWhatsApp}
+            >
+              <MessageCircle size={19} />
+              Order Cart on WhatsApp
+            </button>
+          </>
+        )}
+      </aside>
     </div>
   )
 }
-
-
-/* =========================================================
-   APP
-========================================================= */
 
 function App() {
-
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('All')
-
   const [cart, setCart] = useState([])
   const [cartOpen, setCartOpen] = useState(false)
-
   const [menuOpen, setMenuOpen] = useState(false)
-
   const [authOpen, setAuthOpen] = useState(false)
   const [user, setUser] = useState(null)
 
-  const [offerOpen, setOfferOpen] = useState(true)
-  const [detailsOpen, setDetailsOpen] = useState(false)
-
-
-  /* =====================================================
-     SUPABASE AUTH
-  ===================================================== */
-
   useEffect(() => {
-
     let mounted = true
 
-    supabase.auth.getSession()
-      .then(({ data }) => {
-
-        if (mounted) {
-          setUser(
-            data.session?.user || null
-          )
-        }
-
-      })
+    supabase.auth.getSession().then(({ data }) => {
+      if (mounted) {
+        setUser(data.session?.user || null)
+      }
+    })
 
     const {
       data: { subscription }
-    } =
-      supabase.auth.onAuthStateChange(
-        (_event, session) => {
-          setUser(
-            session?.user || null
-          )
-        }
-      )
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null)
+    })
 
     return () => {
       mounted = false
       subscription.unsubscribe()
     }
-
   }, [])
 
-
-  /* =====================================================
-     CATEGORIES
-  ===================================================== */
-
-  const categories = [
-    'All',
-    ...new Set(
-      products.map(
-        (p) => p.category
-      )
-    )
-  ]
-
-
-  /* =====================================================
-     FILTER PRODUCTS
-  ===================================================== */
+  const categories = useMemo(
+    () => ['All', ...new Set(products.map((p) => p.category))],
+    []
+  )
 
   const filtered = useMemo(() => {
-
     return products.filter((p) => {
-
       const categoryMatch =
-        category === 'All' ||
-        p.category === category
+        category === 'All' || p.category === category
 
-      const searchMatch =
-        p.name
-          .toLowerCase()
-          .includes(
-            query.toLowerCase()
-          )
+      const searchMatch = p.name
+        .toLowerCase()
+        .includes(query.toLowerCase())
 
-      return (
-        categoryMatch &&
-        searchMatch
-      )
+      return categoryMatch && searchMatch
     })
-
   }, [category, query])
 
-
-  /* =====================================================
-     ADD TO CART
-  ===================================================== */
+  const featured = products.slice(0, 6)
 
   const add = (product) => {
-
-    setCart((currentCart) => {
-
-      const found =
-        currentCart.find(
-          (item) =>
-            item.id === product.id
-        )
+    setCart((current) => {
+      const found = current.find((x) => x.id === product.id)
 
       if (found) {
-
-        return currentCart.map(
-          (item) =>
-            item.id === product.id
-              ? {
-                  ...item,
-                  qty:
-                    item.qty + 1
-                }
-              : item
+        return current.map((x) =>
+          x.id === product.id
+            ? { ...x, qty: x.qty + 1 }
+            : x
         )
-
       }
 
       return [
-        ...currentCart,
+        ...current,
         {
           ...product,
           qty: 1
         }
       ]
-
     })
-
   }
 
-
-  /* =====================================================
-     CHANGE CART QUANTITY
-  ===================================================== */
-
   const change = (id, delta) => {
-
-    setCart((currentCart) =>
-
-      currentCart
+    setCart((current) =>
+      current
         .map((item) =>
-
           item.id === id
             ? {
                 ...item,
-                qty:
-                  item.qty + delta
+                qty: item.qty + delta
               }
             : item
-
         )
-        .filter(
-          (item) =>
-            item.qty > 0
-        )
-
+        .filter((item) => item.qty > 0)
     )
-
   }
-
-
-  /* =====================================================
-     REMOVE FROM CART
-  ===================================================== */
 
   const remove = (id) => {
-
-    setCart((currentCart) =>
-      currentCart.filter(
-        (item) =>
-          item.id !== id
-      )
+    setCart((current) =>
+      current.filter((item) => item.id !== id)
     )
-
   }
 
-
-  /* =====================================================
-     CART COUNT
-  ===================================================== */
-
-  const cartCount =
-    cart.reduce(
-      (total, item) =>
-        total + item.qty,
-      0
-    )
-
-
-  /* =====================================================
-     LOGOUT
-  ===================================================== */
+  const cartCount = cart.reduce(
+    (total, item) => total + item.qty,
+    0
+  )
 
   const logout = async () => {
     await supabase.auth.signOut()
   }
 
-
-  /* =====================================================
-     WHATSAPP ORDER
-  ===================================================== */
-
   const orderWhatsApp = (
     items = cart,
     title = 'Poojan Paradise Order'
   ) => {
+    if (!items.length) return
 
-    if (!items.length) {
-      return
-    }
+    const lines = items
+      .map(
+        (item) =>
+          `• ${item.name} × ${item.qty} — ₹${item.price} (${item.unit})`
+      )
+      .join('\n')
 
-    const lines =
-      items
-        .map(
-          (item) =>
-            `• ${item.name} × ${item.qty}`
-        )
-        .join('\n')
-
-    const msg = `Namaste Poojan Paradise!
+    const message = `Namaste Poojan Paradise!
 
 ${title}
 
@@ -617,1022 +400,682 @@ ${lines}
 Please share total price and delivery details.`
 
     window.open(
-      `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`,
+      `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`,
       '_blank'
     )
-
   }
 
-
-  /* =====================================================
-     OFFER FUNCTIONS
-  ===================================================== */
-
-  const closeOffer = () => {
-    setOfferOpen(false)
+  const scrollToShop = () => {
+    document
+      .getElementById('shop')
+      ?.scrollIntoView({ behavior: 'smooth' })
   }
-
-  const openDetails = () => {
-    setOfferOpen(false)
-    setDetailsOpen(true)
-  }
-
-
-  /* =====================================================
-     RENDER
-  ===================================================== */
 
   return (
-    <div>
+    <div className="site">
 
-      {/* =================================================
-          MOBILE / PRODUCT FIX STYLES
-      ================================================= */}
-
-      <style>{`
-
-        /* PRODUCT PRICE + QUANTITY */
-
-        .product-info-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 8px;
-          margin-top: 14px;
-          margin-bottom: 12px;
-        }
-
-        .product-info-box {
-          background: #faf7f1;
-          border: 1px solid #eee5d8;
-          border-radius: 8px;
-          padding: 7px 8px;
-          min-width: 0;
-        }
-
-        .product-info-label {
-          display: block;
-          font-size: 9px;
-          line-height: 1.2;
-          text-transform: uppercase;
-          letter-spacing: 0.8px;
-          color: #9a8b78;
-          margin-bottom: 3px;
-        }
-
-        .product-info-value {
-          display: block;
-          font-size: 15px;
-          line-height: 1.2;
-          font-weight: 700;
-          color: #351316;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        /* PRODUCT GRID */
-
-        .products {
-          width: 100%;
-          box-sizing: border-box;
-        }
-
-        .product {
-          min-width: 0;
-          box-sizing: border-box;
-          overflow: hidden;
-        }
-
-        .product-img {
-          width: 100%;
-          overflow: hidden;
-        }
-
-        .product-img img {
-          display: block;
-          width: 100%;
-          max-width: 100%;
-          object-fit: cover;
-        }
-
-        .product-body {
-          min-width: 0;
-          box-sizing: border-box;
-        }
-
-        .product-body h3 {
-          overflow-wrap: anywhere;
-        }
-
-        /* MOBILE */
-
-        @media (max-width: 600px) {
-
-          .products {
-            grid-template-columns:
-              repeat(2, minmax(0, 1fr)) !important;
-            gap: 10px !important;
-          }
-
-          .product {
-            width: 100% !important;
-          }
-
-          .product-body {
-            padding: 10px !important;
-          }
-
-          .product-body h3 {
-            font-size: 16px !important;
-            line-height: 1.2 !important;
-          }
-
-          .product-body p {
-            font-size: 11px !important;
-            line-height: 1.35 !important;
-          }
-
-          .product-info-row {
-            gap: 5px;
-          }
-
-          .product-info-box {
-            padding: 6px;
-          }
-
-          .product-info-label {
-            font-size: 8px;
-          }
-
-          .product-info-value {
-            font-size: 13px;
-          }
-
-          .product-bottom {
-            width: 100%;
-            min-width: 0;
-          }
-
-          .product-bottom > button {
-            white-space: nowrap;
-            flex-shrink: 0;
-          }
-
-        }
-
-        /* VERY SMALL PHONES */
-
-        @media (max-width: 380px) {
-
-          .products {
-            gap: 8px !important;
-          }
-
-          .product-info-row {
-            grid-template-columns: 1fr;
-          }
-
-          .product-info-value {
-            font-size: 13px;
-          }
-
-        }
-
-      `}</style>
-
-
-      {/* =================================================
-          LOYALTY POPUP
-      ================================================= */}
-
-      {offerOpen && (
-
-        <div
-          className="offer-overlay"
-          onClick={closeOffer}
-        >
-
-          <div
-            className="offer-popup"
-            onClick={(e) =>
-              e.stopPropagation()
-            }
-          >
-
-            <button
-              className="offer-close"
-              onClick={closeOffer}
-            >
-              <X size={22} />
-            </button>
-
-            <div className="offer-top">
-              ✨ SPECIAL LOYALTY PROGRAM ✨
-            </div>
-
-            <div className="offer-content">
-
-              <img
-                src="/logo.png"
-                alt="Poojan Paradise"
-                className="offer-logo"
-              />
-
-              <h2>
-                Poojan Paradise
-                <br />
-                <span>
-                  Loyalty Program
-                </span>
-              </h2>
-
-              <p className="offer-intro">
-                Shop with Poojan Paradise and unlock
-                exclusive
-                <strong>
-                  {' '}Shagun Coin + Para Coin
-                </strong>
-                {' '}rewards.
-              </p>
-
-              <div className="coin-preview">
-
-                <img
-                  src="/shagun coin.png"
-                  alt="Shagun Coin"
-                  className="real-coin shagun-coin"
-                />
-
-                <div className="coin-plus">
-                  +
-                </div>
-
-                <img
-                  src="/para coin.png"
-                  alt="Para Coin"
-                  className="real-coin para-coin"
-                />
-
-              </div>
-
-              <div className="offer-value">
-
-                <small>
-                  Total Coin Value
-                </small>
-
-                <strong>
-                  ₹21,000
-                </strong>
-
-              </div>
-
-              <button
-                className="offer-explore"
-                onClick={openDetails}
-              >
-                Explore Offer
-                <span>→</span>
-              </button>
-
-              <button
-                className="offer-later"
-                onClick={closeOffer}
-              >
-                Maybe later
-              </button>
-
-            </div>
-
-          </div>
-
+      {/* TOP BAR */}
+      <div className="topbar">
+        <div>
+          || Shuddh Samagri • Shreshth Seva • Bhakti Har Ghar Tak ||
         </div>
 
-      )}
+        <div className="topbar-right">
+          <span>◉ Track Order</span>
+          <span>◉ Help</span>
+          <span>☎ +91 99999 99999</span>
+        </div>
+      </div>
 
-
-      {/* =================================================
-          OFFER DETAILS
-      ================================================= */}
-
-      {detailsOpen && (
-        <OfferDetails
-          onClose={() =>
-            setDetailsOpen(false)
-          }
-        />
-      )}
-
-
-      {/* =================================================
-          HEADER
-      ================================================= */}
-
-      <header className="header">
-
-        <div className="nav container">
+      {/* HEADER */}
+      <header className="main-header">
+        <div className="header-inner">
 
           <button
-            className="icon-btn mobile-menu"
-            onClick={() =>
-              setMenuOpen(
-                !menuOpen
-              )
-            }
+            className="mobile-menu-btn"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            {menuOpen
-              ? <X />
-              : <Menu />
-            }
+            {menuOpen ? <X /> : <Menu />}
           </button>
 
+          <a href="#home" className="brand">
+            <img src="/logo.png" alt="Poojan Paradise" />
 
-          <a
-            className="brand"
-            href="#home"
-          >
-
-            <img
-              src="/logo.png"
-              alt="Poojan Paradise logo"
-            />
-
+            <div className="brand-text">
+              <strong>POOJAN PARADISE</strong>
+              <small>Shuddh Samagri • Shreshth Seva</small>
+            </div>
           </a>
 
-
-          <nav
-            className={
-              menuOpen
-                ? 'navlinks open'
-                : 'navlinks'
-            }
-          >
-
-            <a
-              href="#home"
-              onClick={() =>
-                setMenuOpen(false)
-              }
-            >
+          <nav className={menuOpen ? 'nav open' : 'nav'}>
+            <a href="#home" onClick={() => setMenuOpen(false)}>
               Home
             </a>
-
-            <a
-              href="#shop"
-              onClick={() =>
-                setMenuOpen(false)
-              }
-            >
+            <a href="#shop" onClick={() => setMenuOpen(false)}>
               Shop
             </a>
-
-            <a
-              href="#kit"
-              onClick={() =>
-                setMenuOpen(false)
-              }
-            >
+            <a href="#kit" onClick={() => setMenuOpen(false)}>
               Poojan Kit
             </a>
-
-            <a
-              href="#about"
-              onClick={() =>
-                setMenuOpen(false)
-              }
-            >
-              About
+            <a href="#about" onClick={() => setMenuOpen(false)}>
+              About Us
             </a>
-
-            <a
-              href="#contact"
-              onClick={() =>
-                setMenuOpen(false)
-              }
-            >
+            <a href="#contact" onClick={() => setMenuOpen(false)}>
               Contact
             </a>
-
           </nav>
 
-
-          <div className="header-actions">
-
-            {user ? (
-
-              <button
-                className="account-btn"
-                onClick={logout}
-              >
-
-                <User size={18} />
-
-                <span>
-                  {user.user_metadata?.full_name ||
-                    user.email?.split('@')[0] ||
-                    'Account'}
-                </span>
-
-                <LogOut size={16} />
-
-              </button>
-
-            ) : (
-
-              <button
-                className="account-btn"
-                onClick={() =>
-                  setAuthOpen(true)
-                }
-              >
-
-                <User size={18} />
-
-                <span>
-                  Login
-                </span>
-
-              </button>
-
-            )}
-
-
-            <button
-              className="cart-btn"
-              onClick={() =>
-                setCartOpen(true)
-              }
-            >
-
-              <ShoppingBag size={20} />
-
-              <span>
-                Cart
-              </span>
-
-              {cartCount > 0 && (
-                <b>
-                  {cartCount}
-                </b>
-              )}
-
+          <div className="header-icons">
+            <button className="header-icon">
+              <Search />
             </button>
 
+            {user ? (
+              <button
+                className="header-icon"
+                title="Logout"
+                onClick={logout}
+              >
+                <LogOut />
+              </button>
+            ) : (
+              <button
+                className="header-icon"
+                title="Login"
+                onClick={() => setAuthOpen(true)}
+              >
+                <User />
+              </button>
+            )}
+
+            <button
+              className="header-icon cart-icon"
+              onClick={() => setCartOpen(true)}
+            >
+              <ShoppingBag />
+
+              {cartCount > 0 && (
+                <b>{cartCount}</b>
+              )}
+            </button>
           </div>
-
         </div>
-
       </header>
 
+      {/* HERO */}
+      <section id="home" className="hero">
 
-      {/* =================================================
-          MAIN
-      ================================================= */}
+        <div className="hero-background-glow"></div>
 
-      <main>
+        <div className="hero-inner">
 
+          <div className="hero-copy">
 
-        {/* =================================================
-            HERO
-        ================================================= */}
+            <span className="gold-eyebrow">
+              <Sparkles size={15} />
+              SHUDDH SAMAGRI • SHRESHTH SEVA
+            </span>
 
-        <section
-          id="home"
-          className="hero"
-        >
+            <h1>
+              Pure Devotion,
+              <br />
+              <em>Better Tomorrow</em>
+            </h1>
 
-          <div className="hero-inner container">
+            <p className="hero-subtitle">
+              Your One Stop Shop For
+              <br />
+              All Pooja Needs
+            </p>
 
-            <div className="hero-copy">
-
-              <span className="eyebrow">
-
-                <Sparkles size={15} />
-
-                SHUDDH SAMAGRI •
-                SHRESHTH SEVA
-
-              </span>
-
-
-              <h1>
-                Bring the divine
-                <br />
-                <em>
-                  home.
-                </em>
-              </h1>
-
-
-              <p>
-                Premium pooja samagri,
-                spiritual essentials and
-                thoughtfully curated pooja kits —
-                all in one place.
-              </p>
-
-
-              <div className="hero-actions">
-
-                <a
-                  href="#shop"
-                  className="btn primary"
-                >
-                  Explore Collection
-                </a>
-
-                <a
-                  href="#kit"
-                  className="btn secondary"
-                >
-                  View ₹1,299 Kit
-                </a>
-
+            <div className="hero-features">
+              <div>
+                <Leaf />
+                <span>
+                  <b>100% Authentic</b>
+                  Products
+                </span>
               </div>
 
+              <div>
+                <Package />
+                <span>
+                  <b>Trusted by</b>
+                  10,000+ Families
+                </span>
+              </div>
+
+              <div>
+                <Truck />
+                <span>
+                  <b>Pan India</b>
+                  Delivery
+                </span>
+              </div>
             </div>
 
+            <button
+              className="gold-hero-btn"
+              onClick={scrollToShop}
+            >
+              Shop Now
+              <ArrowRight size={20} />
+            </button>
+          </div>
 
-            <div className="hero-logo-card">
+          <div className="hero-visual">
 
+            <div className="hero-circle">
               <img
                 src="/logo.png"
                 alt="Poojan Paradise"
               />
-
             </div>
 
+            <div className="hero-diya">
+              🪔
+            </div>
+
+            <div className="hero-flower flower-one">🌼</div>
+            <div className="hero-flower flower-two">🌸</div>
+            <div className="hero-peacock">🦚</div>
           </div>
 
-        </section>
+        </div>
+      </section>
 
+      {/* CATEGORY */}
+      <section className="category-section">
 
-        {/* =================================================
-            TRUST
-        ================================================= */}
+        <div className="ornament-title">
+          <span>❧</span>
+          <h2>Shop By Category</h2>
+          <span>❧</span>
+        </div>
 
-        <section className="trust">
+        <div className="category-grid">
 
-          <div className="container trust-grid">
+          {categories
+            .filter((x) => x !== 'All')
+            .slice(0, 9)
+            .map((cat) => (
+              <button
+                className="category-card"
+                key={cat}
+                onClick={() => {
+                  setCategory(cat)
+                  scrollToShop()
+                }}
+              >
+                <div className="category-circle">
+                  <span>
+                    {categoryIcons[cat] || '🪔'}
+                  </span>
+                </div>
 
-            <div>
+                <strong>{cat}</strong>
+              </button>
+            ))}
 
-              <ShieldCheck />
+        </div>
+      </section>
 
-              <span>
+      {/* FEATURED */}
+      <section className="featured-section">
 
-                <strong>
-                  Pure & Authentic
-                </strong>
+        <div className="section-heading-row">
 
-                <small>
-                  Carefully selected samagri
-                </small>
-
-              </span>
-
-            </div>
-
-
-            <div>
-
-              <Truck />
-
-              <span>
-
-                <strong>
-                  Pan India Delivery
-                </strong>
-
-                <small>
-                  Safe & secure packing
-                </small>
-
-              </span>
-
-            </div>
-
-
-            <div>
-
-              <Heart />
-
-              <span>
-
-                <strong>
-                  Made for Devotion
-                </strong>
-
-                <small>
-                  Premium presentation
-                </small>
-
-              </span>
-
-            </div>
-
+          <div className="ornament-title">
+            <span>❧</span>
+            <h2>Featured Products</h2>
+            <span>❧</span>
           </div>
 
-        </section>
+          <button
+            className="view-all"
+            onClick={scrollToShop}
+          >
+            View All <ArrowRight size={17} />
+          </button>
+        </div>
 
+        <div className="featured-grid">
 
-        {/* =================================================
-            POOJAN KIT
-        ================================================= */}
+          {featured.map((p) => (
+            <article className="featured-card" key={p.id}>
 
-        <section
-          id="kit"
-          className="kit-section"
-        >
+              <div className="featured-image">
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                  />
+                ) : (
+                  <div className="image-placeholder">
+                    🪔
+                  </div>
+                )}
+              </div>
 
-          <div className="container kit-grid">
+              <div className="featured-body">
 
+                <h3>{p.name}</h3>
+
+                <strong className="featured-price">
+                  ₹{p.price}
+                </strong>
+
+                <div className="rating">
+                  <span>★★★★★</span>
+                  <small>
+                    ({Math.floor(90 + Math.random() * 50)})
+                  </small>
+                </div>
+
+                <button
+                  className="dark-add-btn"
+                  onClick={() => add(p)}
+                >
+                  <ShoppingBag size={16} />
+                  Add to Cart
+                </button>
+
+              </div>
+            </article>
+          ))}
+
+        </div>
+      </section>
+
+      {/* KIT */}
+      <section id="kit" className="kit-banner">
+
+        <div className="kit-image">
+
+          <div className="kit-photo">
+            <img
+              src={
+                featured[0]?.image ||
+                '/logo.png'
+              }
+              alt="Poojan Paradise Kit"
+            />
+
+            <div className="kit-photo-overlay">
+              🪔 🌸
+            </div>
+          </div>
+
+          <div className="best-value">
+            Best
+            <br />
+            Value
+          </div>
+
+        </div>
+
+        <div className="kit-content">
+
+          <div className="kit-heading-row">
             <div>
-
-              <span className="eyebrow">
-                LIMITED LAUNCH COLLECTION
+              <span className="gold-eyebrow">
+                POOJAN PARADISE
               </span>
 
               <h2>
                 Premium Poojan Kit
-                <br />
-                <span>
-                  ₹1,299
-                </span>
               </h2>
 
-              <p className="kit-sub">
-                A ready-to-use essentials kit
-                for your daily pooja and
-                auspicious occasions.
+              <p>
+                Complete Pooja Essentials for Your Home
               </p>
-
-              <button
-                className="btn primary"
-                onClick={() =>
-                  orderWhatsApp(
-                    [
-                      {
-                        name:
-                          'Premium Poojan Kit ₹1,299',
-                        qty: 1
-                      }
-                    ],
-                    'Premium Poojan Kit'
-                  )
-                }
-              >
-
-                Order Kit on WhatsApp
-
-                <MessageCircle
-                  size={18}
-                />
-
-              </button>
-
             </div>
 
-
-            <div className="kit-card">
-
-              <div className="kit-badge">
-                ₹1,299
-              </div>
-
-              <h3>
-                Kit Includes
-              </h3>
-
-              <ul>
-
-                {kitItems.map(
-                  (item, index) => (
-
-                    <li key={index}>
-
-                      <span>
-                        ✦
-                      </span>
-
-                      {item}
-
-                    </li>
-
-                  )
-                )}
-
-              </ul>
-
-            </div>
-
+            <strong className="kit-price">
+              ₹1,299
+            </strong>
           </div>
 
-        </section>
-
-
-        {/* =================================================
-            SHOP
-        ================================================= */}
-
-        <section
-          id="shop"
-          className="shop-section"
-        >
-
-          <div className="container">
-
-
-            {/* SECTION HEADER */}
-
-            <div className="section-head">
-
-              <div>
-
-                <span className="eyebrow">
-                  SHOP THE COLLECTION
-                </span>
-
-                <h2>
-                  Pooja Essentials
-                </h2>
-
-              </div>
-
-
-              <div className="search">
-
-                <Search size={18} />
-
-                <input
-                  value={query}
-                  onChange={(e) =>
-                    setQuery(
-                      e.target.value
-                    )
-                  }
-                  placeholder="Search products..."
-                />
-
-              </div>
-
-            </div>
-
-
-            {/* CATEGORY BUTTONS */}
-
-            <div className="chips">
-
-              {categories.map(
-                (item) => (
-
-                  <button
-                    className={
-                      category === item
-                        ? 'active'
-                        : ''
-                    }
-                    key={item}
-                    onClick={() =>
-                      setCategory(item)
-                    }
-                  >
-                    {item}
-                  </button>
-
-                )
-              )}
-
-            </div>
-
-
-            {/* =================================================
-                PRODUCT GRID
-            ================================================= */}
-
-            <div className="products">
-
-              {filtered.map(
-                (product) => (
-
-                  <article
-                    className="product"
-                    key={product.id}
-                  >
-
-
-                    {/* PRODUCT IMAGE */}
-
-                    <div className="product-img">
-
-                      {product.image ? (
-
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          loading="lazy"
-                        />
-
-                      ) : (
-
-                        <div className="mini-diya">
-                          🪔
-                        </div>
-
-                      )}
-
-                    </div>
-
-
-                    {/* PRODUCT BODY */}
-
-                    <div className="product-body">
-
-
-                      {/* CATEGORY */}
-
-                      <small>
-                        {product.category}
-                      </small>
-
-
-                      {/* PRODUCT NAME */}
-
-                      <h3>
-                        {product.name}
-                      </h3>
-
-
-                      {/* DESCRIPTION */}
-
-                      <p>
-                        Premium quality •
-                        Poojan Paradise
-                      </p>
-
-
-                      {/* =================================================
-                          PRICE + QUANTITY SEPARATE
-                      ================================================= */}
-
-                      <div className="product-info-row">
-
-
-                        {/* PRICE */}
-
-                        <div className="product-info-box">
-
-                          <span className="product-info-label">
-                            Price
-                          </span>
-
-                          <span className="product-info-value">
-                            ₹{product.price}
-                          </span>
-
-                        </div>
-
-
-                        {/* QUANTITY */}
-
-                        <div className="product-info-box">
-
-                          <span className="product-info-label">
-                            Quantity
-                          </span>
-
-                          <span className="product-info-value">
-                            {product.unit}
-                          </span>
-
-                        </div>
-
-                      </div>
-
-
-                      {/* ADD BUTTON */}
-
-                      <div className="product-bottom">
-
-                        <button
-                          onClick={() =>
-                            add(product)
-                          }
-                        >
-
-                          <Plus size={17} />
-
-                          Add
-
-                        </button>
-
-                      </div>
-
-                    </div>
-
-                  </article>
-
-                )
-              )}
-
-            </div>
-
-
-            {/* EMPTY */}
-
-            {!filtered.length && (
-
-              <div className="empty">
-
-                No products found.
-                Try another search.
-
-              </div>
-
-            )}
-
-          </div>
-
-        </section>
-
-
-        {/* =================================================
-            ABOUT
-        ================================================= */}
-
-        <section
-          id="about"
-          className="about"
-        >
-
-          <div className="container about-inner">
-
-            <span className="eyebrow">
-              POOJAN PARADISE
+          <div className="kit-benefits">
+            <span>
+              <Leaf size={18} /> Pure
             </span>
-
-            <h2>
-
-              Your one stop shop for
-              <br />
-
-              <span>
-                all pooja needs.
-              </span>
-
-            </h2>
-
-            <p>
-              From everyday pooja essentials
-              to spiritual malas, hawan samagri,
-              diyas and curated kits, Poojan Paradise
-              is designed to make devotional shopping
-              simple, beautiful and trustworthy.
-            </p>
-
+            <span>
+              <Package size={18} /> Complete
+            </span>
+            <span>
+              <Sparkles size={18} /> Auspicious
+            </span>
           </div>
 
-        </section>
+          <h3>What's Inside?</h3>
 
-      </main>
+          <div className="kit-list">
+            {kitItems.map((item) => (
+              <div key={item}>
+                <span>✓</span>
+                {item}
+              </div>
+            ))}
+          </div>
 
+          <div className="kit-buttons">
+            <button className="outline-btn">
+              View Full Details
+            </button>
 
-      {/* =================================================
-          FOOTER
-      ================================================= */}
+            <button
+              className="gold-btn"
+              onClick={() =>
+                orderWhatsApp(
+                  [
+                    {
+                      name: 'Premium Poojan Kit ₹1,299',
+                      price: 1299,
+                      unit: '1 kit',
+                      qty: 1
+                    }
+                  ],
+                  'Premium Poojan Kit'
+                )
+              }
+            >
+              <ShoppingBag size={17} />
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </section>
 
-      <footer id="contact">
+      {/* WHY CHOOSE */}
+      <section className="why-section">
 
-        <div className="container footer-grid">
+        <div className="ornament-title">
+          <span>❧</span>
+          <h2>Why Choose Poojan Paradise?</h2>
+          <span>❧</span>
+        </div>
 
+        <div className="why-grid">
 
-          {/* BRAND */}
+          <div className="why-item">
+            <div>
+              <Leaf />
+            </div>
+            <strong>100% Authentic</strong>
+            <span>Products</span>
+          </div>
+
+          <div className="why-item">
+            <div>
+              <Flame />
+            </div>
+            <strong>Inspired by</strong>
+            <span>Sanatan Values</span>
+          </div>
+
+          <div className="why-item">
+            <div>
+              <Lock />
+            </div>
+            <strong>Secure</strong>
+            <span>Payments</span>
+          </div>
+
+          <div className="why-item">
+            <div>
+              <Truck />
+            </div>
+            <strong>Fast & Safe</strong>
+            <span>Delivery</span>
+          </div>
+
+          <div className="why-item">
+            <div>
+              <Headphones />
+            </div>
+            <strong>Dedicated</strong>
+            <span>Customer Support</span>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section id="about" className="about-section">
+
+        <div className="about-logo">
+          <img src="/logo.png" alt="Poojan Paradise" />
+        </div>
+
+        <div className="about-copy">
+
+          <span className="gold-eyebrow">
+            POOJAN PARADISE
+          </span>
+
+          <h2>
+            More Than a Shop,
+            <br />
+            <em>A Part of Your Faith</em>
+          </h2>
+
+          <p>
+            At Poojan Paradise, we bring you the purest
+            and most authentic pooja samagri, because
+            we believe devotion deserves the best.
+            Let's keep our traditions alive, together.
+          </p>
+
+          <button className="gold-btn">
+            Know More
+            <ArrowRight size={18} />
+          </button>
+        </div>
+
+        <div className="testimonial">
+
+          <div className="quote">
+            “
+          </div>
+
+          <p>
+            Amazing quality and very pure products.
+            The Poojan Kit is so well packed.
+            Felt truly blessed.
+            Jai Shree Ram!
+          </p>
+
+          <div className="reviewer">
+            <div className="avatar">
+              NS
+            </div>
+
+            <div>
+              <strong>Neha Sharma</strong>
+              <small>Delhi</small>
+            </div>
+
+            <span className="stars">
+              ★★★★★
+            </span>
+          </div>
+
+        </div>
+      </section>
+
+      {/* SHOP */}
+      <section id="shop" className="shop-section">
+
+        <div className="shop-heading">
 
           <div>
+            <span className="gold-eyebrow">
+              OUR COLLECTION
+            </span>
+
+            <h2>Shop All Pooja Essentials</h2>
+          </div>
+
+          <div className="search-box">
+            <Search size={18} />
+
+            <input
+              value={query}
+              onChange={(e) =>
+                setQuery(e.target.value)
+              }
+              placeholder="Search products..."
+            />
+          </div>
+        </div>
+
+        <div className="shop-chips">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={
+                category === cat
+                  ? 'active'
+                  : ''
+              }
+              onClick={() =>
+                setCategory(cat)
+              }
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="products-grid">
+
+          {filtered.map((p) => (
+            <article className="product-card" key={p.id}>
+
+              <div className="product-image">
+
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                  />
+                ) : (
+                  <div className="image-placeholder">
+                    🪔
+                  </div>
+                )}
+
+              </div>
+
+              <div className="product-info">
+
+                <span className="product-category">
+                  {p.category}
+                </span>
+
+                <h3>{p.name}</h3>
+
+                <p>
+                  Premium quality • Poojan Paradise
+                </p>
+
+                {/* PRICE & QUANTITY SEPARATE */}
+                <div className="price-quantity">
+
+                  <div>
+                    <small>PRICE</small>
+                    <strong>₹{p.price}</strong>
+                  </div>
+
+                  <div>
+                    <small>QUANTITY</small>
+                    <strong>
+                      {p.unit || '1 pc'}
+                    </strong>
+                  </div>
+
+                </div>
+
+                <button
+                  className="product-add"
+                  onClick={() => add(p)}
+                >
+                  <Plus size={17} />
+                  Add
+                </button>
+
+              </div>
+            </article>
+          ))}
+
+        </div>
+
+        {!filtered.length && (
+          <div className="empty-products">
+            <ShoppingBag size={40} />
+            <h3>No products found</h3>
+            <p>Try another search or category.</p>
+          </div>
+        )}
+      </section>
+
+      {/* FOOTER */}
+      <footer id="contact" className="footer">
+
+        <div className="footer-inner">
+
+          <div className="footer-brand">
 
             <img
               src="/logo.png"
-              className="footer-logo"
               alt="Poojan Paradise"
             />
 
+            <h2>POOJAN PARADISE</h2>
+
             <p>
-              Pure samagri. Premium seva.
+              Shuddh Samagri • Shreshth Seva
             </p>
 
+            <strong>
+              Bhakti Har Ghar Tak ❤️
+            </strong>
+          </div>
 
-            <div className="social-links">
+          <div>
+            <h4>Quick Links</h4>
+            <a href="#home">Home</a>
+            <a href="#shop">Shop</a>
+            <a href="#kit">Poojan Kit</a>
+            <a href="#about">About Us</a>
+            <a href="#contact">Contact</a>
+          </div>
 
-              <a href="#social">
-                <Instagram size={20} />
+          <div>
+            <h4>Customer Care</h4>
+            <a href="#contact">Track Order</a>
+            <a href="#contact">Shipping Policy</a>
+            <a href="#contact">Return & Refund</a>
+            <a href="#contact">FAQ</a>
+            <a href="#contact">Contact Us</a>
+          </div>
+
+          <div className="footer-social">
+
+            <h4>Follow Us</h4>
+
+            <div className="social-icons">
+              <a href="#contact">
+                <Instagram />
               </a>
 
-              <a href="#social">
-                <Facebook size={20} />
+              <a href="#contact">
+                <Youtube />
               </a>
 
-              <a href="#social">
-                <Youtube size={20} />
+              <a href="#contact">
+                <Facebook />
               </a>
 
               <a
@@ -1640,292 +1083,47 @@ Please share total price and delivery details.`
                 target="_blank"
                 rel="noreferrer"
               >
-                <MessageCircle size={20} />
+                <MessageCircle />
               </a>
-
             </div>
 
-
-            <small className="social-coming">
-              Instagram • Facebook • YouTube —
-              Coming Soon
-            </small>
-
-          </div>
-
-
-          {/* QUICK LINKS */}
-
-          <div>
-
-            <h4>
-              Quick Links
+            <h4 className="subscribe-title">
+              Subscribe for Latest Offers
             </h4>
 
-            <a href="#shop">
-              Shop
-            </a>
-
-            <a href="#kit">
-              Poojan Kit
-            </a>
-
-            <a href="#about">
-              About
-            </a>
-
+            <div className="subscribe">
+              <input placeholder="Enter your email" />
+              <button>Subscribe</button>
+            </div>
           </div>
-
-
-          {/* ORDER */}
-
-          <div>
-
-            <h4>
-              Order
-            </h4>
-
-            <button
-              className="whatsapp"
-              onClick={() =>
-                orderWhatsApp(
-                  [
-                    {
-                      name:
-                        'Product enquiry',
-                      qty: 1
-                    }
-                  ],
-                  'General Enquiry'
-                )
-              }
-            >
-
-              <MessageCircle
-                size={18}
-              />
-
-              WhatsApp Us
-
-            </button>
-
-            <p>
-              WhatsApp ordering available
-              for quick enquiries.
-            </p>
-
-          </div>
-
         </div>
-
 
         <div className="copyright">
-
-          © 2026 Poojan Paradise.
-          All rights reserved.
-
+          © 2026 Poojan Paradise. All Rights Reserved.
+          <span> | Made with ❤️ for Devotees</span>
         </div>
-
       </footer>
 
+      {/* CART */}
+      <CartDrawer
+        cart={cart}
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        change={change}
+        remove={remove}
+        orderWhatsApp={orderWhatsApp}
+      />
 
-      {/* =================================================
-          CART DRAWER
-      ================================================= */}
-
-      {cartOpen && (
-
-        <div
-          className="overlay"
-          onClick={() =>
-            setCartOpen(false)
-          }
-        >
-
-          <aside
-            className="drawer"
-            onClick={(e) =>
-              e.stopPropagation()
-            }
-          >
-
-
-            {/* CART HEADER */}
-
-            <div className="drawer-head">
-
-              <h2>
-                Your Cart
-              </h2>
-
-              <button
-                onClick={() =>
-                  setCartOpen(false)
-                }
-              >
-                <X />
-              </button>
-
-            </div>
-
-
-            {/* EMPTY CART */}
-
-            {!cart.length ? (
-
-              <div className="empty-cart">
-
-                <ShoppingBag size={42} />
-
-                <p>
-                  Your cart is empty.
-                </p>
-
-                <a
-                  href="#shop"
-                  onClick={() =>
-                    setCartOpen(false)
-                  }
-                >
-                  Browse products
-                </a>
-
-              </div>
-
-            ) : (
-
-              <>
-
-
-                {/* CART LIST */}
-
-                <div className="cart-list">
-
-                  {cart.map(
-                    (item) => (
-
-                      <div
-                        className="cart-item"
-                        key={item.id}
-                      >
-
-                        <div>
-
-                          <strong>
-                            {item.name}
-                          </strong>
-
-                          <small>
-                            ₹{item.price}
-                            {' '}•{' '}
-                            {item.unit}
-                          </small>
-
-                        </div>
-
-
-                        <div className="qty">
-
-                          <button
-                            onClick={() =>
-                              change(
-                                item.id,
-                                -1
-                              )
-                            }
-                          >
-                            <Minus />
-                          </button>
-
-                          <b>
-                            {item.qty}
-                          </b>
-
-                          <button
-                            onClick={() =>
-                              change(
-                                item.id,
-                                1
-                              )
-                            }
-                          >
-                            <Plus />
-                          </button>
-
-                          <button
-                            className="trash"
-                            onClick={() =>
-                              remove(
-                                item.id
-                              )
-                            }
-                          >
-                            <Trash2 />
-                          </button>
-
-                        </div>
-
-                      </div>
-
-                    )
-                  )}
-
-                </div>
-
-
-                {/* WHATSAPP */}
-
-                <button
-                  className="btn primary full"
-                  onClick={() =>
-                    orderWhatsApp()
-                  }
-                >
-
-                  Order Cart on WhatsApp
-
-                  <MessageCircle
-                    size={18}
-                  />
-
-                </button>
-
-              </>
-
-            )}
-
-          </aside>
-
-        </div>
-
-      )}
-
-
-      {/* =================================================
-          LOGIN MODAL
-      ================================================= */}
-
+      {/* LOGIN */}
       {authOpen && (
-
         <AuthModal
-          onClose={() =>
-            setAuthOpen(false)
-          }
+          onClose={() => setAuthOpen(false)}
         />
-
       )}
-
     </div>
   )
 }
 
-
-/* =========================================================
-   CREATE ROOT
-========================================================= */
-
 createRoot(
   document.getElementById('root')
-).render(
-  <App />
-)
+).render(<App />)

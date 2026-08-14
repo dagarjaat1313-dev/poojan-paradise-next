@@ -72,16 +72,6 @@ const categoryImageFallbacks = {
   Asan: '/products/31-red-ooni-asan.jpg'
 }
 
-const heroProductImages = [
-  '/products/03-pooja-ghee.jpg',
-  '/products/07-dhoop.jpg',
-  '/products/14-lal-chunri.jpg',
-  '/products/05-kapoor-bheem-seni.jpg'
-]
-
-// NEW: Premium Poojan Kit image
-const poojanKitImage = '/poojan-kit.png'
-
 function getCategoryImage(category) {
   return (
     products.find((product) => product.category === category)?.image ||
@@ -158,9 +148,7 @@ function AuthModal({ onClose }) {
         />
 
         <h2>
-          {mode === 'login'
-            ? 'Welcome Back'
-            : 'Create Account'}
+          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
         </h2>
 
         <p>
@@ -217,11 +205,7 @@ function AuthModal({ onClose }) {
         <button
           className="switch-auth"
           onClick={() => {
-            setMode(
-              mode === 'login'
-                ? 'register'
-                : 'login'
-            )
+            setMode(mode === 'login' ? 'register' : 'login')
             setMessage('')
           }}
         >
@@ -245,8 +229,7 @@ function CartDrawer({
   if (!open) return null
 
   const cartTotal = cart.reduce(
-    (total, item) =>
-      total + item.price * item.qty,
+    (total, item) => total + item.price * item.qty,
     0
   )
 
@@ -473,8 +456,7 @@ function App() {
   }
 
   const cartCount = cart.reduce(
-    (total, item) =>
-      total + item.qty,
+    (total, item) => total + item.qty,
     0
   )
 
@@ -555,7 +537,11 @@ Please share delivery details.`
               setMenuOpen(!menuOpen)
             }
           >
-            {menuOpen ? <X /> : <Menu />}
+            {menuOpen ? (
+              <X />
+            ) : (
+              <Menu />
+            )}
           </button>
 
           <a
@@ -764,52 +750,15 @@ Please share delivery details.`
 
           </div>
 
+          {/* HERO VISUAL */}
+
           <div className="hero-visual">
 
-            <div className="hero-circle">
-
-              <img
-                src="/logo.png"
-                alt="Poojan Paradise"
-              />
-
-            </div>
-
-            <div className="hero-product hero-product-one">
-              <img
-                src={heroProductImages[0]}
-                alt="Pooja Ghee"
-              />
-            </div>
-
-            <div className="hero-product hero-product-two">
-              <img
-                src={heroProductImages[1]}
-                alt="Dhoop Batti"
-              />
-            </div>
-
-            <div className="hero-product hero-product-three">
-              <img
-                src={heroProductImages[2]}
-                alt="Lal Chunri"
-              />
-            </div>
-
-            <div className="hero-product hero-product-four">
-              <img
-                src={heroProductImages[3]}
-                alt="Kapoor"
-              />
-            </div>
-
-            <div className="hero-diya">
-              🪔
-            </div>
-
-            <div className="hero-peacock">
-              🦚
-            </div>
+            <img
+              src="/hero-pooja.png"
+              alt="Poojan Paradise Pooja Setup"
+              className="hero-main-image"
+            />
 
           </div>
 
@@ -833,7 +782,9 @@ Please share delivery details.`
         <div className="category-grid">
 
           {categories
-            .filter((x) => x !== 'All')
+            .filter(
+              (x) => x !== 'All'
+            )
             .slice(0, 9)
             .map((cat) => (
               <button
@@ -964,17 +915,44 @@ Please share delivery details.`
         className="kit-banner"
       >
 
-        {/* NEW SINGLE KIT IMAGE */}
-
         <div className="kit-image">
 
           <div className="kit-photo">
 
-            <img
-              src={poojanKitImage}
-              alt="Poojan Paradise Premium Poojan Kit"
-              className="poojan-kit-main-image"
-            />
+            <div className="kit-collage">
+
+              {[
+                '/products/03-pooja-ghee.jpg',
+                '/products/05-kapoor-bheem-seni.jpg',
+                '/products/07-dhoop.jpg',
+                '/products/08-perfumes-itra.jpg',
+                '/products/10-roli.jpg',
+                '/products/14-lal-chunri.jpg',
+                '/products/16-tika-chandan.jpg',
+                '/products/11-cotton-batti.jpg'
+              ].map((src, index) => (
+                <div
+                  className="kit-collage-item"
+                  key={src}
+                >
+                  <img
+                    src={src}
+                    alt={`Poojan Kit item ${index + 1}`}
+                  />
+                </div>
+              ))}
+
+            </div>
+
+            <div className="kit-photo-overlay">
+              <span>
+                POOJAN
+              </span>
+
+              <b>
+                PREMIUM KIT
+              </b>
+            </div>
 
           </div>
 
@@ -1072,8 +1050,7 @@ Please share delivery details.`
                       name: 'Premium Poojan Kit',
                       price: 1299,
                       unit: '1 kit',
-                      qty: 1,
-                      image: poojanKitImage
+                      qty: 1
                     }
                   ],
                   'Premium Poojan Kit'
@@ -1145,7 +1122,9 @@ Please share delivery details.`
             <div className="offer-steps">
 
               <div>
-                <strong>01</strong>
+                <strong>
+                  01
+                </strong>
 
                 <span>
                   Purchase eligible
@@ -1154,7 +1133,9 @@ Please share delivery details.`
               </div>
 
               <div>
-                <strong>02</strong>
+                <strong>
+                  02
+                </strong>
 
                 <span>
                   Complete the required
@@ -1164,7 +1145,9 @@ Please share delivery details.`
               </div>
 
               <div>
-                <strong>03</strong>
+                <strong>
+                  03
+                </strong>
 
                 <span>
                   Become eligible for
@@ -1621,11 +1604,7 @@ Please share delivery details.`
                 <Facebook />
               </a>
 
-              <a
-                href={`https://wa.me/${waNumber}`}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="#contact">
                 <MessageCircle />
               </a>
 

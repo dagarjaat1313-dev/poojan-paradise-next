@@ -21,10 +21,7 @@ import {
   Sparkles,
   Instagram,
   Facebook,
-  Youtube,
-  ChevronRight,
-  Heart,
-  ShieldCheck
+  Youtube
 } from 'lucide-react'
 
 import { products } from './products'
@@ -45,21 +42,6 @@ const kitItems = [
   'Cotton Batti — 1 packet'
 ]
 
-const categoryImageFallbacks = {
-  Cloth: '/products/01-peela-kapda.jpg',
-  'Pooja Essentials': '/products/03-pooja-ghee.jpg',
-  'Eco-Friendly': '/products/04-gobar-cups-diya.jpg',
-  Incense: '/products/07-dhoop.jpg',
-  Fragrance: '/products/08-perfumes-itra.jpg',
-  Wicks: '/products/11-cotton-batti.jpg',
-  Oil: '/products/13-chameli-pooja-oil.jpg',
-  Hawan: '/products/17-hawan-samagri.jpg',
-  Sindoor: '/products/18-orange-sindoor.jpg',
-  'Pooja Kits': '/products/20-nav-grah-poojan.jpg',
-  Mala: '/products/28-rudraksh-mala.jpg',
-  Asan: '/products/31-red-ooni-asan.jpg'
-}
-
 const categoryIcons = {
   Cloth: '🧣',
   'Pooja Essentials': '🪔',
@@ -75,16 +57,27 @@ const categoryIcons = {
   Asan: '🧘'
 }
 
+const categoryImageFallbacks = {
+  Cloth: '/products/01-peela-kapda.jpg',
+  'Pooja Essentials': '/products/03-pooja-ghee.jpg',
+  'Eco-Friendly': '/products/04-gobar-cups-diya.jpg',
+  Incense: '/products/07-dhoop.jpg',
+  Fragrance: '/products/08-perfumes-itra.jpg',
+  Wicks: '/products/11-cotton-batti.jpg',
+  Oil: '/products/13-chameli-pooja-oil.jpg',
+  Hawan: '/products/17-hawan-samagri.jpg',
+  Sindoor: '/products/18-orange-sindoor.jpg',
+  'Pooja Kits': '/products/20-nav-grah-poojan.jpg',
+  Mala: '/products/28-rudraksh-mala.jpg',
+  Asan: '/products/31-red-ooni-asan.jpg'
+}
+
 function getCategoryImage(category) {
   return (
     products.find((product) => product.category === category)?.image ||
     categoryImageFallbacks[category]
   )
 }
-
-/* =========================================================
-   AUTH MODAL
-========================================================= */
 
 function AuthModal({ onClose }) {
   const [mode, setMode] = useState('login')
@@ -96,7 +89,6 @@ function AuthModal({ onClose }) {
 
   const submit = async (e) => {
     e.preventDefault()
-
     setLoading(true)
     setMessage('')
 
@@ -116,54 +108,36 @@ function AuthModal({ onClose }) {
           setMessage(error.message)
         } else if (data.session) {
           setMessage('Account created successfully.')
-
-          setTimeout(() => {
-            onClose()
-          }, 700)
+          setTimeout(onClose, 700)
         } else {
           setMessage(
             'Account created. Please check your email to verify your account.'
           )
         }
       } else {
-        const { error } =
-          await supabase.auth.signInWithPassword({
-            email,
-            password
-          })
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        })
 
         if (error) {
           setMessage(error.message)
         } else {
           setMessage('Login successful.')
-
-          setTimeout(() => {
-            onClose()
-          }, 700)
+          setTimeout(onClose, 700)
         }
       }
     } catch (error) {
-      setMessage(
-        error?.message || 'Something went wrong.'
-      )
+      setMessage(error.message || 'Something went wrong.')
     }
 
     setLoading(false)
   }
 
   return (
-    <div
-      className="modal-overlay"
-      onClick={onClose}
-    >
-      <div
-        className="auth-card"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="modal-close"
-          onClick={onClose}
-        >
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="auth-card" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>
           <X />
         </button>
 
@@ -173,14 +147,8 @@ function AuthModal({ onClose }) {
           alt="Poojan Paradise"
         />
 
-        <span className="gold-eyebrow">
-          POOJAN PARADISE
-        </span>
-
         <h2>
-          {mode === 'login'
-            ? 'Welcome Back'
-            : 'Create Account'}
+          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
         </h2>
 
         <p>
@@ -194,9 +162,7 @@ function AuthModal({ onClose }) {
             <input
               placeholder="Full Name"
               value={name}
-              onChange={(e) =>
-                setName(e.target.value)
-              }
+              onChange={(e) => setName(e.target.value)}
               required
             />
           )}
@@ -205,9 +171,7 @@ function AuthModal({ onClose }) {
             type="email"
             placeholder="Email Address"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
 
@@ -216,9 +180,7 @@ function AuthModal({ onClose }) {
             placeholder="Password"
             minLength={6}
             value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
 
@@ -243,11 +205,7 @@ function AuthModal({ onClose }) {
         <button
           className="switch-auth"
           onClick={() => {
-            setMode(
-              mode === 'login'
-                ? 'register'
-                : 'login'
-            )
+            setMode(mode === 'login' ? 'register' : 'login')
             setMessage('')
           }}
         >
@@ -260,10 +218,6 @@ function AuthModal({ onClose }) {
   )
 }
 
-/* =========================================================
-   CART
-========================================================= */
-
 function CartDrawer({
   cart,
   open,
@@ -275,28 +229,21 @@ function CartDrawer({
   if (!open) return null
 
   const cartTotal = cart.reduce(
-    (total, item) =>
-      total + item.price * item.qty,
+    (total, item) => total + item.price * item.qty,
     0
   )
 
   return (
-    <div
-      className="modal-overlay"
-      onClick={onClose}
-    >
+    <div className="modal-overlay" onClick={onClose}>
       <aside
         className="cart-drawer"
-        onClick={(e) =>
-          e.stopPropagation()
-        }
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="cart-header">
           <div>
             <span className="mini-label">
               POOJAN PARADISE
             </span>
-
             <h2>Your Cart</h2>
           </div>
 
@@ -309,13 +256,10 @@ function CartDrawer({
           <div className="empty-cart">
             <ShoppingBag size={52} />
 
-            <h3>
-              Your cart is empty
-            </h3>
+            <h3>Your cart is empty</h3>
 
             <p>
-              Add some divine essentials
-              to continue.
+              Add some divine essentials to continue.
             </p>
           </div>
         ) : (
@@ -338,22 +282,16 @@ function CartDrawer({
                   </div>
 
                   <div className="cart-item-info">
-                    <strong>
-                      {item.name}
-                    </strong>
+                    <strong>{item.name}</strong>
 
                     <small>
-                      ₹{item.price} •{' '}
-                      {item.unit}
+                      ₹{item.price} • {item.unit}
                     </small>
 
                     <div className="cart-qty">
                       <button
                         onClick={() =>
-                          change(
-                            item.id,
-                            -1
-                          )
+                          change(item.id, -1)
                         }
                       >
                         <Minus size={14} />
@@ -363,10 +301,7 @@ function CartDrawer({
 
                       <button
                         onClick={() =>
-                          change(
-                            item.id,
-                            1
-                          )
+                          change(item.id, 1)
                         }
                       >
                         <Plus size={14} />
@@ -388,10 +323,7 @@ function CartDrawer({
 
             <div className="cart-total">
               <span>Total</span>
-
-              <strong>
-                ₹{cartTotal}
-              </strong>
+              <strong>₹{cartTotal}</strong>
             </div>
 
             <button
@@ -408,51 +340,29 @@ function CartDrawer({
   )
 }
 
-/* =========================================================
-   APP
-========================================================= */
-
 function App() {
   const [query, setQuery] = useState('')
-  const [category, setCategory] =
-    useState('All')
-
+  const [category, setCategory] = useState('All')
   const [cart, setCart] = useState([])
-  const [cartOpen, setCartOpen] =
-    useState(false)
-
-  const [menuOpen, setMenuOpen] =
-    useState(false)
-
-  const [authOpen, setAuthOpen] =
-    useState(false)
-
+  const [cartOpen, setCartOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [authOpen, setAuthOpen] = useState(false)
   const [user, setUser] = useState(null)
-
-  /* -------------------------
-     AUTH
-  ------------------------- */
 
   useEffect(() => {
     let mounted = true
 
-    supabase.auth
-      .getSession()
-      .then(({ data }) => {
-        if (mounted) {
-          setUser(
-            data.session?.user || null
-          )
-        }
-      })
+    supabase.auth.getSession().then(({ data }) => {
+      if (mounted) {
+        setUser(data.session?.user || null)
+      }
+    })
 
     const {
       data: { subscription }
     } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setUser(
-          session?.user || null
-        )
+        setUser(session?.user || null)
       }
     )
 
@@ -462,77 +372,45 @@ function App() {
     }
   }, [])
 
-  /* -------------------------
-     CATEGORIES
-  ------------------------- */
-
   const categories = useMemo(
     () => [
       'All',
-      ...new Set(
-        products.map(
-          (product) =>
-            product.category
-        )
-      )
+      ...new Set(products.map((p) => p.category))
     ],
     []
   )
 
-  /* -------------------------
-     SEARCH
-  ------------------------- */
-
   const filtered = useMemo(() => {
-    const search =
-      query.trim().toLowerCase()
+    return products.filter((p) => {
+      const categoryMatch =
+        category === 'All' ||
+        p.category === category
 
-    return products.filter(
-      (product) => {
-        const categoryMatch =
-          category === 'All' ||
-          product.category ===
-            category
+      const searchMatch =
+        p.name
+          .toLowerCase()
+          .includes(query.toLowerCase())
 
-        const searchMatch =
-          !search ||
-          product.name
-            .toLowerCase()
-            .includes(search)
-
-        return (
-          categoryMatch &&
-          searchMatch
-        )
-      }
-    )
+      return categoryMatch && searchMatch
+    })
   }, [category, query])
 
-  const featured =
-    products.slice(0, 6)
-
-  /* -------------------------
-     CART
-  ------------------------- */
+  const featured = products.slice(0, 6)
 
   const add = (product) => {
     setCart((current) => {
-      const found =
-        current.find(
-          (item) =>
-            item.id === product.id
-        )
+      const found = current.find(
+        (x) => x.id === product.id
+      )
 
       if (found) {
-        return current.map(
-          (item) =>
-            item.id === product.id
-              ? {
-                  ...item,
-                  qty:
-                    item.qty + 1
-                }
-              : item
+        return current.map((x) =>
+          x.id === product.id
+            ? {
+                ...x,
+                qty: x.qty + 1
+              }
+            : x
         )
       }
 
@@ -546,60 +424,41 @@ function App() {
     })
   }
 
-  const change = (
-    id,
-    delta
-  ) => {
+  const change = (id, delta) => {
     setCart((current) =>
       current
         .map((item) =>
           item.id === id
             ? {
                 ...item,
-                qty:
-                  item.qty + delta
+                qty: item.qty + delta
               }
             : item
         )
-        .filter(
-          (item) =>
-            item.qty > 0
-        )
+        .filter((item) => item.qty > 0)
     )
   }
 
   const remove = (id) => {
     setCart((current) =>
       current.filter(
-        (item) =>
-          item.id !== id
+        (item) => item.id !== id
       )
     )
   }
 
-  const cartCount =
-    cart.reduce(
-      (total, item) =>
-        total + item.qty,
-      0
-    )
-
-  /* -------------------------
-     LOGOUT
-  ------------------------- */
+  const cartCount = cart.reduce(
+    (total, item) => total + item.qty,
+    0
+  )
 
   const logout = async () => {
     await supabase.auth.signOut()
   }
 
-  /* -------------------------
-     WHATSAPP
-  ------------------------- */
-
   const orderWhatsApp = (
     items = cart,
-    title =
-      'Poojan Paradise Order'
+    title = 'Poojan Paradise Order'
   ) => {
     if (!items.length) return
 
@@ -612,9 +471,7 @@ function App() {
 
     const total = items.reduce(
       (sum, item) =>
-        sum +
-        item.price *
-          item.qty,
+        sum + item.price * item.qty,
       0
     )
 
@@ -636,66 +493,40 @@ Please share delivery details.`
     )
   }
 
-  /* -------------------------
-     SCROLL
-  ------------------------- */
-
   const scrollToShop = () => {
     document
       .getElementById('shop')
       ?.scrollIntoView({
         behavior: 'smooth'
       })
-
-    setMenuOpen(false)
   }
 
-  const selectCategory = (
-    cat
-  ) => {
-    setCategory(cat)
-
-    setTimeout(() => {
-      document
-        .getElementById('shop')
-        ?.scrollIntoView({
-          behavior: 'smooth'
-        })
-    }, 50)
+  const scrollToKit = () => {
+    document
+      .getElementById('kit')
+      ?.scrollIntoView({
+        behavior: 'smooth'
+      })
   }
 
   return (
     <div className="site">
 
-      {/* =================================================
-          TOP BAR
-      ================================================= */}
+      {/* TOP BAR */}
 
       <div className="topbar">
         <div>
-          || Shuddh Samagri •
-          Shreshth Seva • Bhakti
-          Har Ghar Tak ||
+          || Shuddh Samagri • Shreshth Seva • Bhakti Har Ghar Tak ||
         </div>
 
         <div className="topbar-right">
-          <span>
-            ◉ Track Order
-          </span>
-
-          <span>
-            ◉ Help
-          </span>
-
-          <span>
-            ☎ +91 99999 99999
-          </span>
+          <span>◉ Track Order</span>
+          <span>◉ Help</span>
+          <span>☎ +91 99999 99999</span>
         </div>
       </div>
 
-      {/* =================================================
-          HEADER
-      ================================================= */}
+      {/* HEADER */}
 
       <header className="main-header">
         <div className="header-inner">
@@ -703,16 +534,10 @@ Please share delivery details.`
           <button
             className="mobile-menu-btn"
             onClick={() =>
-              setMenuOpen(
-                !menuOpen
-              )
+              setMenuOpen(!menuOpen)
             }
           >
-            {menuOpen ? (
-              <X />
-            ) : (
-              <Menu />
-            )}
+            {menuOpen ? <X /> : <Menu />}
           </button>
 
           <a
@@ -730,8 +555,7 @@ Please share delivery details.`
               </strong>
 
               <small>
-                Shuddh Samagri •
-                Shreshth Seva
+                Shuddh Samagri • Shreshth Seva
               </small>
             </div>
           </a>
@@ -802,10 +626,7 @@ Please share delivery details.`
 
             <button
               className="header-icon"
-              onClick={
-                scrollToShop
-              }
-              title="Search"
+              onClick={scrollToShop}
             >
               <Search />
             </button>
@@ -823,9 +644,7 @@ Please share delivery details.`
                 className="header-icon"
                 title="Login"
                 onClick={() =>
-                  setAuthOpen(
-                    true
-                  )
+                  setAuthOpen(true)
                 }
               >
                 <User />
@@ -835,18 +654,13 @@ Please share delivery details.`
             <button
               className="header-icon cart-icon"
               onClick={() =>
-                setCartOpen(
-                  true
-                )
+                setCartOpen(true)
               }
-              title="Cart"
             >
               <ShoppingBag />
 
               {cartCount > 0 && (
-                <b>
-                  {cartCount}
-                </b>
+                <b>{cartCount}</b>
               )}
             </button>
 
@@ -854,15 +668,13 @@ Please share delivery details.`
         </div>
       </header>
 
-      {/* =================================================
-          HERO
-      ================================================= */}
+      {/* HERO */}
 
       <section
         id="home"
-        className="hero premium-hero"
+        className="hero"
       >
-        <div className="hero-background-glow" />
+        <div className="hero-background-glow"></div>
 
         <div className="hero-inner">
 
@@ -870,8 +682,7 @@ Please share delivery details.`
 
             <span className="gold-eyebrow">
               <Sparkles size={15} />
-              SHUDDH SAMAGRI •
-              SHRESHTH SEVA
+              SHUDDH SAMAGRI • SHRESHTH SEVA
             </span>
 
             <h1>
@@ -883,8 +694,7 @@ Please share delivery details.`
             </h1>
 
             <p className="hero-subtitle">
-              Your One Stop Shop
-              For
+              Your One Stop Shop For
               <br />
               All Pooja Needs
             </p>
@@ -898,7 +708,6 @@ Please share delivery details.`
                   <b>
                     100% Authentic
                   </b>
-
                   Products
                 </span>
               </div>
@@ -910,7 +719,6 @@ Please share delivery details.`
                   <b>
                     Trusted by
                   </b>
-
                   10,000+ Families
                 </span>
               </div>
@@ -922,7 +730,6 @@ Please share delivery details.`
                   <b>
                     Pan India
                   </b>
-
                   Delivery
                 </span>
               </div>
@@ -931,63 +738,26 @@ Please share delivery details.`
 
             <button
               className="gold-hero-btn"
-              onClick={
-                scrollToShop
-              }
+              onClick={scrollToShop}
             >
-              Shop Collection
-
-              <ArrowRight
-                size={19}
-              />
+              Shop Now
+              <ArrowRight size={20} />
             </button>
 
           </div>
 
-          {/* HERO IMAGE */}
-
-          <div className="hero-visual premium-hero-visual">
-
-            <div className="hero-image-frame">
-
-              <div className="hero-image-glow" />
-
-              <img
-                src="/hero-pooja.png"
-                alt="Poojan Paradise Pooja Setup"
-                className="hero-main-image"
-              />
-
-            </div>
-
-            <div className="hero-floating-card hero-card-one">
-              <ShieldCheck
-                size={17}
-              />
-
-              <span>
-                100% Pure
-              </span>
-            </div>
-
-            <div className="hero-floating-card hero-card-two">
-              <Sparkles
-                size={17}
-              />
-
-              <span>
-                Premium Quality
-              </span>
-            </div>
-
+          <div className="hero-visual">
+            <img
+              src="/hero-pooja.png"
+              alt="Poojan Paradise Pooja Setup"
+              className="hero-main-image"
+            />
           </div>
 
         </div>
       </section>
 
-      {/* =================================================
-          CATEGORY
-      ================================================= */}
+      {/* CATEGORY */}
 
       <section className="category-section">
 
@@ -1004,65 +774,51 @@ Please share delivery details.`
         <div className="category-grid">
 
           {categories
-            .filter(
-              (cat) =>
-                cat !== 'All'
-            )
+            .filter((x) => x !== 'All')
             .slice(0, 9)
-            .map((cat) => {
+            .map((cat) => (
+              <button
+                className="category-card"
+                key={cat}
+                onClick={() => {
+                  setCategory(cat)
+                  scrollToShop()
+                }}
+              >
 
-              const image =
-                getCategoryImage(
-                  cat
-                )
+                <div className="category-circle">
 
-              return (
-                <button
-                  className="category-card"
-                  key={cat}
-                  onClick={() =>
-                    selectCategory(
-                      cat
-                    )
-                  }
-                >
-                  <div className="category-circle">
+                  {getCategoryImage(cat) ? (
+                    <img
+                      src={getCategoryImage(cat)}
+                      alt={cat}
+                    />
+                  ) : (
+                    <span>
+                      {categoryIcons[cat] || '🪔'}
+                    </span>
+                  )}
 
-                    {image ? (
-                      <img
-                        src={image}
-                        alt={cat}
-                      />
-                    ) : (
-                      <span>
-                        {categoryIcons[
-                          cat
-                        ] ||
-                          '🪔'}
-                      </span>
-                    )}
+                </div>
 
-                  </div>
+                <strong>
+                  {cat}
+                </strong>
 
-                  <strong>
-                    {cat}
-                  </strong>
-                </button>
-              )
-            })}
+              </button>
+            ))}
 
         </div>
       </section>
 
-      {/* =================================================
-          FEATURED
-      ================================================= */}
+      {/* FEATURED PRODUCTS */}
 
       <section className="featured-section">
 
         <div className="section-heading-row">
 
           <div className="ornament-title">
+
             <span>❧</span>
 
             <h2>
@@ -1070,123 +826,85 @@ Please share delivery details.`
             </h2>
 
             <span>❧</span>
+
           </div>
 
           <button
             className="view-all"
-            onClick={
-              scrollToShop
-            }
+            onClick={scrollToShop}
           >
             View All
-
-            <ArrowRight
-              size={17}
-            />
+            <ArrowRight size={17} />
           </button>
 
         </div>
 
         <div className="featured-grid">
 
-          {featured.map(
-            (product) => (
-              <article
-                className="featured-card"
-                key={
-                  product.id
-                }
-              >
-                <div className="featured-image">
+          {featured.map((p) => (
+            <article
+              className="featured-card"
+              key={p.id}
+            >
 
-                  {product.image ? (
-                    <img
-                      src={
-                        product.image
-                      }
-                      alt={
-                        product.name
-                      }
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="image-placeholder">
-                      🪔
-                    </div>
-                  )}
+              <div className="featured-image">
 
-                  <button
-                    className="product-heart"
-                    aria-label="Wishlist"
-                  >
-                    <Heart
-                      size={16}
-                    />
-                  </button>
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                  />
+                ) : (
+                  <div className="image-placeholder">
+                    🪔
+                  </div>
+                )}
 
-                </div>
+              </div>
 
-                <div className="featured-body">
+              <div className="featured-body">
 
-                  <span className="product-category">
-                    {
-                      product.category
-                    }
+                <h3>
+                  {p.name}
+                </h3>
+
+                <strong className="featured-price">
+                  ₹{p.price}
+                </strong>
+
+                <div className="rating">
+                  <span>
+                    ★★★★★
                   </span>
 
-                  <h3>
-                    {
-                      product.name
-                    }
-                  </h3>
-
-                  <strong className="featured-price">
-                    ₹
-                    {
-                      product.price
-                    }
-                  </strong>
-
-                  <div className="rating">
-                    <span>
-                      ★★★★★
-                    </span>
-
-                    <small>
-                      4.9/5
-                    </small>
-                  </div>
-
-                  <button
-                    className="dark-add-btn"
-                    onClick={() =>
-                      add(
-                        product
-                      )
-                    }
-                  >
-                    <ShoppingBag
-                      size={16}
-                    />
-
-                    Add to Cart
-                  </button>
-
+                  <small>
+                    4.9/5
+                  </small>
                 </div>
-              </article>
-            )
-          )}
+
+                <button
+                  className="dark-add-btn"
+                  onClick={() =>
+                    add(p)
+                  }
+                >
+                  <ShoppingBag size={16} />
+                  Add to Cart
+                </button>
+
+              </div>
+
+            </article>
+          ))}
 
         </div>
       </section>
 
-      {/* =================================================
-          PREMIUM KIT
-      ================================================= */}
+      {/* PREMIUM KIT */}
 
       <section
         id="kit"
-        className="kit-banner premium-kit"
+        className="kit-banner"
       >
 
         <div className="kit-image">
@@ -1204,22 +922,17 @@ Please share delivery details.`
                 '/products/14-lal-chunri.jpg',
                 '/products/16-tika-chandan.jpg',
                 '/products/11-cotton-batti.jpg'
-              ].map(
-                (src, index) => (
-                  <div
-                    className="kit-collage-item"
-                    key={src}
-                  >
-                    <img
-                      src={src}
-                      alt={`Poojan Kit item ${
-                        index + 1
-                      }`}
-                      loading="lazy"
-                    />
-                  </div>
-                )
-              )}
+              ].map((src, index) => (
+                <div
+                  className="kit-collage-item"
+                  key={src}
+                >
+                  <img
+                    src={src}
+                    alt={`Poojan Kit item ${index + 1}`}
+                  />
+                </div>
+              ))}
 
             </div>
 
@@ -1258,10 +971,8 @@ Please share delivery details.`
               </h2>
 
               <p>
-                Everything you need
-                for a beautiful
-                and complete
-                home pooja.
+                Complete Pooja Essentials
+                for Your Home
               </p>
 
             </div>
@@ -1280,16 +991,12 @@ Please share delivery details.`
             </span>
 
             <span>
-              <Package
-                size={18}
-              />
+              <Package size={18} />
               Complete
             </span>
 
             <span>
-              <Sparkles
-                size={18}
-              />
+              <Sparkles size={18} />
               Auspicious
             </span>
 
@@ -1301,17 +1008,12 @@ Please share delivery details.`
 
           <div className="kit-list">
 
-            {kitItems.map(
-              (item) => (
-                <div key={item}>
-                  <span>
-                    ✓
-                  </span>
-
-                  {item}
-                </div>
-              )
-            )}
+            {kitItems.map((item) => (
+              <div key={item}>
+                <span>✓</span>
+                {item}
+              </div>
+            ))}
 
           </div>
 
@@ -1319,15 +1021,9 @@ Please share delivery details.`
 
             <button
               className="outline-btn"
-              onClick={
-                scrollToShop
-              }
+              onClick={scrollToShop}
             >
               View Full Details
-
-              <ChevronRight
-                size={16}
-              />
             </button>
 
             <button
@@ -1347,20 +1043,16 @@ Please share delivery details.`
                 )
               }
             >
-              <MessageCircle
-                size={17}
-              />
-
+              <ShoppingBag size={17} />
               Order Kit
             </button>
 
           </div>
+
         </div>
       </section>
 
-      {/* =================================================
-          OFFER
-      ================================================= */}
+      {/* COIN OFFER */}
 
       <section
         id="offers"
@@ -1371,8 +1063,7 @@ Please share delivery details.`
           <span>❧</span>
 
           <h2>
-            Special Poojan Paradise
-            Offer
+            Special Poojan Paradise Offer
           </h2>
 
           <span>❧</span>
@@ -1382,7 +1073,7 @@ Please share delivery details.`
 
           <div className="coin-visual">
 
-            <div className="coin-glow" />
+            <div className="coin-glow"></div>
 
             <img
               src="/shagun coin.png"
@@ -1401,19 +1092,17 @@ Please share delivery details.`
           <div className="coin-offer-content">
 
             <span className="gold-eyebrow">
-              PRE-LAUNCH OFFER
+              FOUNDING MEMBER PROGRAM
             </span>
 
             <h2>
-              Shagun Coin &
-              Para Coin
+              Shagun Coin & Para Coin
             </h2>
 
             <p>
-              Purchase the Premium
-              Poojan Kit and become
-              part of the Poojan
-              Paradise launch family.
+              Purchase the Premium Poojan Kit
+              and become part of the Poojan Paradise
+              Founding Member family.
             </p>
 
             <div className="offer-steps">
@@ -1424,9 +1113,8 @@ Please share delivery details.`
                 </strong>
 
                 <span>
-                  Purchase eligible
-                  Poojan Paradise
-                  kits.
+                  Purchase the special
+                  ₹1,299 Poojan Kit.
                 </span>
               </div>
 
@@ -1436,10 +1124,8 @@ Please share delivery details.`
                 </strong>
 
                 <span>
-                  Complete the
-                  required purchases
-                  within the offer
-                  period.
+                  Receive your digital
+                  Shagun Coin.
                 </span>
               </div>
 
@@ -1449,9 +1135,8 @@ Please share delivery details.`
                 </strong>
 
                 <span>
-                  Become eligible
-                  for the applicable
-                  reward.
+                  Reach the required
+                  Founding Leader milestone.
                 </span>
               </div>
 
@@ -1459,36 +1144,31 @@ Please share delivery details.`
 
             <button
               className="gold-btn"
-              onClick={
-                scrollToShop
-              }
+              onClick={scrollToKit}
             >
-              Shop Now
-
-              <ArrowRight
-                size={18}
-              />
+              Join Program
+              <ArrowRight size={18} />
             </button>
 
           </div>
+
         </div>
       </section>
 
-      {/* =================================================
-          WHY CHOOSE
-      ================================================= */}
+      {/* WHY CHOOSE */}
 
       <section className="why-section">
 
         <div className="ornament-title">
+
           <span>❧</span>
 
           <h2>
-            Why Choose Poojan
-            Paradise?
+            Why Choose Poojan Paradise?
           </h2>
 
           <span>❧</span>
+
         </div>
 
         <div className="why-grid">
@@ -1566,9 +1246,7 @@ Please share delivery details.`
         </div>
       </section>
 
-      {/* =================================================
-          ABOUT
-      ================================================= */}
+      {/* ABOUT US / FOUNDING MEMBER PROGRAM */}
 
       <section
         id="about"
@@ -1589,37 +1267,154 @@ Please share delivery details.`
           </span>
 
           <h2>
-            More Than a Shop,
+            Purity in Devotion,
             <br />
             <em>
-              A Part of Your Faith
+              Prosperity in Growth!
             </em>
           </h2>
 
           <p>
-            At Poojan Paradise,
-            we bring you
-            authentic pooja
-            samagri for your
-            daily worship,
-            festivals and
-            special occasions.
-            We believe devotion
-            deserves quality,
-            purity and care.
+            Welcome to Poojan Paradise. Our mission is to
+            bring 100% pure and authentic pooja essentials
+            to every household.
+          </p>
+
+          <p>
+            As a growing startup, we are looking for
+            passionate early leaders to join us as
+            Founding Members to help build our brand
+            foundation, drive marketing, and spread our
+            sacred mission.
+          </p>
+
+          <h3>
+            🌟 What is the Founding Member Loyalty Program?
+          </h3>
+
+          <p>
+            It is more than just a loyalty program—it is an
+            exclusive partnership to earn through marketing
+            and sales. By helping us reach more homes, you
+            can unlock up to <strong>₹21,000 in total
+            benefits!</strong>
+          </p>
+
+          <h3>
+            💰 How It Works
+          </h3>
+
+          <div className="about-program">
+
+            <div>
+              <strong>
+                Get Started — Shagun Coin
+              </strong>
+
+              <span>
+                Purchase our special ₹1,299 Kit to join
+                the loyalty program and instantly receive
+                a digital Shagun Coin.
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                Become a Founding Leader — Para Coin
+              </strong>
+
+              <span>
+                Help sell 100 kits and purchase 9 additional
+                kits — a total milestone of 110 kits —
+                to unlock your Para Coin.
+              </span>
+            </div>
+
+          </div>
+
+          <h3>
+            💰 Total Benefit Breakdown — ₹21,000
+          </h3>
+
+          <div className="about-benefits">
+
+            <div>
+              <strong>
+                ₹18,500
+              </strong>
+
+              <span>
+                Direct Cash / Cashback
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                ₹2,500
+              </strong>
+
+              <span>
+                Shopping Vouchers redeemable for pure
+                pooja products on our site.
+              </span>
+            </div>
+
+          </div>
+
+          <h3>
+            🤝 Why Join as a Founding Member?
+          </h3>
+
+          <div className="about-reasons">
+
+            <div>
+              <strong>
+                Be a Brand Pioneer
+              </strong>
+
+              <span>
+                Become part of our core founding network
+                from day one.
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                Promote Authentic Tradition
+              </strong>
+
+              <span>
+                Help deliver genuine, high-quality pooja
+                items to families.
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                Earn on Your Terms
+              </strong>
+
+              <span>
+                Leverage your networking skills to generate
+                strong passive income without huge capital
+                investments.
+              </span>
+            </div>
+
+          </div>
+
+          <p className="about-note">
+            <strong>Note:</strong> This founding leadership
+            program is strictly limited to the first
+            5,500 leaders.
           </p>
 
           <button
             className="gold-btn"
-            onClick={
-              scrollToShop
-            }
+            onClick={scrollToKit}
           >
-            Shop Collection
-
-            <ArrowRight
-              size={18}
-            />
+            Join Loyalty Program & Earn ₹21,000
+            <ArrowRight size={18} />
           </button>
 
         </div>
@@ -1631,11 +1426,10 @@ Please share delivery details.`
           </div>
 
           <p>
-            Amazing quality and
-            very pure products.
-            The Poojan Kit is so
-            well packed. Felt
-            truly blessed.
+            Purity in devotion, prosperity in growth.
+            Join the Poojan Paradise founding family
+            and help bring authentic pooja essentials
+            to every household.
           </p>
 
           <div className="reviewer">
@@ -1647,11 +1441,10 @@ Please share delivery details.`
             <div>
               <strong>
                 Poojan Paradise
-                Family
               </strong>
 
               <small>
-                India
+                Founding Member Program
               </small>
             </div>
 
@@ -1662,11 +1455,10 @@ Please share delivery details.`
           </div>
 
         </div>
+
       </section>
 
-      {/* =================================================
-          SHOP
-      ================================================= */}
+      {/* SHOP */}
 
       <section
         id="shop"
@@ -1682,15 +1474,8 @@ Please share delivery details.`
             </span>
 
             <h2>
-              Shop All Pooja
-              Essentials
+              Shop All Pooja Essentials
             </h2>
-
-            <p>
-              Handpicked essentials
-              for your daily
-              devotion.
-            </p>
 
           </div>
 
@@ -1701,175 +1486,118 @@ Please share delivery details.`
             <input
               value={query}
               onChange={(e) =>
-                setQuery(
-                  e.target.value
-                )
+                setQuery(e.target.value)
               }
               placeholder="Search products..."
             />
 
           </div>
-        </div>
 
-        {/* CATEGORY FILTER */}
+        </div>
 
         <div className="shop-chips">
 
-          {categories.map(
-            (cat) => (
-              <button
-                key={cat}
-                className={
-                  category === cat
-                    ? 'active'
-                    : ''
-                }
-                onClick={() =>
-                  setCategory(
-                    cat
-                  )
-                }
-              >
-                {cat}
-              </button>
-            )
-          )}
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={
+                category === cat
+                  ? 'active'
+                  : ''
+              }
+              onClick={() =>
+                setCategory(cat)
+              }
+            >
+              {cat}
+            </button>
+          ))}
 
         </div>
 
-        {/* PRODUCTS */}
-
         <div className="products-grid">
 
-          {filtered.map(
-            (product) => (
-              <article
-                className="product-card"
-                key={
-                  product.id
-                }
-              >
+          {filtered.map((p) => (
+            <article
+              className="product-card"
+              key={p.id}
+            >
 
-                <div className="product-image">
+              <div className="product-image">
 
-                  {product.image ? (
-                    <img
-                      src={
-                        product.image
-                      }
-                      alt={
-                        product.name
-                      }
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="image-placeholder">
-                      🪔
-                    </div>
-                  )}
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                  />
+                ) : (
+                  <div className="image-placeholder">
+                    🪔
+                  </div>
+                )}
 
-                  <button
-                    className="product-heart"
-                    aria-label="Wishlist"
-                  >
-                    <Heart
-                      size={17}
-                    />
-                  </button>
+              </div>
 
-                  <span className="product-badge">
-                    PURE
-                  </span>
+              <div className="product-info">
 
-                </div>
+                <span className="product-category">
+                  {p.category}
+                </span>
 
-                <div className="product-info">
+                <h3>
+                  {p.name}
+                </h3>
 
-                  <span className="product-category">
-                    {
-                      product.category
-                    }
-                  </span>
+                <p>
+                  Premium quality •
+                  Poojan Paradise
+                </p>
 
-                  <h3>
-                    {
-                      product.name
-                    }
-                  </h3>
+                <div className="price-quantity">
 
-                  <p>
-                    Premium quality
-                    • Poojan Paradise
-                  </p>
-
-                  <div className="rating">
-                    <span>
-                      ★★★★★
-                    </span>
-
+                  <div>
                     <small>
-                      4.9
+                      PRICE
                     </small>
+
+                    <strong>
+                      ₹{p.price}
+                    </strong>
                   </div>
 
-                  <div className="price-quantity">
+                  <div>
+                    <small>
+                      QUANTITY
+                    </small>
 
-                    <div>
-                      <small>
-                        PRICE
-                      </small>
-
-                      <strong>
-                        ₹
-                        {
-                          product.price
-                        }
-                      </strong>
-                    </div>
-
-                    <div>
-                      <small>
-                        QUANTITY
-                      </small>
-
-                      <strong>
-                        {
-                          product.unit ||
-                          '1 pc'
-                        }
-                      </strong>
-                    </div>
-
+                    <strong>
+                      {p.unit || '1 pc'}
+                    </strong>
                   </div>
-
-                  <button
-                    className="product-add"
-                    onClick={() =>
-                      add(
-                        product
-                      )
-                    }
-                  >
-                    <Plus
-                      size={17}
-                    />
-
-                    Add to Cart
-                  </button>
 
                 </div>
-              </article>
-            )
-          )}
+
+                <button
+                  className="product-add"
+                  onClick={() =>
+                    add(p)
+                  }
+                >
+                  <Plus size={17} />
+                  Add
+                </button>
+
+              </div>
+
+            </article>
+          ))}
 
         </div>
 
         {!filtered.length && (
           <div className="empty-products">
 
-            <ShoppingBag
-              size={40}
-            />
+            <ShoppingBag size={40} />
 
             <h3>
               No products found
@@ -1885,9 +1613,7 @@ Please share delivery details.`
 
       </section>
 
-      {/* =================================================
-          FOOTER
-      ================================================= */}
+      {/* FOOTER */}
 
       <footer
         id="contact"
@@ -1913,8 +1639,7 @@ Please share delivery details.`
             </p>
 
             <strong>
-              Bhakti Har Ghar
-              Tak ❤️
+              Bhakti Har Ghar Tak ❤️
             </strong>
 
           </div>
@@ -1998,14 +1723,12 @@ Please share delivery details.`
             </div>
 
             <h4 className="subscribe-title">
-              Subscribe for Latest
-              Offers
+              Subscribe for Latest Offers
             </h4>
 
             <div className="subscribe">
 
               <input
-                type="email"
                 placeholder="Enter your email"
               />
 
@@ -2024,16 +1747,13 @@ Please share delivery details.`
           All Rights Reserved.
           <span>
             {' '}
-            | Made with ❤️ for
-            Devotees
+            | Made with ❤️ for Devotees
           </span>
         </div>
 
       </footer>
 
-      {/* =================================================
-          CART DRAWER
-      ================================================= */}
+      {/* CART */}
 
       <CartDrawer
         cart={cart}
@@ -2043,14 +1763,10 @@ Please share delivery details.`
         }
         change={change}
         remove={remove}
-        orderWhatsApp={
-          orderWhatsApp
-        }
+        orderWhatsApp={orderWhatsApp}
       />
 
-      {/* =================================================
-          LOGIN
-      ================================================= */}
+      {/* LOGIN */}
 
       {authOpen && (
         <AuthModal

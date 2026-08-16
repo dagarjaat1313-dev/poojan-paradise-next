@@ -5,7 +5,7 @@ export const products = [
     category: 'Cloth',
     price: 49,
     unit: '1 meter',
-    image: '/products/peela-kapda.jpg'
+    image: '/products/01-peela-kapda.jpg'
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ export const products = [
     category: 'Cloth',
     price: 49,
     unit: '1 meter',
-    image: '/products/lal-kapda.jpg'
+    image: '/products/02-lal-kapda.jpg'
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 199,
     unit: '200gm',
-    image: '/products/pooja-ghee.jpg'
+    image: '/products/03-pooja-ghee.jpg'
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ export const products = [
     category: 'Eco-Friendly',
     price: 99,
     unit: '1 pack',
-    image: '/products/gobar-cups-diya.jpg'
+    image: '/products/04-gobar-cups-diya.jpg'
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 199,
     unit: '250gm',
-    image: '/products/kapoor.jpg'
+    image: '/products/05-kapoor-bheem-seni.jpg'
   },
   {
     id: 6,
@@ -45,7 +45,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 149,
     unit: '250gm',
-    image: '/products/honey.jpg'
+    image: '/products/06-honey.jpg'
   },
   {
     id: 7,
@@ -53,7 +53,7 @@ export const products = [
     category: 'Incense',
     price: 79,
     unit: '40 pcs',
-    image: '/products/dhoop-batti.jpg'
+    image: '/products/07-dhoop.jpg'
   },
   {
     id: 8,
@@ -61,7 +61,7 @@ export const products = [
     category: 'Fragrance',
     price: 99,
     unit: '10ml',
-    image: '/products/perfume.jpg'
+    image: '/products/08-perfumes-itra.jpg'
   },
   {
     id: 9,
@@ -69,7 +69,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 39,
     unit: '1 roll',
-    image: '/products/kalava.jpg'
+    image: '/products/09-kalava.jpg'
   },
   {
     id: 10,
@@ -77,7 +77,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 29,
     unit: '1 packet',
-    image: '/products/roli.jpg'
+    image: '/products/10-roli.jpg'
   },
   {
     id: 11,
@@ -85,7 +85,7 @@ export const products = [
     category: 'Wicks',
     price: 49,
     unit: '1 packet',
-    image: '/products/cotton-batti.jpg'
+    image: '/products/11-cotton-batti.jpg'
   },
   {
     id: 12,
@@ -93,7 +93,7 @@ export const products = [
     category: 'Wicks',
     price: 99,
     unit: '1 packet',
-    image: '/products/cow-ghee-batti.jpg'
+    image: '/products/12-cow-ghee-batti.jpg'
   },
   {
     id: 13,
@@ -101,7 +101,7 @@ export const products = [
     category: 'Oil',
     price: 89,
     unit: '100ml',
-    image: '/products/chameli-oil.jpg'
+    image: '/products/13-chameli-pooja-oil.jpg'
   },
   {
     id: 14,
@@ -109,7 +109,7 @@ export const products = [
     category: 'Cloth',
     price: 79,
     unit: '1 pc',
-    image: '/products/lal-chunri.jpg'
+    image: '/products/14-lal-chunri.jpg'
   },
   {
     id: 15,
@@ -117,7 +117,7 @@ export const products = [
     category: 'Cloth',
     price: 79,
     unit: '1 pc',
-    image: '/products/peeli-chunri.jpg'
+    image: '/products/15-peeli-chunri.jpg'
   },
   {
     id: 16,
@@ -125,7 +125,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 49,
     unit: '1 packet',
-    image: '/products/chandan-tika.jpg'
+    image: '/products/16-tika-chandan.jpg'
   },
   {
     id: 17,
@@ -133,7 +133,7 @@ export const products = [
     category: 'Hawan',
     price: 149,
     unit: '250gm',
-    image: '/products/hawan-samagri.jpg'
+    image: '/products/17-hawan-samagri.jpg'
   },
   {
     id: 18,
@@ -141,7 +141,7 @@ export const products = [
     category: 'Sindoor',
     price: 49,
     unit: '1 packet',
-    image: '/products/orange-sindoor.jpg'
+    image: '/products/18-orange-sindoor.jpg'
   },
   {
     id: 19,
@@ -149,7 +149,7 @@ export const products = [
     category: 'Sindoor',
     price: 49,
     unit: '1 packet',
-    image: '/products/lal-sindoor.jpg'
+    image: '/products/19-lal-sindoor.jpg'
   },
   {
     id: 20,
@@ -157,7 +157,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 199,
     unit: '1 set',
-    image: '/products/nav-grah-poojan.jpg'
+    image: '/products/20-nav-grah-poojan.jpg'
   },
   {
     id: 21,
@@ -165,7 +165,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 59,
     unit: '100gm',
-    image: '/products/haldi-sabut.jpg'
+    image: '/products/21-haldi-sabut.jpg'
   },
   {
     id: 22,
@@ -173,7 +173,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 99,
     unit: '11 pcs',
-    image: '/products/peeli-kaudi.jpg'
+    image: '/products/22-peeli-kaudi.jpg'
   },
   {
     id: 23,
@@ -181,7 +181,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 99,
     unit: '11 pcs',
-    image: '/products/gomti-chakra.jpg'
+    image: '/products/23-gomti-chakra.jpg'
   },
   {
     id: 24,
@@ -189,7 +189,7 @@ export const products = [
     category: 'Pooja Essentials',
     price: 39,
     unit: '1 pc',
-    image: '/products/janaeu.jpg'
+    image: '/products/24-janaeu.jpg'
   },
   {
     id: 25,
@@ -197,7 +197,7 @@ export const products = [
     category: 'Eco-Friendly',
     price: 99,
     unit: '10 pcs',
-    image: '/products/cow-dung-cake.jpg'
+    image: '/products/25-cow-dung-cake.jpg'
   },
   {
     id: 26,
@@ -205,7 +205,7 @@ export const products = [
     category: 'Hawan',
     price: 129,
     unit: '100gm',
-    image: '/products/guggal.jpg'
+    image: '/products/26-guggal.jpg'
   },
   {
     id: 27,
@@ -213,7 +213,7 @@ export const products = [
     category: 'Hawan',
     price: 129,
     unit: '100gm',
-    image: '/products/loban.jpg'
+    image: '/products/27-loban.jpg'
   },
   {
     id: 28,
@@ -221,46 +221,46 @@ export const products = [
     category: 'Mala',
     price: 299,
     unit: '1 mala',
-    image: '/products/rudraksh-mala.jpg'
+    image: '/products/28-rudraksh-mala.jpg'
   },
   {
     id: 29,
-    name: 'Pooja Asan',
-    category: 'Asan',
-    price: 199,
-    unit: '1 pc',
-    image: '/products/pooja-asan.jpg'
+    name: 'Kamal Gatta Mala',
+    category: 'Mala',
+    price: 249,
+    unit: '1 mala',
+    image: '/products/29-kamal-gatta-mala-loose.jpg'
   },
   {
     id: 30,
-    name: 'Dhoop Cone',
-    category: 'Incense',
-    price: 89,
+    name: 'Chandan Sticks',
+    category: 'Pooja Essentials',
+    price: 149,
     unit: '1 pack',
-    image: '/products/dhoop-cone.jpg'
+    image: '/products/30-chandan-sticks-rubbing-stone.jpg'
   },
   {
     id: 31,
-    name: 'Agarbatti',
-    category: 'Incense',
-    price: 79,
-    unit: '40 pcs',
-    image: '/products/agarbatti.jpg'
+    name: 'Red Ooni Asan',
+    category: 'Asan',
+    price: 199,
+    unit: '1 pc',
+    image: '/products/31-red-ooni-asan.jpg'
   },
   {
     id: 32,
-    name: 'Pooja Ghee Batti',
-    category: 'Wicks',
-    price: 129,
-    unit: '1 packet',
-    image: '/products/pooja-ghee-batti.jpg'
+    name: 'Yellow Ooni Asan',
+    category: 'Asan',
+    price: 199,
+    unit: '1 pc',
+    image: '/products/32-yellow-ooni-asan.jpg'
   },
   {
     id: 33,
     name: 'Premium Poojan Kit',
     category: 'Pooja Kits',
-    price: 699,
+    price: 1299,
     unit: '1 kit',
-    image: '/products/poojan-kit.jpg'
+    image: '/products/poojan-premium-kit.jpg'
   }
 ]

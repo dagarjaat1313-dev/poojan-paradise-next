@@ -154,7 +154,7 @@ export const products = [
   {
     id: 20,
     name: 'Nav Grah Poojan',
-    category: 'Pooja Essentials',
+    category: 'Pooja Kits',
     price: 199,
     unit: '1 set',
     image: '/products/20-nav-grah-poojan.jpg'
@@ -225,35 +225,35 @@ export const products = [
   },
   {
     id: 29,
-    name: 'Kamal Gatta Mala',
-    category: 'Mala',
-    price: 249,
-    unit: '1 mala',
-    image: '/products/29-kamal-gatta-mala-loose.jpg'
-  },
-  {
-    id: 30,
-    name: 'Chandan Sticks',
-    category: 'Pooja Essentials',
-    price: 149,
-    unit: '1 pack',
-    image: '/products/30-chandan-sticks-rubbing-stone.jpg'
-  },
-  {
-    id: 31,
-    name: 'Red Ooni Asan',
+    name: 'Pooja Asan',
     category: 'Asan',
     price: 199,
     unit: '1 pc',
     image: '/products/31-red-ooni-asan.jpg'
   },
   {
+    id: 30,
+    name: 'Dhoop Cone',
+    category: 'Incense',
+    price: 89,
+    unit: '1 pack',
+    image: '/products/07-dhoop.jpg'
+  },
+  {
+    id: 31,
+    name: 'Agarbatti',
+    category: 'Incense',
+    price: 79,
+    unit: '40 pcs',
+    image: '/products/07-dhoop.jpg'
+  },
+  {
     id: 32,
-    name: 'Yellow Ooni Asan',
-    category: 'Asan',
-    price: 199,
-    unit: '1 pc',
-    image: '/products/32-yellow-ooni-asan.jpg'
+    name: 'Pooja Ghee Batti',
+    category: 'Wicks',
+    price: 129,
+    unit: '1 packet',
+    image: '/products/12-cow-ghee-batti.jpg'
   },
   {
     id: 33,

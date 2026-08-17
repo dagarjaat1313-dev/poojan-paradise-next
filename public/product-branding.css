@@ -32,6 +32,9 @@
   z-index: 4;
   pointer-events: none;
   background: url('/para%20coin.png') center / contain no-repeat;
+  /* Para Coin artwork has a black baked-in background; screen blending makes that
+     black background visually disappear while retaining the lighter coin artwork. */
+  mix-blend-mode: screen;
   filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.28));
 }
 

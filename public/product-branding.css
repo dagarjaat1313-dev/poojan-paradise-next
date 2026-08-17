@@ -2,7 +2,6 @@
 .product-image,
 .featured-image {
   position: relative !important;
-  isolation: isolate;
 }
 
 .product-image::before,
@@ -32,8 +31,9 @@
   z-index: 4;
   pointer-events: none;
   background: url('/para%20coin.png') center / contain no-repeat;
-  /* Para Coin artwork has a black baked-in background; screen blending makes that
-     black background visually disappear while retaining the lighter coin artwork. */
+  /* The source coin has a baked-in black background. Do NOT isolate this layer:
+     screen blending needs the product image underneath as its backdrop so black
+     pixels disappear visually instead of rendering as a black square. */
   mix-blend-mode: screen;
   filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.28));
 }

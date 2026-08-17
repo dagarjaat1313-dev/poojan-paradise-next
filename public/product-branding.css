@@ -1,0 +1,84 @@
+/* Poojan Paradise product-image branding layer */
+.product-image,
+.featured-image {
+  position: relative !important;
+  isolation: isolate;
+}
+
+.product-image::before,
+.featured-image::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 58px;
+  height: 58px;
+  z-index: 4;
+  pointer-events: none;
+  background: rgba(255, 250, 241, 0.92) url('/logo.png') center / 48px 48px no-repeat;
+  border: 1px solid rgba(210, 154, 46, 0.75);
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(60, 24, 10, 0.22);
+}
+
+.product-image::after,
+.featured-image::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 52px;
+  height: 52px;
+  z-index: 4;
+  pointer-events: none;
+  background: url('/para%20coin.png') center / contain no-repeat;
+  filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.28));
+}
+
+.product-image img,
+.featured-image img {
+  position: relative;
+  z-index: 1;
+}
+
+.product-image .image-placeholder,
+.featured-image .image-placeholder {
+  position: relative;
+  z-index: 1;
+}
+
+.product-image-brand-strip {
+  position: absolute;
+  left: 50%;
+  bottom: 9px;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(118, 16, 24, 0.9);
+  border: 1px solid rgba(239, 199, 93, 0.7);
+  color: #f5df9d;
+  font: 800 7px/1 Montserrat, Arial, sans-serif;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 700px) {
+  .product-image::before,
+  .featured-image::before {
+    width: 46px;
+    height: 46px;
+    left: 7px;
+    bottom: 7px;
+    background-size: 38px 38px;
+  }
+
+  .product-image::after,
+  .featured-image::after {
+    width: 43px;
+    height: 43px;
+    top: 7px;
+    right: 7px;
+  }
+}

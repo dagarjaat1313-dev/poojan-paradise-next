@@ -1,0 +1,193 @@
+/* Poojan Paradise — mobile storefront correction */
+
+@media (max-width: 900px) {
+  html, body { width: 100%; overflow-x: hidden; }
+  .site { width: 100%; overflow-x: hidden; }
+
+  /* Compact Amazon/Flipkart-style mobile header */
+  .main-header {
+    height: 64px !important;
+    position: sticky !important;
+    top: 0 !important;
+    background: #fffaf1 !important;
+    box-shadow: 0 2px 12px rgba(60,30,10,.10) !important;
+  }
+  .header-inner {
+    width: 94% !important;
+    height: 64px !important;
+    margin: 0 auto !important;
+    gap: 6px !important;
+  }
+  .brand {
+    min-width: 0 !important;
+    flex: 1 !important;
+    gap: 7px !important;
+  }
+  .brand img {
+    width: 46px !important;
+    height: 46px !important;
+    margin: 0 !important;
+  }
+  .brand-text { display: flex !important; }
+  .brand-text strong { font-size: 18px !important; letter-spacing: .5px !important; }
+  .brand-text small { font-size: 5px !important; letter-spacing: .8px !important; }
+
+  .mobile-menu-btn {
+    display: grid !important;
+    flex: 0 0 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    place-items: center !important;
+    border: 1px solid #dfc79f !important;
+    border-radius: 7px !important;
+    background: #fff8ed !important;
+    color: #761018 !important;
+    margin: 0 !important;
+    order: 2 !important;
+  }
+  .nav {
+    display: none !important;
+    position: absolute !important;
+    top: 58px !important;
+    right: 0 !important;
+    left: auto !important;
+    width: min(285px, 88vw) !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 3px !important;
+    padding: 9px !important;
+    background: #fffaf1 !important;
+    border: 1px solid #e2cfb0 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 16px 35px rgba(53,25,7,.20) !important;
+    z-index: 999 !important;
+  }
+  .nav.open { display: flex !important; }
+  .nav a {
+    display: block !important;
+    padding: 13px 14px !important;
+    border-radius: 6px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+    color: #43241c !important;
+  }
+  .nav a:first-child { background: transparent !important; color: #43241c !important; box-shadow: none !important; }
+  .nav a:hover, .nav a:active { background: #f2e2ca !important; color: #761018 !important; }
+
+  .header-icons {
+    min-width: 40px !important;
+    width: 40px !important;
+    order: 3 !important;
+    gap: 0 !important;
+  }
+  .header-icons .header-icon:nth-child(1),
+  .header-icons .header-icon:nth-child(2) { display: none !important; }
+  .header-icons .header-icon:nth-child(3) {
+    display: grid !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 7px !important;
+  }
+  .header-icon:after { display: none !important; }
+
+  /* Clean, compact mobile hero — no nested banner/screenshot image */
+  .hero {
+    min-height: 420px !important;
+    background: radial-gradient(circle at 85% 30%, rgba(220,163,57,.20), transparent 28%), linear-gradient(135deg,#650b10,#8f1719 55%,#5b080c) !important;
+  }
+  .hero-inner {
+    width: 92% !important;
+    min-height: 420px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 34px 0 30px !important;
+  }
+  .hero-copy {
+    width: 100% !important;
+    padding: 0 !important;
+    text-align: center !important;
+  }
+  .hero .gold-eyebrow {
+    justify-content: center !important;
+    color: #f0ca69 !important;
+    font-size: 8px !important;
+  }
+  .hero h1 {
+    margin: 16px 0 12px !important;
+    color: #f0ca69 !important;
+    font-size: clamp(39px, 11vw, 55px) !important;
+    line-height: .88 !important;
+  }
+  .hero h1 em { color: #fff5dc !important; }
+  .hero-subtitle {
+    margin: 14px 0 20px !important;
+    color: #fff5e3 !important;
+    font-size: 19px !important;
+    line-height: 1.05 !important;
+  }
+  .hero-features {
+    justify-content: center !important;
+    gap: 10px !important;
+    margin-bottom: 21px !important;
+  }
+  .hero-features div { color: #f9e8c8 !important; font-size: 7px !important; }
+  .hero-features b { font-size: 8px !important; }
+  .hero-features svg { width: 21px !important; height: 21px !important; }
+  .gold-hero-btn { padding: 12px 24px !important; font-size: 9px !important; }
+  .hero-visual { display: none !important; }
+
+  /* Categories: compact 3-column grid */
+  .category-section { width: 94% !important; padding: 30px 0 36px !important; }
+  .ornament-title { gap: 8px !important; }
+  .ornament-title h2 { font-size: 27px !important; }
+  .ornament-title::before, .ornament-title::after { width: 30px !important; }
+  .category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 20px 8px !important;
+    margin-top: 23px !important;
+  }
+  .category-circle { width: 78px !important; height: 78px !important; }
+  .category-card strong { margin-top: 7px !important; font-size: 8px !important; }
+
+  /* Product catalogue: 2-column cards, not giant single cards */
+  .shop-section { width: 94% !important; padding: 32px 0 44px !important; }
+  .section-heading-row { display: block !important; }
+  .shop-controls { flex-direction: row !important; width: 100% !important; gap: 7px !important; margin: 17px 0 18px !important; }
+  .shop-controls input { min-width: 0 !important; width: 100% !important; height: 40px !important; font-size: 9px !important; }
+  .shop-controls select { min-width: 92px !important; width: 92px !important; height: 40px !important; font-size: 9px !important; }
+  .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  .product-card { min-width: 0 !important; border-radius: 7px !important; }
+  .product-image { height: 145px !important; }
+  .product-image img { padding: 6px !important; }
+  .product-info { padding: 9px 7px 10px !important; }
+  .product-info > span { font-size: 6px !important; }
+  .product-info h3 { font-size: 15px !important; margin: 4px 0 !important; }
+  .product-info strong { font-size: 14px !important; }
+  .product-info small { font-size: 7px !important; margin-bottom: 8px !important; }
+  .product-info .gold-btn { padding: 9px 5px !important; font-size: 7px !important; }
+
+  .kit-section, .coin-offer-section, .about-section, .why-section { width: 94% !important; }
+  .kit-section, .coin-offer-section, .why-section { padding: 32px 0 !important; }
+  .coin-offer-card { grid-template-columns: 1fr !important; padding: 14px !important; gap: 12px !important; }
+  .coin-visual { min-height: 180px !important; }
+  .about-section { grid-template-columns: 1fr !important; padding: 22px 15px !important; }
+  .about-program { grid-template-columns: 1fr !important; }
+  .why-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+}
+
+@media (max-width: 520px) {
+  .brand-text { display: none !important; }
+  .brand img { width: 47px !important; height: 47px !important; }
+  .header-inner { width: 94% !important; }
+  .hero { min-height: 390px !important; }
+  .hero-inner { min-height: 390px !important; }
+  .category-circle { width: 70px !important; height: 70px !important; }
+  .category-grid { gap: 17px 5px !important; }
+  .product-image { height: 135px !important; }
+}

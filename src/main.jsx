@@ -4,6 +4,7 @@ import { ShoppingBag, Search, Menu, X, Plus, Minus, Trash2, MessageCircle, Truck
 import { products } from './products'
 import { supabase } from './lib/supabase'
 import './styles.css'
+import './mobile-polish.css'
 
 const waNumber = '919999999999'
 const kitItems = ['Camphor — 250gm','Laal & Peela Kapda','Dhoop Batti','Chota Perfume / Itra','Roli — 1 packet','Laal Chunri — 1','Chandan Tika — 1','Pooja Ghee — 150gm','Cotton Batti — 1 packet']
